@@ -3,6 +3,9 @@ from ast.Expresion import Expresion
 from ast.Simbolo import TIPO_DATO as Tipo
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
+import ast.Temporales as temp
+from ast.Temporales import Temporal
+from ast.Temporales import Resultado3D
 
 class TIPO_OPERACION(Enum) :
     SUMA = 1
@@ -114,10 +117,10 @@ class Operacion(Expresion):
 
         return int(retorno)
 
-    def getValorImplicito(self,ent,arbol):
+    def traducir(self,ent,arbol):
         #PRIMITIVOS
         if(self.tipo == TIPO_OPERACION.PRIMITIVO):
-            return self.valor.getValorImplicito(ent,arbol)
+            return self.valor.traducir(ent,arbol)
 
         #ACCESOS LISTAS
         elif(self.tipo == TIPO_OPERACION.ACCESO):

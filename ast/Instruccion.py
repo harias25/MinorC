@@ -1,3 +1,3 @@
 class Instruccion:
-    def ejecutar(self,ent,arbol,ventana,isDebug):
+    def traducir(self,ent,arbol,ventana):
         pass

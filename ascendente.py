@@ -1,20 +1,13 @@
 # Definición de la gramática
 from ast.Instruccion import Instruccion
 from ast.Declaracion import Declaracion
-from ast.Etiqueta import Etiqueta
-from ast.GoTo import GoTo
+from ast.Funcion import Funcion
 from ast.Simbolo import TIPO_DATO as Tipo
 from ValorImplicito.Operacion import Operacion
 from ValorImplicito.Asignacion import Asignacion
-from ValorImplicito.Conversion import Conversion
 from ValorImplicito.Operacion import TIPO_OPERACION
 from ValorImplicito.Primitivo import Primitivo
-from ValorImplicito.AccesoLista import AccesoLista
-from ValorImplicito.Read import Read
 from  Primitivas.Imprimir import Imprimir
-from  Primitivas.Unset import Unset
-from  Primitivas.Exit import Exit
-from  Condicionales.If import If
 import ply.yacc as yacc
 import Reporteria.Error as Error
 import Reporteria.ValorAscendente as G
@@ -116,7 +109,7 @@ t_SHIFTI    = r'<<'
 t_SHIFTD    = r'>>'
 
 t_PUNTO     = r'.'
-t_COMA     = r','
+t_COMA     = r'\,'
 t_FLECHA    = r'->'
 t_MULTIPLICATIVA = r'\*='
 t_DIVIDIDA = r'/='
@@ -267,7 +260,7 @@ def p_empty(t) :
 def p_etiqueta(t) :
     'funcion    : TIPO ID LLAVIZQ  instrucciones LLAVDER '
     lista = func(1,None).copy()
-    t[0] = Etiqueta(t[2],t[4],t.slice[2].lineno,find_column(t.slice[2]))
+    t[0] = Funcion(t[2],t[4],t.slice[2].lineno,find_column(t.slice[2]))
     gramatical = G.ValorAscendente('funcion -> TIPO ID { instrucciones } ','funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;',lista)
     func(0,gramatical)
 
@@ -291,6 +284,7 @@ def p_instrucciones_instruccion(t) :
 def p_instruccion(t) :
     '''instruccion      : imprimir_instr 
                         | asignacion 
+                        | declaracion
                         | error '''
     t[0] = t[1]
     lista = func(1,None).copy()
@@ -304,6 +298,58 @@ def p_instruccion_imprimir(t) :
     gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ expresion  PARDER PTCOMA','imprimir_instr.instr = Print(expresion.val);',lista)
     func(0,gramatical)
 
+#********************************************** ASIGNACIONES *********************************************
+def p_asignacion(t):
+    'asignacion : ID IGUAL expresion PTCOMA '
+    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1,False)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
+    func(0,gramatical)
+
+
+#********************************************** DECLARACIONES *********************************************
+
+def p_declaracion(t):
+    'declaracion : TIPO lista_id PTCOMA'
+    t[0] = Declaracion(t[1],t[2],None,t.slice[3].lineno,find_column(t.slice[3]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id);',lista)
+    func(0,gramatical)
+
+def p_declaracion_asigna(t):
+    'declaracion : TIPO lista_id IGUAL expresion  PTCOMA'
+    t[0] = Declaracion(t[1],t[2],t[4],t.slice[3].lineno,find_column(t.slice[3]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);',lista)
+    func(0,gramatical)
+
+def p_lista(t) :
+    'lista_id    : lista_id COMA ID'
+    t[1].append(t[3])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lista_id -> lista_id ID','lista_id.lista = lista_id1.lista; </hr> lista_id.lista.add('+t[3]+');',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_lista_id(t) :
+    'lista_id    : ID '
+    t[0] = [t[1]]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lista_id -> ID','instrucciones.lista = ['+t[1]+']',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_tipo_dato(t):
+    '''TIPO : INT 
+                | FLOAT 
+                | CHAR 
+                | VOID '''
+    t[0] = t[1]
+    gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
+    func(2,gramatical)
+
+
+
+#*************************************************  EXPRESIONES  **************************************************
 
 def p_expresion(t):
     '''expresion : primitiva 
@@ -317,26 +363,6 @@ def p_expresion(t):
     gramatical = G.ValorAscendente('expresion -> '+str(t.slice[1]),'expresion.val = '+str(t.slice[1])+'.val;',lista)
     func(0,gramatical)
 
-#********************************************** ASIGNACIONES *********************************************
-
-
-def p_asignacion(t):
-    'asignacion : ID IGUAL expresion PTCOMA '
-    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1,False)
-    lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
-    func(0,gramatical)
-
-
-def p_tipo_dato(t):
-    '''TIPO : INT 
-                | FLOAT 
-                | CHAR 
-                | VOID '''
-    t[0] = t[1]
-    gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
-    func(2,gramatical)
-
 
 #********************************************** OPERACIONES UNARIAS ***********************************
 def p_expresion_unaria(t):
@@ -345,7 +371,7 @@ def p_expresion_unaria(t):
     op.OperacionUnaria(t[2],t.slice[1].lineno,find_column(t.slice[1]))
     t[0] = op
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('expresion_unaria ->  MENOS primitiva %prec UMENOS','expresion_unaria.val = -expresion.val;',lista)
+    gramatical = G.ValorAscendente('expresion_unaria ->  MENOS expresion %prec UMENOS','expresion_unaria.val = -expresion.val;',lista)
     func(0,gramatical)
 #********************************************** OPERACIONES LOGICAS ***********************************
 def p_expresion_logica(t):

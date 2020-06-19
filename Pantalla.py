@@ -12,116 +12,16 @@ from tkinter import filedialog
 import ascendente as g
 import ast.Entorno as TS
 import ast.Instruccion as Instruccion
-import ast.GoTo as GoTo
 import ast.Declaracion as Declaracion
-import Primitivas.Exit as Exit
-import Condicionales.If as If
 import ast.AST as AST
 import Reporteria.Error as Error
 import Reporteria.ReporteErrores as ReporteErrores
 import Reporteria.ReporteTablaSimbolos as ReporteTablaSimbolos
 import Reporteria.ReporteAST as ReporteAST
 import ValorImplicito.Asignacion as Asignacion
-import ValorImplicito.Conversion as Conversion
 import Reporteria.ReporteGramatical as ReporteGramatical
+import ast.Temporales as temp
 
-
-class MyLexer(QsciLexerCustom):
-    def __init__(self, parent):
-        super(MyLexer, self).__init__(parent)
-        # Configuración general del edito
-        self.setDefaultColor(QColor("#ff000000"))  
-        self.setDefaultPaper(QColor("#ffffffff"))
-        self.setDefaultFont(QFont("Consolas", 12))
-
-        #SE INICIALIZAN LOS COLORES POR ESTILOS
-        self.setColor(QColor("#ff000000"), 0)                   # Estilo 0: negro   TEXTO EN GENERAL
-        self.setColor(QColor("#ff7f0000"), 1)                   # Estilo 1: rojo    PALABRAS RESERVADAS
-        self.setColor(QColor("#ff0000bf"), 2)                   # Estilo 2: azul    SIMBOLOS
-        self.setColor(QColor("#ff007f00"), 3)                   # Estilo 3: verde   COMENTARIOS
-        self.setColor(QColor(QColorConstants.DarkYellow), 4)    # Estilo 4: yellow  SIMBOLOS DE OPERACION
-        self.setColor(QColor(QColorConstants.Magenta), 5)       # Estilo 5: Magenta NUMEROS
-        self.setColor(QColor(QColorConstants.Gray), 6)          # Estilo 6: Gris    CADENAS
-        self.setPaper(QColor("#ffffffff"), 0)   
-        self.setPaper(QColor("#ffffffff"), 1)   
-        self.setPaper(QColor("#ffffffff"), 2)   
-        self.setPaper(QColor("#ffffffff"), 3)   
-        self.setPaper(QColor("#ffffffff"), 4)   
-        self.setPaper(QColor("#ffffffff"), 5)  
-        self.setPaper(QColor("#ffffffff"), 6)  
-        self.setFont(QFont("Consolas", 12), 0)   
-        self.setFont(QFont("Consolas", 12, weight=QFont.Bold), 1)   
-        self.setFont(QFont("Consolas", 12, weight=QFont.Bold), 2)   
-        self.setFont(QFont("Consolas", 11, weight=QFont.Cursive), 3)
-        self.setFont(QFont("Consolas", 12, weight=QFont.Bold), 4)   
-        self.setFont(QFont("Consolas", 12, weight=QFont.DemiBold), 5)   
-        self.setFont(QFont("Consolas", 12, weight=QFont.DemiBold), 6)  
-
-    def language(self):
-        return "SimpleLanguage"
-
-    def description(self, style):
-        if style == 0:
-            return "myStyle_0"
-        elif style == 1:
-            return "myStyle_1"
-        elif style == 2:
-            return "myStyle_2"
-        elif style == 3:
-            return "myStyle_3"
-        elif style == 4:
-            return "myStyle_4"
-        elif style == 5:
-            return "myStyle_5"
-        elif style == 6:
-            return "myStyle_5"
-        ###
-        return ""
-
-    def styleText(self, start, end):
-        # 1. Initialize the styling procedure
-        # ------------------------------------
-        self.startStyling(start)
-
-        # 2. Slice out a part from the text
-        # ----------------------------------
-        text = self.parent().text()[start:end]
-
-        # 3. Tokenize the text
-        # ---------------------
-        p = re.compile(r"[*]\/|\/[*]|\s+|\w+|\W")
-
-        # 'token_list' is a list of tuples: (token_name, token_len)
-        token_list = [ (token, len(bytearray(token, "utf-8"))) for token in p.findall(text)]
-
-        # 4. Style the text
-        # ------------------
-        # 4.1 Check if multiline comment
-        comentario = False
-        
-        # 4.2 Style the text in a loop
-        for i, token in enumerate(token_list):
-            if comentario:
-                if "\n" in str(token[0]):
-                    comentario = False
-                else:
-                    self.setStyling(token[1], 3)
-            else:
-                if token[0] in ["int", "float", "char", "goto", "if","unset","print","read","array","exit","abs","xor"]:
-                    self.setStyling(token[1], 1)
-                elif token[0] in ["(", ")", ";", ":", "[", "]"]:
-                    self.setStyling(token[1], 2)
-                elif str(token[0]).isnumeric():
-                    self.setStyling(token[1], 4)
-                elif token[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]:
-                    self.setStyling(token[1], 5)
-                elif token[0] == "#":
-                    comentario = True
-                    self.setStyling(token[1], 3)
-                else:
-                    # Default style
-                    self.setStyling(token[1], 0)
-    
 class Ui_MainWindow(object):
 
     resultChanged = QtCore.pyqtSignal(str)
@@ -370,12 +270,7 @@ class Ui_MainWindow(object):
         ts_global = TS.Entorno(None)
         ts_global.asignarConsola(self.consola)
         ast = AST.AST(instrucciones) 
-
-        declaracion1 = Declaracion.Declaracion('$ra',0,0,0,"","GLOBAL")
-        declaracion2 = Declaracion.Declaracion('$sp',0,0,0,"","GLOBAL")
-        declaracion1.ejecutar(ts_global,ast,self,False)
-        declaracion2.ejecutar(ts_global,ast,self,False)
-
+        temp.temporal(True)
 
         #PRIMERA PASADA PARA GUARDAR TODAS LAS ETIQUETAS
         bandera = False
@@ -399,21 +294,11 @@ class Ui_MainWindow(object):
         main = ast.obtenerEtiqueta("main")
 
         if(main != None):
-            salir = False
             for ins in main.instrucciones:
-                try:
-                    if(isinstance(ins,Asignacion.Asignacion) or isinstance(ins,Conversion.Conversion)):
-                        ins.setAmbito("main")
-
-                    if(ins.ejecutar(ts_global,ast,self,False) == True):
-                        salir = True
-                        break
-                except:
-                    pass
-            if(not salir):   
-                siguiente = ast.obtenerSiguienteEtiqueta("main")
-                if(siguiente!=None):
-                    siguiente.ejecutar(ts_global,ast,self,False)
+                #try:
+                    ins.traducir(ts_global,ast,self)
+                #except:
+                #    pass
         else:
             error = Error.Error("SEMANTICO","Error semantico, No puede iniciarse el programa ya que no existe la etiqueta main:",0,0)
             ReporteErrores.func(error)

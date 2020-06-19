@@ -1,25 +1,21 @@
 from ast.Instruccion import Instruccion
 from ValorImplicito.Asignacion import Asignacion
 import ast.Entorno as TS
-import Primitivas.Exit as Exit
-import Condicionales.If as If
-import ast.GoTo as GoTo
 import ValorImplicito.Asignacion as Asignacion
-import ValorImplicito.Conversion as Conversion
 import time
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.Qsci import *
 
-class Etiqueta(Instruccion) :
+class Funcion(Instruccion) :
     def __init__(self,  id, instrucciones,linea,columna) :
         self.id = id
         self.instrucciones = instrucciones
         self.linea = linea
         self.columna = columna
 
-    def ejecutar(self,ent,arbol,ventana,isDebug):
+    def ejecutar(self,ent,arbol,ventana):
         
         salir = False
         if(isDebug):

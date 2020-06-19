@@ -1,3 +1,3 @@
 class Expresion:
-    def getValorImplicito(self,ent,arbol):
+    def ejecutar(self,ent,arbol):
         pass
