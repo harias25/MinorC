@@ -343,7 +343,16 @@ def p_tipo_dato(t):
                 | FLOAT 
                 | CHAR 
                 | VOID '''
-    t[0] = t[1]
+
+    if(t[1]=="int"):
+        t[0] = Tipo.ENTERO
+    elif(t[1]=="float"):
+         t[0] = Tipo.FLOAT
+    elif(t[1]=="char"):
+         t[0] = Tipo.CHAR
+    elif(t[1]=="void"):
+         t[0] = Tipo.VOID
+         
     gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
     func(2,gramatical)
 
@@ -551,7 +560,7 @@ def p_expresion_primitiva(t):
         op.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
         op.linea = t.slice[1].lineno
         op.columna = find_column(t.slice[1])
-        gramatical = G.ValorAscendente('primitiva -> tipo_var','primitiva.val = tipo_var.val;',None)
+        gramatical = G.ValorAscendente('primitiva -> ID','primitiva.val = ID.val;',None)
         func(2,gramatical)
     t[0] = op
 

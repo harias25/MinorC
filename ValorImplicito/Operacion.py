@@ -133,10 +133,7 @@ class Operacion(Expresion):
                 ReporteErrores.func(error)
                 return None
             
-            valorRetorno = simbolo.getValorImplicito(ent,arbol)
-            if(type(valorRetorno) is Operacion ): 
-                return valorRetorno.getValorImplicito(ent,arbol)
-            return valorRetorno
+            return simbolo.traducir
 
         #SUMA
         elif(self.tipo == TIPO_OPERACION.SUMA):
