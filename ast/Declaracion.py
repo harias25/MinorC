@@ -5,7 +5,7 @@ from ast.Simbolo import Simbolo
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
 import ast.Temporales as temp
-
+from ValorImplicito.Asignacion import Asignacion
 
 class Declaracion(Instruccion):
 
@@ -27,6 +27,7 @@ class Declaracion(Instruccion):
                 traduccion = ""
                 temporal = temp.temporal()
                 simbolo = Simbolo(id,temporal,self.tipo,self.linea,self.columna)
+                ent.agregar(simbolo)
 
                 if(self.valor == None or (self.valor !=None and contador<(len(self.lista)-1))):
                     if(self.tipo == Tipo.ENTERO):
@@ -36,73 +37,8 @@ class Declaracion(Instruccion):
                     elif(self.tipo == Tipo.CHAR):
                         traduccion = temporal +"='';"   
 
-                    ent.agregar(simbolo)
                     ventana.consola.appendPlainText(traduccion) 
                 else:
-                    traduccionExpresion = self.valor.traducir(ent,arbol)
-                    if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D) 
-
-
-                    #casteos implicitos de C
-                    if(self.tipo == Tipo.ENTERO):
-                        if(traduccionExpresion.tipo == Tipo.ENTERO):
-                            traduccion = temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
-                        else:
-                            valor = traduccionExpresion.temporal.utilizar()
-                            if(traduccionExpresion.tipo == Tipo.FLOAT): #FLOAT A INT
-                                if(str(valor).isnumeric):
-                                    traduccion = temporal + "="+ str(int(float(valor)))+"; "
-                                else:
-                                    traduccion = temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
-                            elif (traduccionExpresion.tipo == Tipo.CHAR): #CHAR A INT
-                                if(len(str(valor))==1):
-                                    traduccion = temporal + "="+str(int(valor))+"; "
-                                else:
-                                    traduccion = temporal + "="+valor+"; "
-
-                    elif(self.tipo == Tipo.FLOAT):
-                        if(traduccionExpresion.tipo == Tipo.FLOAT):
-                            traduccion = temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
-                        else:
-                            valor = traduccionExpresion.temporal.utilizar()
-                            if(traduccionExpresion.tipo == Tipo.INT): #INT A FLOAT
-                                if(str(valor).isnumeric):
-                                    traduccion = temporal + "="+str(float(int(valor)))+"; "
-                                else:
-                                    traduccion = temporal + "="+valor+"; "
-                            elif (traduccionExpresion.tipo == Tipo.CHAR): #CHAR A FLOAT
-                                if(len(str(valor))==1):
-                                    traduccion = temporal + "="+str(float(valor))+"; "
-                                else:
-                                    traduccion = temporal + "="+valor+"; "
-
-                    elif(self.tipo == Tipo.CHAR):
-                        if(traduccionExpresion.tipo == Tipo.CHAR):
-                            traduccion = temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
-                        else:
-                            valor = traduccionExpresion.temporal.utilizar()
-                            if(traduccionExpresion.tipo == Tipo.INT): #INT A CHAR
-                                if(str(valor).isnumeric):
-                                    if(isinstance(valor,float)):  valor = int(float(valor))
-                                    if(isinstance(valor,int)):
-                                        valor = int(valor)
-                                        if(valor >255): valor = valor - 256
-                                        value = chr(value)
-                                    traduccion = temporal + "="+value+"; "
-                                else:
-                                    traduccion = temporal + "="+valor+"; "
-                            elif (traduccionExpresion.tipo == Tipo.FLOAT): #FLOAT A CHAR
-                                if(str(valor).isnumeric):
-                                    if(isinstance(valor,float)):  valor = int(float(valor))
-                                    if(isinstance(valor,int)):
-                                        valor = int(valor)
-                                        if(valor >255): valor = valor - 256
-                                        value = chr(value)
-                                    traduccion = temporal + "="+value+"; "
-                                else:
-                                    traduccion = temporal + "="+valor+"; "
-
-                    ent.agregar(simbolo)
-                    ventana.consola.appendPlainText(traduccion) 
-            
+                    asignacion = Asignacion(id,self.valor,self.linea,self.columna)
+                    asignacion.traducir(ent,arbol,ventana)
             contador = contador + 1

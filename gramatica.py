@@ -301,7 +301,7 @@ def p_instruccion_imprimir(t) :
 #********************************************** ASIGNACIONES *********************************************
 def p_asignacion(t):
     'asignacion : ID IGUAL expresion PTCOMA '
-    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1,False)
+    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
     func(0,gramatical)
@@ -371,6 +371,10 @@ def p_expresion(t):
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('expresion -> '+str(t.slice[1]),'expresion.val = '+str(t.slice[1])+'.val;',lista)
     func(0,gramatical)
+
+def p_expresion_parentesis(t):
+    'expresion : PARIZQ expresion PARDER '
+    t[0] = t[2]
 
 
 #********************************************** OPERACIONES UNARIAS ***********************************
@@ -535,7 +539,6 @@ def p_expresion_numerica(t):
     t[0] = op
 
 #********************************************** EXPRESIONES PRIMITIVAS ***********************************
-
 def p_expresion_primitiva(t):
     '''primitiva : ENTERO
                  | DECIMAL

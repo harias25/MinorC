@@ -3,7 +3,8 @@ from ast.Expresion import Expresion
 from ast.Simbolo import TIPO_DATO as Tipo
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
-import ast.Temporales as temp
+import ast.Temporales as Temp
+
 from ast.Temporales import Temporal
 from ast.Temporales import Resultado3D
 
@@ -133,474 +134,581 @@ class Operacion(Expresion):
                 ReporteErrores.func(error)
                 return None
             
-            return simbolo.traducir
+            return simbolo.traducir(ent,arbol)
 
         #SUMA
         elif(self.tipo == TIPO_OPERACION.SUMA):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
 
-            #concatenación de strings
-            if(isinstance(valor1,str) and isinstance(valor2,str)):
-                return valor1 + valor2
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"+"+valor2.temporal.utilizar()+";"
 
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(valor1) + int(valor2)
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return round(float(float(valor1) + float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return round(float(float(valor1) + float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return round(float(float(valor1) + float(valor2)),2)
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una SUMA",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
-        
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
+
         #RESTA
         elif(self.tipo == TIPO_OPERACION.RESTA):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(valor1) - int(valor2)
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return round(float(float(valor1) - float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return round(float(float(valor1) - float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return round(float(float(valor1) - float(valor2)),2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"-"+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una RESTA",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #MULTIPLICACIÓN
         elif(self.tipo == TIPO_OPERACION.MULTIPLICACION):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(valor1) * int(valor2)
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return round(float(float(valor1) * float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return round(float(float(valor1) * float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return round(float(float(valor1) * float(valor2)),2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"*"+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una MULTIPLICACION",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         
         #DIVISION
         elif(self.tipo == TIPO_OPERACION.DIVISION):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            if(isinstance(valor2, int) or  isinstance(valor2, float)):
-                temp = int(valor2)
-                if(temp == 0):
-                    error = Error("SEMANTICO","Error semantico, No es posible una división sobre CERO!",self.linea,self.columna)
-                    ReporteErrores.func(error)
-                    return None
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"/"+valor2.temporal.utilizar()+";"
 
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(valor1) / int(valor2)
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return round(float(float(valor1) / float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return round(float(float(valor1) / float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return round(float(float(valor1) / float(valor2)),2)
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una DIVISION",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #MODULO
         elif(self.tipo == TIPO_OPERACION.MODULO):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            if(isinstance(valor2, int) or  isinstance(valor2, float)):
-                temp = int(valor2)
-                if(temp == 0):
-                    error = Error("SEMANTICO","Error semantico, No es posible una modulo sobre CERO!",self.linea,self.columna)
-                    ReporteErrores.func(error)
-                    return None
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"%"+valor2.temporal.utilizar()+";"
 
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(valor1) % int(valor2)
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return round(float(float(valor1) % float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return round(float(float(valor1) % float(valor2)),2)
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return round(float(float(valor1) % float(valor2)),2)
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una MODULO",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #UNARIA
         elif(self.tipo == TIPO_OPERACION.MENOS_UNARIO):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            if(valor1 == None): return None
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '=-'+valor1.temporal.utilizar()+";"
 
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int):
-                return int(valor1) * -1 
-            elif isinstance(valor1, float):     # FLOAT
-                return round(float(float(valor1) * -1),2)
+
+            resultado = valor1.codigo3D
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipo de dato permitido para un UNARIO",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         
-        #ABSOLUTO
-        elif(self.tipo == TIPO_OPERACION.ABSOLUTO):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int):
-                return abs(int(valor1)) 
-            elif isinstance(valor1, float):     # FLOAT
-                return round(abs(float(float(valor1))),2)
-            else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipo de dato permitido para un VALOR ABSOLUTO",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
         
         #MAYOR
         elif(self.tipo == TIPO_OPERACION.MAYOR_QUE):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) > int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int(float(valor1) > float(valor2))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int(float(valor1) > float(valor2))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int(float(valor1) > float(valor2))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                if isinstance(valor1, str) and not isinstance(valor2, str):
-                    return int(len(str(valor1)) > valor2)
-                elif isinstance(valor2, str) and not isinstance(valor1, str):
-                    return int(valor1 > len(str(valor2)))
-                return int(len(str(valor1)) > len(str(valor2)))
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+">"+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '>' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         
         #MAYOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MAYOR_IGUA_QUE):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) >= int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int(float(valor1) >= float(valor2))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int(float(valor1) >= float(valor2))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int(float(valor1) >= float(valor2))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                if isinstance(valor1, str) and not isinstance(valor2, str):
-                    return int(len(str(valor1)) >= valor2)
-                elif isinstance(valor2, str) and not isinstance(valor1, str):
-                    return int(valor1 >= len(str(valor2)))
-                return int(len(str(valor1)) >= len(str(valor2)))
-            else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '>=' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+">="+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         #MENOR
         elif(self.tipo == TIPO_OPERACION.MENOR_QUE):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) < int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int((float(valor1) < float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int((float(valor1) < float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int((float(valor1) < float(valor2)))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                if isinstance(valor1, str) and not isinstance(valor2, str):
-                    return int(len(str(valor1)) < valor2)
-                elif isinstance(valor2, str) and not isinstance(valor1, str):
-                    return int(valor1 < len(str(valor2)))
-                return int(len(str(valor1)) < len(str(valor2)))
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"<"+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '<' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         
         #MENOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MENOR_IGUA_QUE):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) <= int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int((float(valor1) <= float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int((float(valor1) <= float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int((float(valor1) <= float(valor2)))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                if isinstance(valor1, str) and not isinstance(valor2, str):
-                    return int(len(str(valor1)) <= valor2)
-                elif isinstance(valor2, str) and not isinstance(valor1, str):
-                    return int(valor1 <= len(str(valor2)) )
-                return int(len(str(valor1)) <= len(str(valor2)) ) 
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"<="+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '<=' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #IGUAL
         elif(self.tipo == TIPO_OPERACION.IGUAL_IGUAL):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) == int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int((float(valor1) == float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int((float(valor1) == float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int((float(valor1) == float(valor2)))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                return int(str(valor1) == str(valor2) )
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"=="+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '==' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
         
         #DIFERENTE
         elif(self.tipo == TIPO_OPERACION.DIFERENTE_QUE):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            
-            #OPERACION DE ENTEROS
-            if isinstance(valor1, int) and isinstance(valor2, int):
-                return int(int(valor1) != int(valor2))
-            elif isinstance(valor1, int) and isinstance(valor2, float):     # ENTERO - FLOAT
-                return int((float(valor1) != float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, int):     # FLOAT - ENTERO
-                return int((float(valor1) != float(valor2)))
-            elif isinstance(valor1, float) and isinstance(valor2, float):   # FLOAT - FLOAT
-                return int((float(valor1) != float(valor2)))
-            elif isinstance(valor1, str) or isinstance(valor2, str):        # CONCATENACIÓN STRINGS
-                if valor1 == None : valor1 = ""
-                if valor2 == None : valor2 = ""
-                return int(str(valor1) != str(valor2))
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
+
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"!="+valor2.temporal.utilizar()+";"
+
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion relacional '!=' ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #AND
         elif(self.tipo == TIPO_OPERACION.AND):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(valor1 == 0 or valor1 == 0.0): valor1 = False
-            if(valor1 == 1 or valor1 == 1.0): valor1 = True
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(valor2 == 0 or valor2 == 0.0): valor2 = False
-            if(valor2 == 1 or valor2 == 1.0): valor2 = True
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" && "+valor2.temporal.utilizar()+";"
 
-            if isinstance(valor1, bool) and isinstance(valor2, bool):
-                return int(bool(valor1) and bool(valor2))
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion logica AND ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #OR
         elif(self.tipo == TIPO_OPERACION.OR):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(valor1 == 0 or valor1 == 0.0): valor1 = False
-            if(valor1 == 1 or valor1 == 1.0): valor1 = True
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(valor2 == 0 or valor2 == 0.0): valor2 = False
-            if(valor2 == 1 or valor2 == 1.0): valor2 = True
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" or "+valor2.temporal.utilizar()+";"
 
-            if isinstance(valor1, bool) and isinstance(valor2, bool):
-                return int(bool(valor1) or bool(valor2))
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion logica OR ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #XOR
         elif(self.tipo == TIPO_OPERACION.XOR):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(valor1 == 0 or valor1 == 0.0): valor1 = False
-            if(valor1 == 1 or valor1 == 1.0): valor1 = True
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(valor2 == 0 or valor2 == 0.0): valor2 = False
-            if(valor2 == 1 or valor2 == 1.0): valor2 = True
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" xor "+valor2.temporal.utilizar()+";"
 
-            if isinstance(valor1, bool) and isinstance(valor2, bool):
-                return int(bool(valor1) ^ bool(valor2))
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipos de datos permitidos para una expresion logica XOR ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #NOT
         elif(self.tipo == TIPO_OPERACION.NOT):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(valor1 == 0 or valor1 == 0.0): valor1 = False
-            if(valor1 == 1 or valor1 == 1.0): valor1 = True
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            if(valor1 == None): return None
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '=!'+valor1.temporal.utilizar()+";"
 
-            if isinstance(valor1, bool):
-                return int(not bool(valor1))
+
+            resultado = valor1.codigo3D
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
             else:
-                #ERROR DE TIPOS DE DATOS PERMITIDOS PARA LA OPERACION
-                error = Error("SEMANTICO","Error semantico, Error en tipo de dato permitido para una expresion logica NOT ",self.linea,self.columna)
-                ReporteErrores.func(error)
-                return 
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
                 
         #PAND
         elif(self.tipo == TIPO_OPERACION.PAND):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor1 = int(valor1)
-            valor2 = int(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" & "+valor2.temporal.utilizar()+";"
 
-            return valor1 & valor2
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #BOR
         elif(self.tipo == TIPO_OPERACION.BOR):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor1 = int(valor1)
-            valor2 = int(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" | "+valor2.temporal.utilizar()+";"
 
-            return valor1 | valor2
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #XORR
         elif(self.tipo == TIPO_OPERACION.XORR):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor1 = int(valor1)
-            valor2 = int(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" ^ "+valor2.temporal.utilizar()+";"
 
-            return valor1 ^ valor2
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #SHIFI
         elif(self.tipo == TIPO_OPERACION.SHIFTI):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor1 = int(valor1)
-            valor2 = int(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" << "+valor2.temporal.utilizar()+";"
 
-            return valor1 << valor2
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #SHIFD
         elif(self.tipo == TIPO_OPERACION.SHIFTD):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            valor2 = self.operadorDer.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            if(isinstance(valor2,str)): valor2 = self.obtenerValorNumerico(valor2)
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor2 = self.operadorDer.traducir(ent,arbol)
+            if(valor1 == None or valor2 == None): return None
 
-            valor1 = int(valor1)
-            valor2 = int(valor2)
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" >> "+valor2.temporal.utilizar()+";"
 
-            return valor1 >> valor2
+
+            resultado = valor1.codigo3D
+            if(resultado !="" and valor2.codigo3D):
+                resultado = resultado + "\n" + valor2.codigo3D 
+            else:
+                resultado +=  valor2.codigo3D 
+
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
 
         #NOTR
         elif(self.tipo == TIPO_OPERACION.NOTR):
-            valor1 = self.operadorIzq.getValorImplicito(ent,arbol)
-            if(isinstance(valor1,str)): valor1 = self.obtenerValorNumerico(valor1)
-            valor1 = int(valor1)
-            return ~valor1
-        
+            valor1 = self.operadorIzq.traducir(ent,arbol)
+            if(valor1 == None): return None
+            temporal = Temp.nuevoTemporal()
+            op = temporal.obtener() + '=~'+valor1.temporal.utilizar()+";"
 
-    def getTipo(self,ent,arbol):
-        value = self.getValorImplicito(ent,arbol)
-        if(value == True or value == False):
-            return Tipo.BOOLEAN
-        elif isinstance(value, str):
-            return Tipo.STRING
-        elif isinstance(value, int):
-            return Tipo.ENTERO
-        elif isinstance(value, float):
-            return Tipo.DOOBLE
-        else:
-            return Tipo.NULL
+
+            resultado = valor1.codigo3D
+            if(resultado!=""):
+                resultado = resultado + "\n" + op
+            else:
+               resultado +=  op  
+               
+            result = Resultado3D()
+            result.codigo3D = resultado
+            result.temporal = temporal
+            result.tipo = Tipo.FLOAT
+            return result
+        
 
     

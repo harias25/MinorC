@@ -9,7 +9,7 @@ import threading
 from PyQt5 import QtCore, QtGui, QtWidgets
 import tkinter as tk
 from tkinter import filedialog
-import ascendente as g
+import gramatica as g
 import ast.Entorno as TS
 import ast.Instruccion as Instruccion
 import ast.Declaracion as Declaracion

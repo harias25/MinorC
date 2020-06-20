@@ -20,6 +20,17 @@ class Resultado3D():
         self.ifSalidaLabel = ""
 
 
+def nuevoTemporal(op = 1):
+    if not hasattr(nuevoTemporal,"lista"):
+        nuevoTemporal.lista = []
+    if(op==0):
+        nuevoTemporal.lista = []
+    elif(op==1):
+        temp = Temporal(temporal())
+        nuevoTemporal.lista.append(temp)
+        return temp
+
+
 def temporal(reset = False):
     #Declaración e inicilizacion de la variable "estática"
     if not hasattr(temporal,"contador"):

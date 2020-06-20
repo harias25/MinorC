@@ -1,47 +1,91 @@
 from ast.Instruccion import Instruccion
-from ast.Declaracion import Declaracion
 from ast.Simbolo import TIPO_DATO as Tipo
+from Reporteria.Error import Error 
+import Reporteria.ReporteErrores as ReporteErrores
 
 class Asignacion(Instruccion):
-    def __init__(self,id,valor,linea,columna,parametro):
+    def __init__(self,id,valor,linea,columna):
         self.linea = linea
         self.columna = columna
         self.id = id
         self.valor = valor
-        self.puntero = parametro
-        self.declarada = None
 
-    def setAmbito(self,ambito):
-        self.declarada = ambito
-
-    def ejecutar(self,ent,arbol,ventana,isDebug):
+    def traducir(self,ent,arbol,ventana):
 
         simbolo = ent.obtener(str(self.id))
-        value = {}
-        if(not isinstance(self.valor,dict)):
-            value = self.valor.getValorImplicito(ent,arbol) 
+        if(simbolo == None):
+            error = Error("SEMANTICO","Error semantico, no se encuentra declarado un identificador con el nombre "+self.id,self.linea,self.columna)
+            ReporteErrores.func(error)
+            return None
 
-        if(self.puntero==False):
-            if(simbolo == None):
-                declarar = Declaracion(str(self.id),value,self.linea,self.columna,"",self.declarada)
-                declarar.ejecutar(ent,arbol,ventana,isDebug)
-            else:
-                if(simbolo.puntero != ""):
-                    simboloP = ent.obtener(str(simbolo.puntero))
-                    simboloP.valor = value
-                    ent.reemplazar(simboloP)
-                else:
-                    simbolo.valor = value
-                    ent.reemplazar(simbolo)
-        else:
-            if(value!=None):
-                simboloP = ent.obtener(self.valor.valor)
-                simboloP.punteros.append(self.id)
-                if(simbolo == None):
-                    declarar = Declaracion(str(self.id),self.valor,self.linea,self.columna,self.valor.valor,self.declarada)
-                    declarar.ejecutar(ent,arbol,ventana,isDebug)
-                else:
-                    simbolo.valor = self.valor
-                    ent.reemplazar(simbolo)
         
-        return False 
+        traduccionExpresion = self.valor.traducir(ent,arbol)
+        if(traduccionExpresion == None): return None
+        
+        if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
+            #casteos implicitos de C
+        if(simbolo.tipo == Tipo.ENTERO):
+            if(traduccionExpresion.tipo == Tipo.ENTERO):
+                traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
+            else:
+                valor = traduccionExpresion.temporal.utilizar()
+                if(traduccionExpresion.tipo == Tipo.FLOAT): #FLOAT A INT
+                    if(str(valor).isnumeric()):
+                        traduccion = simbolo.temporal + "="+ str(int(float(valor)))+"; "
+                    else:
+                        traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
+                elif (traduccionExpresion.tipo == Tipo.CHAR): #CHAR A INT
+                    if(len(str(valor))==1):
+                        traduccion = simbolo.temporal + "="+str(int(valor))+"; "
+                    else:
+                        traduccion = simbolo.temporal + "="+valor+"; "
+
+        elif(simbolo.tipo == Tipo.FLOAT):
+            if(traduccionExpresion.tipo == Tipo.FLOAT):
+                traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
+            else:
+                valor = traduccionExpresion.temporal.utilizar()
+                if(traduccionExpresion.tipo == Tipo.ENTERO): #INT A FLOAT
+                    if(str(valor).isnumeric()):
+                        traduccion = simbolo.temporal + "="+str(float(int(valor)))+"; "
+                    else:
+                        traduccion = simbolo.temporal + "="+valor+"; "
+                elif (traduccionExpresion.tipo == Tipo.CHAR): #CHAR A FLOAT
+                    if(len(str(valor))==1):
+                        traduccion = simbolo.temporal + "="+str(float(valor))+"; "
+                    else:
+                        traduccion = simbolo.temporal + "="+valor+"; "
+
+        elif(simbolo.tipo == Tipo.CHAR):
+            if(traduccionExpresion.tipo == Tipo.CHAR):
+                traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "
+            else:
+                valor = traduccionExpresion.temporal.utilizar()
+                if(traduccionExpresion.tipo == Tipo.ENTERO): #INT A CHAR
+                    if(str(valor).isnumeric()):
+                        if(isinstance(valor,float)):  
+                            valor = int(float(valor))
+                            if(isinstance(valor,int)):
+                                valor = int(valor)
+                                if(valor >255): 
+                                    valor = valor - 256
+                                value = chr(value)
+                                
+                                traduccion = simbolo.temporal + "="+value+"; "
+                    else:
+                        traduccion = simbolo.temporal + "="+valor+"; "
+                elif (traduccionExpresion.tipo == Tipo.FLOAT): #FLOAT A CHAR
+                    if(str(valor).isnumeric()):
+                        if(isinstance(valor,float)):  
+                            valor = int(float(valor))
+                            if(isinstance(valor,int)):
+                                valor = int(valor)
+                                if(valor >255): 
+                                    valor = valor - 256
+                                value = chr(value)
+                            traduccion = simbolo.temporal + "="+value+"; "
+                        else:
+                            traduccion = simbolo.temporal + "="+valor+"; "
+
+            
+        ventana.consola.appendPlainText(traduccion) 
