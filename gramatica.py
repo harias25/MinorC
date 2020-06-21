@@ -112,11 +112,13 @@ t_SHIFTD    = r'>>'
 t_PUNTO     = r'.'
 t_COMA     = r'\,'
 t_FLECHA    = r'->'
+
+
+t_ARESTA = r'-='
+t_ASUMA = r'\+='
 t_MULTIPLICATIVA = r'\*='
 t_DIVIDIDA = r'/='
 t_ARESTO = r'%='
-t_ASUMA = r'\+='
-t_ARESTA = r'-='
 t_ASHIFTI = r'<<='
 t_ASHIFTD = r'>>='
 t_APAND = r'&='
@@ -356,6 +358,79 @@ def p_asignacion(t):
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
     func(0,gramatical)
 
+#********************************************** OPERACIONES DE ASIGNACION ******************************
+def p_operaciones_asignacion(t):
+    '''asignacion   :   ID ASUMA expresion PTCOMA
+                    |   ID ARESTA expresion  PTCOMA
+                    |   ID MULTIPLICATIVA expresion PTCOMA
+                    |   ID DIVIDIDA expresion PTCOMA
+                    |   ID ARESTO expresion PTCOMA 
+                    |   ID ABOR expresion  PTCOMA
+                    |   ID APAND expresion PTCOMA
+                    |   ID ASHIFTD expresion PTCOMA
+                    |   ID ASHIFTI expresion PTCOMA
+                    |   ID AXORR expresion PTCOMA'''
+
+    op = Operacion()
+    opId = Operacion()
+    opId.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
+    opId.linea = t.slice[1].lineno
+    opId.columna = find_column(t.slice[1])
+
+    if(t.slice[2].type == 'ASUMA'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.SUMA,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID MAS IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val + expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'ARESTA'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.RESTA,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID MENOS IGUAL expresion','asignacion.instr= Asignar(ID.val,ID.val - expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'MULTIPLICATIVA'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.MULTIPLICACION,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID MULT IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val * expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'DIVIDIDA'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.DIVISION,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID DIV IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val / expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'ARESTO'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.MODULO,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val % expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'ABOR'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.BOR,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val | expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'APAND'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.PAND,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val & expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'ASHIFTD'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.SHIFTD,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val >> expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'ASHIFTI'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.SHIFTI,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val << expresion.val);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'AXORR'):
+        op.Operacion(opId,t[3],TIPO_OPERACION.XORR,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val ^ expresion.val);',lista)
+        func(0,gramatical)
+
+
+
+    t[0] = Asignacion(t[1],op,t.slice[1].lineno,find_column(t.slice[1]))
 
 #********************************************** DECLARACIONES *********************************************
 
@@ -441,7 +516,6 @@ def p_expresion(t):
 def p_expresion_parentesis(t):
     'expresion : PARIZQ expresion PARDER '
     t[0] = t[2]
-
 
 #********************************************** OPERACIONES UNARIAS ***********************************
 def p_expresion_unaria(t):
