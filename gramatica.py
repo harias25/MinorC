@@ -230,38 +230,76 @@ def func(tipo,valor):
 
 
 def p_init(t) :
-    'init            : funciones'
+    'init            : globales'
     t[0] = t[1]
 
 def p_init_empty(t):
     'init            : empty'
     t[0] = t[1]
 
+
 #********************************************** FUNCIONES  **************************************
 def p_etiquetas_lista(t) :
-    'funciones    : funciones funcion'
+    'globales    : globales iglobal'
     t[1].append(t[2])
     t[0] = t[1]
     #lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('funciones -> funciones funcion','funciones.lista = funciones1.lista; </hr> funciones.lista.add(funcion)',None)
+    gramatical = G.ValorAscendente('globales -> globales iglobal','globales.lista = globales1.lista; </hr> globales.lista.add(iglobal)',None)
     func(2,gramatical)
 
 def p_etiquetas(t) :
-    'funciones    : funcion '
+    'globales    : iglobal '
     t[0] = [t[1]]
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('funciones -> funcion','funciones.lista = [funcion]',lista)
+    gramatical = G.ValorAscendente('globales -> iglobal','globales.lista = [iglobal]',lista)
+    func(0,gramatical)
+
+def p_iglobal(t):
+    ''' iglobal : funcion 
+                | declaracion '''
+    t[0] = t[1]
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('iglobal -> '+str(t.slice[1]),'iglobal.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
 def p_empty(t) :
     'empty :'
     t[0] = []
 
-def p_etiqueta(t) :
-    'funcion    : TIPO ID LLAVIZQ  instrucciones LLAVDER '
+def p_funcion_s(t) :
+    'funcion    : TIPO ID PARIZQ PARDER LLAVIZQ  instrucciones LLAVDER '
     lista = func(1,None).copy()
-    t[0] = Funcion(t[2],t[4],t.slice[2].lineno,find_column(t.slice[2]))
-    gramatical = G.ValorAscendente('funcion -> TIPO ID { instrucciones } ','funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;',lista)
+    t[0] = Funcion(t[1],t[2],t[6],None,t.slice[2].lineno,find_column(t.slice[2]))
+    gramatical = G.ValorAscendente('funcion -> TIPO ID () { instrucciones } ','funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;',lista)
+    func(0,gramatical)
+
+def p_f_parametros(t) :
+    'funcion    : TIPO ID PARIZQ parametros PARDER LLAVIZQ  instrucciones LLAVDER '
+    lista = func(1,None).copy()
+    t[0] = Funcion(t[1],t[2],t[7],t[4],t.slice[2].lineno,find_column(t.slice[2]))
+    gramatical = G.ValorAscendente('funcion -> TIPO ID () { instrucciones } ','funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;',lista)
+    func(0,gramatical)
+#*********************************************************** PARAMETROS **********************************************
+def p_parametros_lista(t) :
+    'parametros    : parametros COMA parametro'
+    t[1].append(t[3])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametros -> parametros COMA parametro','parametros.lista = parametros1.lista; </hr> parametros.lista.add(parametro)',None)
+    func(2,gramatical)
+
+def p_parametros(t) :
+    'parametros    : parametro '
+    t[0] = [t[1]]
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametros -> parametro','parametros.lista = [parametro]',lista)
+    func(0,gramatical)
+
+def p_parametro(t):
+    'parametro : TIPO ID'
+    t[0] = Declaracion(t[1],[t[2]],None,t.slice[2].lineno,find_column(t.slice[2]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametro -> TIPO ID ','parametro.instr = Declaracion(TIPO,ID);',lista)
     func(0,gramatical)
 
 #********************************************** INSTRUCCIONES  ***********************************

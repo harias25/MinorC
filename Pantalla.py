@@ -14,6 +14,7 @@ import ast.Entorno as TS
 import ast.Instruccion as Instruccion
 import ast.Declaracion as Declaracion
 import ast.AST as AST
+from ast.Funcion import Funcion
 import Reporteria.Error as Error
 import Reporteria.ReporteErrores as ReporteErrores
 import Reporteria.ReporteTablaSimbolos as ReporteTablaSimbolos
@@ -44,7 +45,7 @@ class Ui_MainWindow(object):
         self.frameConsola.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameConsola.setObjectName("frameConsola")
         self.consola = QtWidgets.QPlainTextEdit(self.frameConsola)
-        
+
         self.consola.setGeometry(QtCore.QRect(10, 0, 991, 211))
         font = QtGui.QFont()
         font.setFamily("Consolas")
@@ -269,26 +270,19 @@ class Ui_MainWindow(object):
         instrucciones = g.parse(self.editor.text())
         self.instrucciones = instrucciones
         ts_global = TS.Entorno(None)
-        ts_global.asignarConsola(self.consola)
         ast = AST.AST(instrucciones) 
         temp.temporal(True)
 
-        #PRIMERA PASADA PARA GUARDAR TODAS LAS ETIQUETAS
-        bandera = False
+        #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES
         if(instrucciones != None):
             for ins in instrucciones:
                 try:
-                    if(bandera == False and ins.id != "main"):
-                        error = Error.Error("SEMANTICO","Error semantico, La primera funcion debe ser la funcion main:",ins.linea,ins.columna)
-                        ReporteErrores.func(error)
-                        break
-                    else:
-                        bandera = True
-                    if(ast.existeEtiqueta(ins)):
-                        error = Error.Error("SEMANTICO","Error semantico, Ya existe la funcion "+ins.id,ins.linea,ins.columna)
-                        ReporteErrores.func(error)
-                    else:
-                        ast.agregarEtiqueta(ins)
+                    if(isinstance(ins,Funcion)): 
+                        if(ast.existeEtiqueta(ins)):
+                            error = Error.Error("SEMANTICO","Error semantico, Ya existe la funcion "+ins.id,ins.linea,ins.columna)
+                            ReporteErrores.func(error)
+                        else:
+                            ast.agregarEtiqueta(ins)
                 except:
                         pass
 
@@ -296,6 +290,18 @@ class Ui_MainWindow(object):
 
         if(main != None):
             self.consola.appendPlainText("main:")
+
+            #se corren las instrucciones globales
+            for ins in instrucciones:
+                try:
+                    if(not isinstance(ins,Funcion)): 
+                        #try:
+                            ins.traducir(ts_global,ast,self)
+                        #except:
+                        #    pass
+                except:
+                        pass
+                        
             for ins in main.instrucciones:
                 #try:
                     ins.traducir(ts_global,ast,self)
