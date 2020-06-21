@@ -44,6 +44,7 @@ class Ui_MainWindow(object):
         self.frameConsola.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameConsola.setObjectName("frameConsola")
         self.consola = QtWidgets.QPlainTextEdit(self.frameConsola)
+        
         self.consola.setGeometry(QtCore.QRect(10, 0, 991, 211))
         font = QtGui.QFont()
         font.setFamily("Consolas")
@@ -278,13 +279,13 @@ class Ui_MainWindow(object):
             for ins in instrucciones:
                 try:
                     if(bandera == False and ins.id != "main"):
-                        error = Error.Error("SEMANTICO","Error semantico, La primera etiqueta debe ser la etiqueta main:",ins.linea,ins.columna)
+                        error = Error.Error("SEMANTICO","Error semantico, La primera funcion debe ser la funcion main:",ins.linea,ins.columna)
                         ReporteErrores.func(error)
                         break
                     else:
                         bandera = True
                     if(ast.existeEtiqueta(ins)):
-                        error = Error.Error("SEMANTICO","Error semantico, Ya existe la etiqueta "+ins.id,ins.linea,ins.columna)
+                        error = Error.Error("SEMANTICO","Error semantico, Ya existe la funcion "+ins.id,ins.linea,ins.columna)
                         ReporteErrores.func(error)
                     else:
                         ast.agregarEtiqueta(ins)
@@ -294,6 +295,7 @@ class Ui_MainWindow(object):
         main = ast.obtenerEtiqueta("main")
 
         if(main != None):
+            self.consola.appendPlainText("main:")
             for ins in main.instrucciones:
                 #try:
                     ins.traducir(ts_global,ast,self)

@@ -17,7 +17,7 @@ reservadas = {
     'int'	: 'INT',
     'float' : 'FLOAT',
     'char'	: 'CHAR',
-    'print' : 'IMPRIMIR',
+    'printf' : 'IMPRIMIR',
 	'xor'	: 'XOR',
     'void'  : 'VOID',
 }
@@ -292,10 +292,21 @@ def p_instruccion(t) :
     func(0,gramatical)
 
 def p_instruccion_imprimir(t) :
-    'imprimir_instr     : IMPRIMIR PARIZQ expresion PARDER PTCOMA'
-    t[0] =Imprimir(t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    'imprimir_instr     : IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA'
+    op = Operacion()
+    op.Primitivo(Primitivo(str(t[3]),t.slice[3].lineno,find_column(t.slice[3])))
+    t[0] =Imprimir(op,t[5],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ expresion  PARDER PTCOMA','imprimir_instr.instr = Print(expresion.val);',lista)
+    gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA','imprimir_instr.instr = Print(CADENA,expresiones);',lista)
+    func(0,gramatical)
+
+def p_instruccion_imprimir_cad(t) :
+    'imprimir_instr     : IMPRIMIR PARIZQ CADENA PARDER PTCOMA'
+    op = Operacion()
+    op.Primitivo(Primitivo(str(t[3]),t.slice[3].lineno,find_column(t.slice[3])))
+    t[0] =Imprimir(op,None,t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ CADENA PARDER PTCOMA','imprimir_instr.instr = Print(CADENA);',lista)
     func(0,gramatical)
 
 #********************************************** ASIGNACIONES *********************************************
@@ -359,6 +370,22 @@ def p_tipo_dato(t):
 
 
 #*************************************************  EXPRESIONES  **************************************************
+
+def p_expresiones(t):
+    'expresiones : expresiones COMA expresion '
+    t[1].append(t[3])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('expresiones -> expresiones expresion','expresiones.lista = expresiones1.lista; </hr> expresiones.lista.add(expresion);',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_expresiones_s(t):
+    'expresiones : expresion '
+    t[0] = [t[1]]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('expresiones -> expresion','expresiones.lista = [expresion]',[])
+    func(2,gramatical)#func(0,gramatical)
+
 
 def p_expresion(t):
     '''expresion : primitiva 
