@@ -30,5 +30,9 @@ class Simbolo(Expresion) :
     
     def getTipo(self):
         
-        return self.tipo
+        return self.tipo.name
+
+    def getTipoVar(self):
+        
+        return "IDENTIFICADOR"
 

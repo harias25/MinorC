@@ -16,7 +16,7 @@ class ReporteAST():
 
         self.contenido = "digraph G {\n"
         self.contenido += "node [style=filled];\n"
-        self.contenido += "S->ni [color=\"0.002 0.782 0.999\"];\n"
+        self.contenido += "S->glo [color=\"0.002 0.782 0.999\"];\n"
         self.contenido += ""
         self.contenido += ""
 
@@ -24,7 +24,9 @@ class ReporteAST():
             self.definirEtiquetas(nodo,"ni")
 
         self.contenido += "S [color=\"0.449 0.447 1.000\"];\n"
+        self.contenido += "glo [color=\"0.423 0.133 1.000\", label=\"Globales\"];\n"
         self.contenido += "ni [color=\"0.201 0.753 1.000\", label=\"Etiquetas\"];\n"
+        self.contenido += "glo->ni [color=\"0.002 0.782 0.999\"];\n"
         self.contenido += "}"
 
         f = open ('AST.dot','w')
@@ -34,7 +36,7 @@ class ReporteAST():
         os.system("dot -Tpng AST.dot -o AST.png")
         os.system("DEL /F /A AST.dot")
 
-        pagina = pagina +' <img src="AST.png" alt="AST GENERADO"> ';
+        pagina = pagina +' <img src="AST.png" alt="AST GENERADO"> '
 
         pagina = pagina + '\n' + "</center>" + '\n' + "</table>" + "</body>" + '\n' + "</html>"
 
@@ -45,7 +47,7 @@ class ReporteAST():
 
     def definirEtiquetas(self,nodo,padre):
         try:
-            if (isinstance(nodo,ast.Etiqueta.Etiqueta)):
+            if (isinstance(nodo,ast.Funcion.Funcion)):
                 self.contador=self.contador+1
                 self.contenido += "node" + str(self.contador) + "[label = \"" + nodo.getTipo()+":"+nodo.id+ "\", style = filled, color = lightblue];\n"
                 self.contenido += padre+"->"+"node" + str(self.contador) +";\n"
@@ -53,7 +55,9 @@ class ReporteAST():
                 for hijo in nodo.instrucciones:
                     if(not isinstance(hijo,LexToken)):
                         self.definirInstrucciones(hijo,padre)
-                
+            else:
+                self.definirInstrucciones(nodo,"glo")
+
         except:
             pass
 
@@ -74,34 +78,13 @@ class ReporteAST():
                             self.contenido += "node" + str(self.contador) + "[label = \"" + "=" + "\", style = filled, color = darkturquoise];\n"
                             self.contenido += padreI+"->"+"node" + str(self.contador) +";\n"
                         self.definirExpresion(nodo.__dict__[key],padreI,"Expresion")
-                    elif(isinstance(nodo.__dict__[key],ast.GoTo.GoTo)):
-                        self.contador=self.contador+1
-                        self.contenido += "node" + str(self.contador) + "[label = \"" + "InstruccionVerdadera" + "\", style = filled, color = gold1];\n"
-                        self.contenido += padreI+"->"+"node" + str(self.contador) +";\n"
-                        xxx = "node" + str(self.contador)
-
-                        self.contador=self.contador+1
-                        self.contenido += "node" + str(self.contador) + "[label = \"" + "GoTo" + "\", style = filled, color = darkseagreen3];\n"
-                        self.contenido += xxx+"->"+"node" + str(self.contador) +";\n"
-
-                        top = "node" + str(self.contador) 
-
-                        self.contador=self.contador+1
-                        self.contenido += "node" + str(self.contador) + "[label = \"" + "id:"+nodo.__dict__[key].id + "\", style = filled, color = darksalmon];\n"
-                        self.contenido += top+"->"+"node" + str(self.contador) +";\n"
-
-                    elif (isinstance(nodo.__dict__[key],V.AccesoLista.AccesoLista)):
-                        self.contador=self.contador+1
-                        self.contenido += "node" + str(self.contador) + "[label = \"" + "ObtencionArray" + "\", style = filled, color = orange];\n"
-                        self.contenido += padreI+"->"+"node" + str(self.contador) +";\n"
-                        xxx = "node" + str(self.contador)
-
+                    
+                    elif key=="expresiones":
                         self.contador=self.contador+1
                         self.contenido += "node" + str(self.contador) + "[label = \"" + "llaves" + "\", style = filled, color = gold1];\n"
-                        self.contenido += xxx+"->"+"node" + str(self.contador) +";\n"
-
+                        self.contenido += padreI+"->"+"node" + str(self.contador) +";\n"
                         top = "node" + str(self.contador) 
-                        for llave in nodo.__dict__[key].llaves:
+                        for llave in nodo.__dict__[key]:
                             self.definirExpresion(llave,top,"Expresion")
 
                     elif key=="llaves":
@@ -137,9 +120,7 @@ class ReporteAST():
         for key in nodo.__dict__:
             if(key!="linea" and key!="columna" and nodo.__dict__[key] != None):
                 if(isinstance(nodo.__dict__[key],V.Primitivo.Primitivo)):
-                    self.definirExpresion(nodo.__dict__[key],padreI,"Primitivo")
-                elif (isinstance(nodo.__dict__[key],V.AccesoLista.AccesoLista)):
-                    self.definirInstrucciones(nodo.__dict__[key],padreI)
+                    self.definirExpresion(nodo.__dict__[key],padreI,"Primitivo") 
                 elif(key=="valor" and isinstance(nodo.__dict__[key],dict)):
                     self.contador=self.contador+1
                     self.contenido += "node" + str(self.contador) + "[label = \"" + "=" + "\", style = filled, color = darkturquoise];\n"
