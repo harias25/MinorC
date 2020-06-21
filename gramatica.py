@@ -1,6 +1,7 @@
 # Definición de la gramática
 from ast.Instruccion import Instruccion
 from ast.Declaracion import Declaracion
+from ast.Parametro import Parametro
 from ast.Funcion import Funcion
 from ast.Simbolo import TIPO_DATO as Tipo
 from ValorImplicito.Operacion import Operacion
@@ -297,7 +298,7 @@ def p_parametros(t) :
 
 def p_parametro(t):
     'parametro : TIPO ID'
-    t[0] = Declaracion(t[1],[t[2]],None,t.slice[2].lineno,find_column(t.slice[2]))
+    t[0] = Parametro(t[1],t[2],t.slice[2].lineno,find_column(t.slice[2]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('parametro -> TIPO ID ','parametro.instr = Declaracion(TIPO,ID);',lista)
     func(0,gramatical)

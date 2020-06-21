@@ -42,3 +42,15 @@ def temporal(reset = False):
     else:
         temporal.contador = temporal.contador + 1
         return "$t"+str(temporal.contador)
+
+def parametro(reset = False):
+    #Declaración e inicilizacion de la variable "estática"
+    if not hasattr(temporal,"contador"):
+        temporal.contador = 0
+        return "$a0"
+
+    if(reset):
+        temporal.contador = 0
+    else:
+        temporal.contador = temporal.contador + 1
+        return "$a"+str(temporal.contador)
