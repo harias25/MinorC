@@ -16,6 +16,7 @@ import Reporteria.ReporteErrores as ReporteErrores
 from Condicionales.If import If
 from Condicionales.Switch import Switch
 from Condicionales.While import While
+from Condicionales.DoWhile import DoWhile
 from Condicionales.Case import Case
 from Transferencia.Break import Break
 
@@ -356,6 +357,13 @@ def p_instruccion(t) :
 def p_ins_while(t) :
     'ins_while : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
     t[0] = While(t[3],t[6],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_while ->WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER','ins_while.instr = While(expresion,instrucciones);',lista)
+    func(0,gramatical)
+
+def p_ins_do_while(t) :
+    'ins_while : DO LLAVIZQ instrucciones LLAVDER WHILE PARIZQ expresion PARDER PTCOMA'
+    t[0] = DoWhile(t[7],t[3],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('ins_while ->WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER','ins_while.instr = While(expresion,instrucciones);',lista)
     func(0,gramatical)
