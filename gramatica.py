@@ -15,6 +15,7 @@ import Reporteria.ValorAscendente as G
 import Reporteria.ReporteErrores as ReporteErrores
 from Condicionales.If import If
 from Condicionales.Switch import Switch
+from Condicionales.While import While
 from Condicionales.Case import Case
 from Transferencia.Break import Break
 
@@ -31,7 +32,9 @@ reservadas = {
     'case'  : 'CASE',
     'default' : 'DEFAULT',
     'break' : 'BREAK',
-    'scanf' : 'SCAN'
+    'scanf' : 'SCAN',
+    'do'    : 'DO',
+    'while' : 'WHILE',
 }
 
 tokens  = [
@@ -341,10 +344,20 @@ def p_instruccion(t) :
                         | sentencia_switch
                         | ins_break
                         | ins_scan
-                        | error  '''
+                        | ins_while
+                        | error   '''
+
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
+    func(0,gramatical)
+
+#********************************************* WHILE *************************************************
+def p_ins_while(t) :
+    'ins_while : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
+    t[0] = While(t[3],t[6],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_while ->WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER','ins_while.instr = While(expresion,instrucciones);',lista)
     func(0,gramatical)
 
 #********************************************* SENTENCIA SWITCH ****************************************
@@ -406,6 +419,7 @@ def p_break(t):
     gramatical = G.ValorAscendente('ins_break ->BREAK PTCOMA','ins_break.instr = Break();',lista)
     func(0,gramatical)
     t[0] = Break(t.slice[1].lineno,find_column(t.slice[1]))
+    
 #********************************************* SENTENCIA IF *********************************************
 def p_sentencia_if(t):
     'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER'
