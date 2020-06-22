@@ -306,10 +306,10 @@ class Ui_MainWindow(object):
                         pass
                         
             for ins in main.instrucciones:
-                #try:
+                try:
                     ins.traducir(ts_global,ast,self)
-                #except:
-                #    pass
+                except:
+                    pass
         else:
             error = Error.Error("SEMANTICO","Error semantico, No puede iniciarse el programa ya que no existe el metodo main()",0,0)
             ReporteErrores.func(error)

@@ -16,6 +16,7 @@ import Reporteria.ReporteErrores as ReporteErrores
 from Condicionales.If import If
 from Condicionales.Switch import Switch
 from Condicionales.While import While
+from Condicionales.For import For
 from Condicionales.DoWhile import DoWhile
 from Condicionales.Case import Case
 from Transferencia.Break import Break
@@ -36,6 +37,7 @@ reservadas = {
     'scanf' : 'SCAN',
     'do'    : 'DO',
     'while' : 'WHILE',
+    'for'   : 'FOR',
 }
 
 tokens  = [
@@ -274,7 +276,7 @@ def p_etiquetas(t) :
 
 def p_iglobal(t):
     ''' iglobal : funcion 
-                | declaracion '''
+                | declaracion PTCOMA'''
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('iglobal -> '+str(t.slice[1]),'iglobal.instr = '+str(t.slice[1])+'.instr;',lista)
@@ -339,13 +341,14 @@ def p_instrucciones_instruccion(t) :
 
 def p_instruccion(t) :
     '''instruccion      : imprimir_instr 
-                        | asignacion 
-                        | declaracion
+                        | asignacion PTCOMA
+                        | declaracion PTCOMA
                         | sentencia_if
                         | sentencia_switch
                         | ins_break
                         | ins_scan
                         | ins_while
+                        | ins_for
                         | error   '''
 
     t[0] = t[1]
@@ -353,7 +356,24 @@ def p_instruccion(t) :
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
-#********************************************* WHILE *************************************************
+#**************************************************** FOR ***************************************************
+def p_ins_for(t):
+    'ins_for : FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA asignacion PARDER LLAVIZQ instrucciones LLAVDER '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_for ->FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA expresion_numerica PARDER LLAVIZQ instrucciones LLAVDER ','ins_for.instr = For(instruccion,expresion,expresion_numerica,instrucciones);',lista)
+    func(0,gramatical)
+    t[0] = For(t[3],t[5],t[7],t[10],t.slice[1].lineno,find_column(t.slice[1]))
+
+def p_instruccion_for(t):
+    '''instruccion_for : asignacion 
+                       | declaracion '''
+
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('instruccion_for -> declaracion | asignacion ','instruccion_for.instr = instruccion;',lista)
+    func(0,gramatical)
+    t[0] = t[1]
+
+#********************************************* WHILE Y DO WHILE*************************************************
 def p_ins_while(t) :
     'ins_while : WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER'
     t[0] = While(t[3],t[6],t.slice[1].lineno,find_column(t.slice[1]))
@@ -365,7 +385,7 @@ def p_ins_do_while(t) :
     'ins_while : DO LLAVIZQ instrucciones LLAVDER WHILE PARIZQ expresion PARDER PTCOMA'
     t[0] = DoWhile(t[7],t[3],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('ins_while ->WHILE PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER','ins_while.instr = While(expresion,instrucciones);',lista)
+    gramatical = G.ValorAscendente('ins_while ->DO LLAVIZQ instrucciones LLAVDER WHILE PARIZQ expresion PARDER PTCOMA','ins_while.instr = DoWhile(expresion,instrucciones);',lista)
     func(0,gramatical)
 
 #********************************************* SENTENCIA SWITCH ****************************************
@@ -514,24 +534,51 @@ def p_instruccion_imprimir_cad(t) :
 
 #********************************************** ASIGNACIONES *********************************************
 def p_asignacion(t):
-    'asignacion : ID IGUAL expresion PTCOMA '
+    'asignacion : ID IGUAL expresion  '
     t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
     func(0,gramatical)
 
 #********************************************** OPERACIONES DE ASIGNACION ******************************
+
+def p_incre_decre(t):
+    '''asignacion : ID MAS MAS
+                  | ID MENOS MENOS '''
+    op = Operacion()
+    opId = Operacion()
+    opId.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
+    opId.linea = t.slice[1].lineno
+    opId.columna = find_column(t.slice[1])
+
+    opUno = Operacion()
+    opUno.Primitivo(Primitivo(1,t.slice[1].lineno,find_column(t.slice[1])))
+
+
+    if(t.slice[2].type == 'MAS'):
+        op.Operacion(opId,opUno,TIPO_OPERACION.SUMA,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID MAS MAS ','asignacion.instr = Asignar(ID.val,ID.val + 1);',lista)
+        func(0,gramatical)
+    elif(t.slice[2].type == 'MENOS'):
+        op.Operacion(opId,opUno,TIPO_OPERACION.RESTA,t.slice[2].lineno,1)
+        lista = func(1,None).copy()
+        gramatical = G.ValorAscendente('asignacion ->  ID MENOS MENOS','asignacion.instr= Asignar(ID.val,ID.val - 1);',lista)
+        func(0,gramatical)
+
+    t[0] = Asignacion(t[1],op,t.slice[1].lineno,find_column(t.slice[1]))
+
 def p_operaciones_asignacion(t):
-    '''asignacion   :   ID ASUMA expresion PTCOMA
-                    |   ID ARESTA expresion  PTCOMA
-                    |   ID MULTIPLICATIVA expresion PTCOMA
-                    |   ID DIVIDIDA expresion PTCOMA
-                    |   ID ARESTO expresion PTCOMA 
-                    |   ID ABOR expresion  PTCOMA
-                    |   ID APAND expresion PTCOMA
-                    |   ID ASHIFTD expresion PTCOMA
-                    |   ID ASHIFTI expresion PTCOMA
-                    |   ID AXORR expresion PTCOMA'''
+    '''asignacion   :   ID ASUMA expresion 
+                    |   ID ARESTA expresion  
+                    |   ID MULTIPLICATIVA expresion 
+                    |   ID DIVIDIDA expresion 
+                    |   ID ARESTO expresion  
+                    |   ID ABOR expresion  
+                    |   ID APAND expresion 
+                    |   ID ASHIFTD expresion 
+                    |   ID ASHIFTI expresion 
+                    |   ID AXORR expresion '''
 
     op = Operacion()
     opId = Operacion()
@@ -595,14 +642,14 @@ def p_operaciones_asignacion(t):
 #********************************************** DECLARACIONES *********************************************
 
 def p_declaracion(t):
-    'declaracion : TIPO lista_id PTCOMA'
-    t[0] = Declaracion(t[1],t[2],None,t.slice[3].lineno,find_column(t.slice[3]))
+    'declaracion : TIPO lista_id '
+    t[0] = Declaracion(t[1],t[2],None,t.lexer.lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id);',lista)
     func(0,gramatical)
 
 def p_declaracion_asigna(t):
-    'declaracion : TIPO lista_id IGUAL expresion  PTCOMA'
+    'declaracion : TIPO lista_id IGUAL expresion  '
     t[0] = Declaracion(t[1],t[2],t[4],t.slice[3].lineno,find_column(t.slice[3]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);',lista)
