@@ -273,6 +273,7 @@ class Ui_MainWindow(object):
         ast = AST.AST(instrucciones) 
         temp.temporal(True)
         temp.parametro(True)
+        temp.etiqueta(True)
 
         #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES
         if(instrucciones != None):

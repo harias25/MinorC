@@ -45,12 +45,24 @@ def temporal(reset = False):
 
 def parametro(reset = False):
     #Declaración e inicilizacion de la variable "estática"
-    if not hasattr(temporal,"contador"):
-        temporal.contador = 0
+    if not hasattr(parametro,"contador"):
+        parametro.contador = 0
         return "$a0"
 
     if(reset):
-        temporal.contador = 0
+        parametro.contador = 0
     else:
-        temporal.contador = temporal.contador + 1
-        return "$a"+str(temporal.contador)
+        parametro.contador = parametro.contador + 1
+        return "$a"+str(parametro.contador)
+
+def etiqueta(reset = False):
+    #Declaración e inicilizacion de la variable "estática"
+    if not hasattr(etiqueta,"contador"):
+        etiqueta.contador = 0
+        return "L0"
+
+    if(reset):
+        etiqueta.contador = 0
+    else:
+        etiqueta.contador = etiqueta.contador + 1
+        return "L"+str(etiqueta.contador)

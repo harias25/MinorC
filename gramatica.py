@@ -1,4 +1,3 @@
-# Definición de la gramática
 from ast.Instruccion import Instruccion
 from ast.Declaracion import Declaracion
 from ast.Parametro import Parametro
@@ -13,7 +12,7 @@ import ply.yacc as yacc
 import Reporteria.Error as Error
 import Reporteria.ValorAscendente as G
 import Reporteria.ReporteErrores as ReporteErrores
-
+from Condicionales.If import If
 reservadas = {
     'int'	: 'INT',
     'float' : 'FLOAT',
@@ -21,6 +20,8 @@ reservadas = {
     'printf' : 'IMPRIMIR',
 	'xor'	: 'XOR',
     'void'  : 'VOID',
+    'if'    : 'IF',
+    'else'  : 'ELSE'
 }
 
 tokens  = [
@@ -326,12 +327,65 @@ def p_instruccion(t) :
     '''instruccion      : imprimir_instr 
                         | asignacion 
                         | declaracion
-                        | error '''
+                        | sentencia_if
+                        | error  '''
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
+#********************************************* SENTENCIA IF *********************************************
+def p_sentencia_if(t):
+    'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER'
+    t[0] = If(t[3],t[6],[],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','sentencia_if.instr = If(expresion,instruccionesV,[],[]);',lista)
+    func(0,gramatical)
+
+def p_sentencia_if_else(t):
+    'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER ELSE  LLAVIZQ  instrucciones LLAVDER '
+    t[0] = If(t[3],t[6],t[10],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER ELSE  LLAVIZQ  instrucciones LLAVDER','sentencia_if.instr = If(expresion,instruccionesV,[],instruccionesF);',lista)
+    func(0,gramatical)
+
+def p_sentencia_if_elif_else(t):
+    'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER lelseif ELSE LLAVIZQ instrucciones LLAVDER'
+    t[0] = If(t[3],t[6],t[11],t[8],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER lelseif ELSE LLAVIZQ instrucciones LLAVDER','sentencia_if.instr = If(expresion,instruccionesV,lelseif,instruccionesF);',lista)
+    func(0,gramatical)
+
+def p_sentencia_if_elif(t):
+    'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER lelseif'
+    t[0] = If(t[3],t[6],[],t[8],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ instrucciones LLAVDER lelseif','sentencia_if.instr = If(expresion,instruccionesV,lelseif);',lista)
+    func(0,gramatical)
+
+def p_lelseif(t):
+    'lelseif    : lelseif elseif'
+    t[1].append(t[2])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lelseif -> lelseif elseif','lelseif.lista = lelseif1.lista; </hr> lelseif.lista.add(elseif);',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_lelseif_s(t) :
+    'lelseif    : elseif '
+    t[0] = [t[1]]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lelseif -> elseif','lelseif.lista = [elseif]',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_elseif(t):
+    'elseif : ELSE IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER '
+    t[0] = If(t[4],t[7],[],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('elseif ->ELSE IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','elseif.instr = If(expresion,instrucciones);',lista)
+    func(0,gramatical)
+
+#********************************************* IMPRIMIR *********************************************
 def p_instruccion_imprimir(t) :
     'imprimir_instr     : IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA'
     op = Operacion()
@@ -428,8 +482,6 @@ def p_operaciones_asignacion(t):
         gramatical = G.ValorAscendente('asignacion ->  ID RESTO IGUAL expresion','asignacion.instr = Asignar(ID.val,ID.val ^ expresion.val);',lista)
         func(0,gramatical)
 
-
-
     t[0] = Asignacion(t[1],op,t.slice[1].lineno,find_column(t.slice[1]))
 
 #********************************************** DECLARACIONES *********************************************
@@ -480,7 +532,6 @@ def p_tipo_dato(t):
          
     gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
     func(2,gramatical)
-
 
 
 #*************************************************  EXPRESIONES  **************************************************
