@@ -19,6 +19,8 @@ class If(Instruccion) :
 
         tsIf = TS.Entorno(ent)
         resultCondition = self.condicion.traducir(tsIf,arbol)
+        if(resultCondition == None): return None
+
         etiquetaTrue = temp.etiqueta()
         etiquetaFalse = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()

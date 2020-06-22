@@ -8,11 +8,16 @@ from ValorImplicito.Asignacion import Asignacion
 from ValorImplicito.Operacion import TIPO_OPERACION
 from ValorImplicito.Primitivo import Primitivo
 from  Primitivas.Imprimir import Imprimir
+from  Primitivas.Scan import Scan
 import ply.yacc as yacc
 import Reporteria.Error as Error
 import Reporteria.ValorAscendente as G
 import Reporteria.ReporteErrores as ReporteErrores
 from Condicionales.If import If
+from Condicionales.Switch import Switch
+from Condicionales.Case import Case
+from Transferencia.Break import Break
+
 reservadas = {
     'int'	: 'INT',
     'float' : 'FLOAT',
@@ -21,7 +26,12 @@ reservadas = {
 	'xor'	: 'XOR',
     'void'  : 'VOID',
     'if'    : 'IF',
-    'else'  : 'ELSE'
+    'else'  : 'ELSE',
+    'switch': 'SWITCH',
+    'case'  : 'CASE',
+    'default' : 'DEFAULT',
+    'break' : 'BREAK',
+    'scanf' : 'SCAN'
 }
 
 tokens  = [
@@ -328,12 +338,74 @@ def p_instruccion(t) :
                         | asignacion 
                         | declaracion
                         | sentencia_if
+                        | sentencia_switch
+                        | ins_break
+                        | ins_scan
                         | error  '''
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
+#********************************************* SENTENCIA SWITCH ****************************************
+def p_sentencia_switch(t):
+    'sentencia_switch : SWITCH PARIZQ expresion PARDER LLAVIZQ lista_case default_ins LLAVDER'
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_switch ->SWITCH PARIZQ expresion PARDER LLAVIZQ lista_case default LLAVDER','sentencia_switch.instr = Switch(expresion,lista_case,default);',lista)
+    func(0,gramatical)
+    t[0] = Switch(t[3],t[6],t[7],t.slice[1].lineno,find_column(t.slice[1]))
+
+def p_sentencia_switch_sc(t):
+    'sentencia_switch : SWITCH PARIZQ expresion PARDER LLAVIZQ lista_case LLAVDER'
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_switch ->SWITCH PARIZQ expresion PARDER LLAVIZQ lista_case LLAVDER','sentencia_switch.instr = Switch(expresion,lista_case,None);',lista)
+    func(0,gramatical)
+    t[0] = Switch(t[3],t[6],None,t.slice[1].lineno,find_column(t.slice[1]))
+def p_lista_case(t):
+    'lista_case    : lista_case caso'
+    t[1].append(t[2])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lista_case -> lista_case caso','lista_case.lista = lista_case1.lista; </hr> lista_case.lista.add(caso);',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_lista_case_s(t) :
+    'lista_case    : caso '
+    t[0] = [t[1]]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lista_case -> caso','lista_case.lista = [caso]',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_caso(t):
+    'caso    : CASE expresion DOSP instrucciones  '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('case ->CASE expresion DOSP instrucciones','case.instr = Case(expresion,instrucciones);',lista)
+    func(0,gramatical)
+    t[0] = Case(t[2],t[4],t.slice[1].lineno,find_column(t.slice[1]))
+def p_caso_S(t):
+    'caso    : CASE expresion DOSP  '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('case ->CASE expresion DOSP','case.instr = Case(expresion,[]);',lista)
+    func(0,gramatical)
+    t[0] = Case(t[2],[],t.slice[1].lineno,find_column(t.slice[1]))
+def p_default(t):
+    'default_ins    : DEFAULT DOSP instrucciones  '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('default_ins ->DEFAULT DOSP instrucciones','default_ins.instr = Case(None,instrucciones);',lista)
+    func(0,gramatical)
+    t[0] = Case(None,t[3],t.slice[1].lineno,find_column(t.slice[1]))
+def p_default_S(t):
+    'default_ins    : DEFAULT DOSP  '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('default_ins ->CASE expresion DOSP','default_ins.instr = Case(None,[]);',lista)
+    func(0,gramatical)
+    t[0] = Case(None,[],t.slice[1].lineno,find_column(t.slice[1]))
+def p_break(t):
+    'ins_break : BREAK PTCOMA '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_break ->BREAK PTCOMA','ins_break.instr = Break();',lista)
+    func(0,gramatical)
+    t[0] = Break(t.slice[1].lineno,find_column(t.slice[1]))
 #********************************************* SENTENCIA IF *********************************************
 def p_sentencia_if(t):
     'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER'
@@ -383,6 +455,20 @@ def p_elseif(t):
     t[0] = If(t[4],t[7],[],[],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('elseif ->ELSE IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','elseif.instr = If(expresion,instrucciones);',lista)
+    func(0,gramatical)
+
+#********************************************* SCAN *********************************************
+def p_scan(t) :
+    'ins_scan     : SCAN PARIZQ CADENA COMA PAND ID PARDER PTCOMA'
+    op = Operacion()
+    op.Indentficador(t[6],t.slice[6].lineno,find_column(t.slice[6]))
+
+    opcad = Operacion()
+    opcad.Primitivo(Primitivo(str(t[3]),t.slice[3].lineno,find_column(t.slice[3])))
+
+    t[0] =Scan(opcad,op,t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA','imprimir_instr.instr = Print(CADENA,expresiones);',lista)
     func(0,gramatical)
 
 #********************************************* IMPRIMIR *********************************************
