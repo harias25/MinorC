@@ -21,6 +21,8 @@ from Condicionales.DoWhile import DoWhile
 from Condicionales.Case import Case
 from Transferencia.Break import Break
 from Transferencia.Continue import Continue
+from Primitivas.Etiqueta import Etiqueta
+from Primitivas.Goto import Goto
 
 reservadas = {
     'int'	: 'INT',
@@ -40,6 +42,7 @@ reservadas = {
     'while' : 'WHILE',
     'for'   : 'FOR',
     'continue' : 'CONTINUE',
+    'goto'  : 'GOTO',
 }
 
 tokens  = [
@@ -350,12 +353,30 @@ def p_instruccion(t) :
                         | ins_while
                         | ins_for
                         | ins_continue
+                        | ins_etiqueta
+                        | ins_goto
                         | error   '''
 
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
+
+#************************************************** SALTOS Y GOTO*******************************************
+def p_ins_etiqueta(t) :
+    'ins_etiqueta : ID DOSP'
+    t[0] = Etiqueta(t[1],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_etiqueta ->ID DOSP','ins_etiqueta.instr = Etiqueta(ID);',lista)
+    func(0,gramatical)
+
+def p_ins_goto(t) :
+    'ins_goto : GOTO ID PTCOMA'
+    t[0] = Goto(t[2],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_goto ->GOTO ID PTCOMA','ins_etiqueta.instr = Goto(ID);',lista)
+    func(0,gramatical)
+
 
 #**************************************************** FOR ***************************************************
 def p_ins_for(t):
