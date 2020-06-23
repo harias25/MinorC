@@ -15,9 +15,6 @@ class Resultado3D():
         self.codigo3D = ""
         self.temporal = None
         self.tipo = None
-        self.trueLabels = []
-        self.falseLabels = []
-        self.ifSalidaLabel = ""
 
 
 def nuevoTemporal(op = 1):
@@ -66,3 +63,36 @@ def etiqueta(reset = False):
     else:
         etiqueta.contador = etiqueta.contador + 1
         return "L"+str(etiqueta.contador)
+
+def listaContinue(tipo,valor):
+    if not hasattr(listaContinue,"lista"):
+        listaContinue.lista = []
+
+    if(tipo==0): #se agrega
+        listaContinue.lista.append(valor)
+    elif(tipo==1):
+        if(len(listaContinue.lista)>0):
+            return listaContinue.lista[-1]
+    elif(tipo==2):
+        if(len(listaContinue.lista)>0):
+            listaContinue.lista.remove(valor)
+    elif(tipo==-1):
+        listaContinue.lista = []
+
+def listaBreak(tipo,valor):
+    if not hasattr(listaBreak,"lista"):
+        listaBreak.lista = []
+
+    if(tipo==0): #se agrega
+        listaBreak.lista.append(valor)
+    elif(tipo==1):
+        if(len(listaBreak.lista)>0):
+            return listaBreak.lista[-1]
+    elif(tipo==2):
+        if(len(listaBreak.lista)>0):
+            listaBreak.lista.remove(valor)
+    elif(tipo==-1):
+        listaBreak.lista = []
+    
+
+    

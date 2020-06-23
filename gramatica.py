@@ -20,6 +20,7 @@ from Condicionales.For import For
 from Condicionales.DoWhile import DoWhile
 from Condicionales.Case import Case
 from Transferencia.Break import Break
+from Transferencia.Continue import Continue
 
 reservadas = {
     'int'	: 'INT',
@@ -38,6 +39,7 @@ reservadas = {
     'do'    : 'DO',
     'while' : 'WHILE',
     'for'   : 'FOR',
+    'continue' : 'CONTINUE',
 }
 
 tokens  = [
@@ -76,7 +78,6 @@ tokens  = [
     'PAND',
     'BOR',
     'PUNTO',
-    'FLECHA',
     'COMA',
     'MULTIPLICATIVA',
     'DIVIDIDA',
@@ -128,7 +129,6 @@ t_SHIFTD    = r'>>'
 
 t_PUNTO     = r'.'
 t_COMA     = r'\,'
-t_FLECHA    = r'->'
 
 
 t_ARESTA = r'-='
@@ -229,7 +229,7 @@ precedence = (
     ('left','MAS','MENOS'),
     ('left','POR','DIVIDIDO','RESTO'),
     ('right','UMENOS','NOT','NOTR'),
-    ('left','PARIZQ','PARDER','CORIZQ','CORDER','PUNTO','FLECHA'),
+    ('left','PARIZQ','PARDER','CORIZQ','CORDER','PUNTO'),
     )
 
 #precedence nonassoc menor,mayor, menor_igual,mayor_igual;
@@ -349,6 +349,7 @@ def p_instruccion(t) :
                         | ins_scan
                         | ins_while
                         | ins_for
+                        | ins_continue
                         | error   '''
 
     t[0] = t[1]
@@ -387,6 +388,13 @@ def p_ins_do_while(t) :
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('ins_while ->DO LLAVIZQ instrucciones LLAVDER WHILE PARIZQ expresion PARDER PTCOMA','ins_while.instr = DoWhile(expresion,instrucciones);',lista)
     func(0,gramatical)
+
+def p_continue(t):
+    'ins_continue : CONTINUE PTCOMA '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_continue ->CONTINUE PTCOMA','ins_continue.instr = Continue();',lista)
+    func(0,gramatical)
+    t[0] = Continue(t.slice[1].lineno,find_column(t.slice[1]))
 
 #********************************************* SENTENCIA SWITCH ****************************************
 def p_sentencia_switch(t):
@@ -441,6 +449,7 @@ def p_default_S(t):
     gramatical = G.ValorAscendente('default_ins ->CASE expresion DOSP','default_ins.instr = Case(None,[]);',lista)
     func(0,gramatical)
     t[0] = Case(None,[],t.slice[1].lineno,find_column(t.slice[1]))
+
 def p_break(t):
     'ins_break : BREAK PTCOMA '
     lista = func(1,None).copy()

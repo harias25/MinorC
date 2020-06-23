@@ -20,7 +20,8 @@ class Switch(Instruccion) :
         if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
         etiquetaSalida = temp.etiqueta()
         etiquetaDefault = temp.etiqueta()
-        
+        temp.listaBreak(0,etiquetaSalida)
+
         listaElseIf = []
         #SE CARGAN LAS ETIQUETAS DE LOS CASE Y SE IMPRIMEN LAS CONDICIONES
         for ins in self.lista_case:
@@ -47,7 +48,7 @@ class Switch(Instruccion) :
                     inss.traducir(tsElseIf,arbol,ventana)
                 #except:
                 #    pass
-            ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
+            #ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
             contador = contador + 1
 
 
@@ -61,3 +62,4 @@ class Switch(Instruccion) :
                 #    pass
 
         ventana.consola.appendPlainText(etiquetaSalida+":")
+        temp.listaBreak(2,etiquetaSalida)

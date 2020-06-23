@@ -274,6 +274,8 @@ class Ui_MainWindow(object):
         temp.temporal(True)
         temp.parametro(True)
         temp.etiqueta(True)
+        temp.listaContinue(-1,None)
+        temp.listaBreak(-1,None)
 
         #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES
         if(instrucciones != None):

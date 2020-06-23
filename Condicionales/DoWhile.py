@@ -19,6 +19,8 @@ class DoWhile(Instruccion) :
         etiquetaWhile = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
 
+        temp.listaContinue(0,etiquetaWhile)
+        temp.listaBreak(0,etiquetaSalida)
 
         ventana.consola.appendPlainText(etiquetaWhile+":") 
         tsWhile = TS.Entorno(ent)
@@ -31,6 +33,10 @@ class DoWhile(Instruccion) :
         if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
         ventana.consola.appendPlainText("if("+condicion3D.temporal.utilizar()+") goto "+etiquetaWhile+";")
 
+        ventana.consola.appendPlainText(etiquetaSalida+":") 
+
+        temp.listaContinue(2,etiquetaWhile)
+        temp.listaBreak(2,etiquetaSalida)
         
         
 

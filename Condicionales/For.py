@@ -24,6 +24,8 @@ class For(Instruccion) :
         etiquetaFor = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
 
+        temp.listaContinue(0,etiquetaFor)
+        temp.listaBreak(0,etiquetaSalida)
 
         ventana.consola.appendPlainText(etiquetaFor+":") 
         if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
@@ -38,6 +40,8 @@ class For(Instruccion) :
         ventana.consola.appendPlainText("goto "+etiquetaFor+";") 
         ventana.consola.appendPlainText(etiquetaSalida+":") 
 
+        temp.listaContinue(2,etiquetaFor)
+        temp.listaBreak(2,etiquetaSalida)
 
        
         
