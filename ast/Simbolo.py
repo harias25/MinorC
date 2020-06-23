@@ -11,7 +11,8 @@ class TIPO_DATO(Enum) :
     ENTERO  = 1,
     FLOAT   = 2,
     CHAR    = 3,
-    VOID    = 4
+    VOID    = 4,
+    DOOBLE  = 5
 
 class Simbolo(Expresion) :
     def __init__(self, id, temporal,tipo, linea,columna) :

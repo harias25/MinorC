@@ -37,6 +37,7 @@ class TIPO_OPERACION(Enum) :
     SHIFTI = 26
     SHIFTD = 27
     ACCESO = 28
+    ACCESO_STRUCT = 29
 
 class Operacion(Expresion):
     def __init__(self):
@@ -81,6 +82,12 @@ class Operacion(Expresion):
         self.linea = linea
         self.columna = columna
 
+    def AccesoStruct(self,exp,linea,columna):
+        self.tipo = TIPO_OPERACION.ACCESO_STRUCT
+        self.operadorIzq = exp
+        self.linea = linea
+        self.columna = columna
+
     def OperacionNot(self,exp,linea,columna):
         self.tipo = TIPO_OPERACION.NOT
         self.operadorIzq = exp
@@ -93,31 +100,6 @@ class Operacion(Expresion):
         self.linea = linea
         self.columna = columna
     
-    def obtenerValorNumerico(self,cadena):
-        decimal = False
-        retorno = ""
-        for caracter in cadena:
-            if(caracter.isdigit()):
-                retorno +=caracter
-            elif(caracter == "." and retorno!= ""):
-                if not decimal:
-                    decimal = True
-                    retorno +=caracter
-                else:
-                    error = Error("SEMANTICO","Error semantico, No es posible convertir la cadena ("+cadena+") a un número",self.linea,self.columna)
-                    ReporteErrores.func(error)
-                    break
-            else:
-                error = Error("SEMANTICO","Error semantico, No es posible convertir la cadena ("+cadena+") a un número",self.linea,self.columna)
-                ReporteErrores.func(error)
-                break
-                
-        if(retorno==""): return 0
-        if retorno.endswith("."): return int(retorno[0:len(retorno)-1])
-        if decimal : return float(retorno)
-
-        return int(retorno)
-
     def traducir(self,ent,arbol):
         #PRIMITIVOS
         if(self.tipo == TIPO_OPERACION.PRIMITIVO):
@@ -126,6 +108,13 @@ class Operacion(Expresion):
         #ACCESOS LISTAS
         elif(self.tipo == TIPO_OPERACION.ACCESO):
             return self.operadorIzq.getValorImplicito(ent,arbol)
+
+        elif(self.tipo == TIPO_OPERACION.ACCESO_STRUCT):
+            valor = self.operadorIzq.traducir(ent,arbol)
+            if(valor == None ): return None
+            valor.codigo3D = valor.temporal.utilizar() + "="+ valor.codigo3D + ";"
+            return valor
+
         #IDENTIFICADORES
         elif(self.tipo == TIPO_OPERACION.ID):
             simbolo = ent.obtener(str(self.valor))

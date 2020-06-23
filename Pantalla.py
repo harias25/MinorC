@@ -15,6 +15,7 @@ import ast.Instruccion as Instruccion
 import ast.Declaracion as Declaracion
 import ast.AST as AST
 from ast.Funcion import Funcion
+from ast.Struct import Struct
 import Reporteria.Error as Error
 import Reporteria.ReporteErrores as ReporteErrores
 import Reporteria.ReporteTablaSimbolos as ReporteTablaSimbolos
@@ -277,7 +278,7 @@ class Ui_MainWindow(object):
         temp.listaContinue(-1,None)
         temp.listaBreak(-1,None)
 
-        #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES
+        #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES Y STRUCTS
         if(instrucciones != None):
             for ins in instrucciones:
                 try:
@@ -287,6 +288,12 @@ class Ui_MainWindow(object):
                             ReporteErrores.func(error)
                         else:
                             ast.agregarEtiqueta(ins)
+                    elif(isinstance(ins,Struct)):
+                        if(ast.existeStruct(ins)):
+                            error = Error.Error("SEMANTICO","Error semantico, Ya existe el Struct "+ins.id,ins.linea,ins.columna)
+                            ReporteErrores.func(error)
+                        else:
+                            ast.agregarStruct(ins)
                 except:
                         pass
 

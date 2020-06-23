@@ -3,6 +3,7 @@ class AST:
     def __init__(self,instrucciones):
         self.instrucciones = instrucciones
         self.etiquetas = []
+        self.structs = []
 
     def existeEtiqueta(self,id):
         for etiqueta in self.etiquetas:
@@ -14,6 +15,25 @@ class AST:
     
     def agregarEtiqueta(self,etiqueta):
         self.etiquetas.append(etiqueta)
+
+    def obtenerStruct(self,texto):
+        for struct in self.structs:
+            if(struct.id == texto):
+                return struct
+
+        return None
+
+
+    def existeStruct(self,id):
+        for struct in self.structs:
+            comparacion = struct.id == id.id
+            if(comparacion):
+                return True
+
+        return False
+    
+    def agregarStruct(self,struct):
+        self.structs.append(struct)
 
     def obtenerEtiqueta(self,texto):
         for etiqueta in self.etiquetas:

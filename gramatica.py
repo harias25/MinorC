@@ -23,11 +23,14 @@ from Transferencia.Break import Break
 from Transferencia.Continue import Continue
 from Primitivas.Etiqueta import Etiqueta
 from Primitivas.Goto import Goto
+from ast.Struct import Struct
+from ValorImplicito.AccesoStruct import AccesoStruct
 
 reservadas = {
     'int'	: 'INT',
     'float' : 'FLOAT',
     'char'	: 'CHAR',
+    'dooble': 'DOOBLE',
     'printf' : 'IMPRIMIR',
 	'xor'	: 'XOR',
     'void'  : 'VOID',
@@ -43,6 +46,7 @@ reservadas = {
     'for'   : 'FOR',
     'continue' : 'CONTINUE',
     'goto'  : 'GOTO',
+    'struct' : 'STRUCT',
 }
 
 tokens  = [
@@ -261,7 +265,7 @@ def p_init_empty(t):
     t[0] = t[1]
 
 
-#********************************************** FUNCIONES  **************************************
+
 def p_etiquetas_lista(t) :
     'globales    : globales iglobal'
     t[1].append(t[2])
@@ -279,12 +283,38 @@ def p_etiquetas(t) :
 
 def p_iglobal(t):
     ''' iglobal : funcion 
-                | declaracion PTCOMA'''
+                | declaracion PTCOMA
+                | definicion_struct '''
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('iglobal -> '+str(t.slice[1]),'iglobal.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
+#***************************************************  STRUCTS *****************************************
+def p_struct(t):
+    ' definicion_struct : STRUCT ID PARIZQ declaraciones PARDER PTCOMA '
+    t[0] = Struct(t[2],t[4],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('definicion_struct -> STRUCT ID PARIZQ declaraciones PARDER PTCOMA ','struct.instruccion = Struct(ID,declaraciones);',lista)
+    func(0,gramatical)
+
+def p_declaraciones(t):
+    'declaraciones : declaraciones declaracion PTCOMA'
+    t[1].append(t[2])
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaraciones -> declaraciones declaracion','declaraciones.lista = declaraciones1.lista; </hr> declaraciones.lista.add(declaracion)',None)
+    func(2,gramatical)
+
+def p_declaraciones_s(t):
+    'declaraciones : declaracion PTCOMA'
+    t[0] = [t[1]]
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaraciones -> declaracion','declaraciones.lista = [declaracion]',lista)
+    func(0,gramatical)
+
+
+#********************************************** FUNCIONES  **************************************
 def p_empty(t) :
     'empty :'
     t[0] = []
@@ -355,12 +385,36 @@ def p_instruccion(t) :
                         | ins_continue
                         | ins_etiqueta
                         | ins_goto
+                        | declaracion_struct PTCOMA
                         | error   '''
 
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
+
+#************************************************** USOS DE STRUCTS ***************************************
+def p_declaracion_struct(t):
+    'declaracion_struct : ID lista_id '
+    t[0] = Declaracion(t[1],t[2],None,t.lexer.lineno,1)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaracion_struct -> TIPO lista_id ','declaracion_struct.instr = Declaracion(ID,lista_id);',lista)
+    func(0,gramatical)
+
+def p_asignacion_struct(t):
+    'asignacion : acceso_struct IGUAL expresion  '
+    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> acceso_struct IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_struct,expresion.val);',lista)
+    func(0,gramatical)
+
+def p_acceso_struct(t):
+    'acceso_struct : ID PUNTO ID'
+    t[0] = AccesoStruct(t[1],t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('acceso_struct ->  ID PUNTO ID','acceso_struct.inst = AccesoStruct(ID,LLAVE);',lista)
+    func(0,gramatical)
+
 
 #************************************************** SALTOS Y GOTO*******************************************
 def p_ins_etiqueta(t) :
@@ -704,6 +758,7 @@ def p_tipo_dato(t):
     '''TIPO : INT 
                 | FLOAT 
                 | CHAR 
+                | DOOBLE
                 | VOID '''
 
     if(t[1]=="int"):
@@ -714,6 +769,8 @@ def p_tipo_dato(t):
          t[0] = Tipo.CHAR
     elif(t[1]=="void"):
          t[0] = Tipo.VOID
+    elif(t[1]=="dooble"):
+         t[0] = Tipo.DOOBLE
          
     gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
     func(2,gramatical)
@@ -920,7 +977,8 @@ def p_expresion_primitiva(t):
                  | DECIMAL
                  | CADENA
                  | CADENAR_CHAR
-                 | ID '''
+                 | ID 
+                 | acceso_struct '''
 
     op = Operacion()
     if(t.slice[1].type == 'CADENA' or t.slice[1].type == 'CADENAR_CHAR'):
@@ -940,6 +998,12 @@ def p_expresion_primitiva(t):
         op.linea = t.slice[1].lineno
         op.columna = find_column(t.slice[1])
         gramatical = G.ValorAscendente('primitiva -> ID','primitiva.val = ID.val;',None)
+        func(2,gramatical)
+    elif(t.slice[1].type == 'acceso_struct') :
+        op.AccesoStruct(t[1],t.lexer.lineno,1)
+        op.linea = t[1].linea
+        op.columna = t[1].columna
+        gramatical = G.ValorAscendente('primitiva -> ID','primitiva.val = acceso_struct.val;',None)
         func(2,gramatical)
     t[0] = op
 
