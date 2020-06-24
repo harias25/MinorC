@@ -25,6 +25,7 @@ from Primitivas.Etiqueta import Etiqueta
 from Primitivas.Goto import Goto
 from ast.Struct import Struct
 from ValorImplicito.AccesoStruct import AccesoStruct
+from ValorImplicito.LlamadaFuncion import LlamadaFuncion
 
 reservadas = {
     'int'	: 'INT',
@@ -386,11 +387,21 @@ def p_instruccion(t) :
                         | ins_etiqueta
                         | ins_goto
                         | declaracion_struct PTCOMA
-                        | error   '''
+                        | llamada PTCOMA
+                        | error   
+                        | '''
 
     t[0] = t[1]
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
+    func(0,gramatical)
+
+#***************************************************** LLAMADAS DE FUNCIONES  ***************/*************
+def p_llamada(t):
+    ' llamada : ID PARIZQ expresiones PARDER '
+    t[0] = LlamadaFuncion(t[1],t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('llamada ->  ID PARIZQ expresiones PARDER ','llamada.instr = LlamadaFuncion(ID,expresiones);',lista)
     func(0,gramatical)
 
 #************************************************** USOS DE STRUCTS ***************************************

@@ -42,6 +42,15 @@ class AST:
 
         return None
 
+    def reemplazarEtiqueta(self,funcion):
+        contador = 0
+        for etiqueta in self.etiquetas:
+            if(etiqueta.id == funcion.id):
+                self.etiquetas[0] = funcion
+                break
+            contador = contador + 1
+
+
     def obtenerSiguienteEtiqueta(self,texto):
         contador = 0
         for etiqueta in self.etiquetas:

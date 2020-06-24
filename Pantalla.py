@@ -287,6 +287,8 @@ class Ui_MainWindow(object):
                             error = Error.Error("SEMANTICO","Error semantico, Ya existe la funcion "+ins.id,ins.linea,ins.columna)
                             ReporteErrores.func(error)
                         else:
+                            if(ins.id != "main"):
+                                ins.inicializar(ts_global,ast,self)
                             ast.agregarEtiqueta(ins)
                     elif(isinstance(ins,Struct)):
                         if(ast.existeStruct(ins)):
@@ -315,10 +317,10 @@ class Ui_MainWindow(object):
                         pass
                         
             for ins in main.instrucciones:
-                try:
+                #try:
                     ins.traducir(ts_global,ast,self)
-                except:
-                    pass
+                #except:
+                #    pass
         else:
             error = Error.Error("SEMANTICO","Error semantico, No puede iniciarse el programa ya que no existe el metodo main()",0,0)
             ReporteErrores.func(error)

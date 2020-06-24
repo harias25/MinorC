@@ -17,18 +17,20 @@ class Funcion(Instruccion) :
         self.columna = columna
         self.parametros = parametros
         self.temporales = []
+        self.entorno = None
 
-    def traducir(self,ent,arbol,ventana):
-        newTS = TS.Entorno(ent)
-        ventana.consola.appendPlainText(self.id+":")
+    def inicializar(self,ent,arbol,ventana):
+        self.entorno = TS.Entorno(ent)
         self.temporales = []
         for parametro in self.parametros:
-            temporal = parametro.traducir(newTS,arbol,ventana)
+            temporal = parametro.traducir(self.entorno,arbol,ventana)
             if(temporal != None): self.temporales.append(temporal)
 
+    def traducir(self,ent,arbol,ventana):
+        ventana.consola.appendPlainText(self.id+":")
         for ins in self.instrucciones:
             #try:
-                ins.traducir(newTS,arbol,ventana)
+                ins.traducir(self.entorno,arbol,ventana)
             #except:
             #    pass
 

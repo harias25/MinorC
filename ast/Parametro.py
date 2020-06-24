@@ -14,14 +14,22 @@ class Parametro(Instruccion):
         self.linea = linea
         self.columna = columna
         self.tipo = tipo
-    
+        self.valor = None
+        self.temporal = None
+
     def traducir(self,ent,arbol,ventana):
         if(ent.existe(self.id)):
             error = Error("SEMANTICO","Error semantico, ya se encuentra definido un parametro con el nombre "+id,self.linea,self.columna)
             ReporteErrores.func(error)
             return None
         else:
-            temporal = temp.parametro()
-            simbolo = Simbolo(id,temporal,self.tipo,self.linea,self.columna)
-            ent.agregar(simbolo)
-            return temporal
+            if(self.valor == None): 
+                temporal = temp.parametro()
+                simbolo = Simbolo(self.id,temporal,self.tipo,self.linea,self.columna)
+                ent.agregar(simbolo)
+                return temporal
+            else:
+                simbolo = Simbolo(self.id,self.temporal,self.tipo,self.linea,self.columna)
+                ent.agregar(simbolo)
+                asignacion = Asignacion(self.id,self.valor,self.linea,self.columna)
+                asignacion.traducir(ent,arbol,ventana)

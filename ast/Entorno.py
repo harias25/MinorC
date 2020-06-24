@@ -16,14 +16,14 @@ class Entorno:
     def existe(self,id):
         id = id
         sym = self.obtenerLocal(id)
-        if(sym == None):
+        '''if(sym == None):
             sig = self.anterior
             while(sig != None):
                 if not id in sig.tabla :
                     sym=None
                     sig = sig.anterior
                 else:
-                    return True
+                    return True'''
 
         if(sym==None):
             return False
