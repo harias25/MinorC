@@ -95,4 +95,18 @@ def listaBreak(tipo,valor):
         listaBreak.lista = []
     
 
+def listaReturn(tipo,valor):
+    if not hasattr(listaReturn,"lista"):
+        listaReturn.lista = []
+
+    if(tipo==0): #se agrega
+        listaReturn.lista.append(valor)
+    elif(tipo==1):
+        if(len(listaReturn.lista)>0):
+            return listaReturn.lista[0]
+    elif(tipo==2):
+        if(len(listaReturn.lista)>0):
+            listaReturn.lista.remove(valor)
+    elif(tipo==-1):
+        listaReturn.lista = []
     

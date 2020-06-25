@@ -38,6 +38,7 @@ class TIPO_OPERACION(Enum) :
     SHIFTD = 27
     ACCESO = 28
     ACCESO_STRUCT = 29
+    LLAMADA = 30
 
 class Operacion(Expresion):
     def __init__(self):
@@ -88,6 +89,12 @@ class Operacion(Expresion):
         self.linea = linea
         self.columna = columna
 
+    def Llamada(self,exp,linea,columna):
+        self.tipo = TIPO_OPERACION.LLAMADA
+        self.operadorIzq = exp
+        self.linea = linea
+        self.columna = columna
+
     def OperacionNot(self,exp,linea,columna):
         self.tipo = TIPO_OPERACION.NOT
         self.operadorIzq = exp
@@ -100,20 +107,32 @@ class Operacion(Expresion):
         self.linea = linea
         self.columna = columna
     
-    def traducir(self,ent,arbol):
+    def traducir(self,ent,arbol,ventana):
         #PRIMITIVOS
         if(self.tipo == TIPO_OPERACION.PRIMITIVO):
             return self.valor.traducir(ent,arbol)
 
         #ACCESOS LISTAS
         elif(self.tipo == TIPO_OPERACION.ACCESO):
-            return self.operadorIzq.getValorImplicito(ent,arbol)
+            return self.operadorIzq.getValorImplicito(ent,arbol,ventana)
 
         elif(self.tipo == TIPO_OPERACION.ACCESO_STRUCT):
-            valor = self.operadorIzq.traducir(ent,arbol)
+            valor = self.operadorIzq.traducir(ent,arbol,ventana)
             if(valor == None ): return None
             valor.codigo3D = valor.temporal.utilizar() + "="+ valor.codigo3D + ";"
             return valor
+
+        elif(self.tipo == TIPO_OPERACION.LLAMADA):
+            
+            etiquetaSalida = Temp.etiqueta()
+            Temp.listaReturn(0,etiquetaSalida)
+            self.operadorIzq.traducir(ent,arbol,ventana)
+            ventana.consola.appendPlainText(etiquetaSalida+":")
+            result = Resultado3D()
+            result.codigo3D = ""
+            result.temporal = Temp.Temporal("$v0")
+            result.tipo = Tipo.FLOAT
+            return result
 
         #IDENTIFICADORES
         elif(self.tipo == TIPO_OPERACION.ID):
@@ -128,8 +147,8 @@ class Operacion(Expresion):
         #SUMA
         elif(self.tipo == TIPO_OPERACION.SUMA):
 
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -155,8 +174,8 @@ class Operacion(Expresion):
 
         #RESTA
         elif(self.tipo == TIPO_OPERACION.RESTA):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -182,8 +201,8 @@ class Operacion(Expresion):
 
         #MULTIPLICACIÓN
         elif(self.tipo == TIPO_OPERACION.MULTIPLICACION):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -209,8 +228,8 @@ class Operacion(Expresion):
         
         #DIVISION
         elif(self.tipo == TIPO_OPERACION.DIVISION):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -236,8 +255,8 @@ class Operacion(Expresion):
 
         #MODULO
         elif(self.tipo == TIPO_OPERACION.MODULO):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -263,7 +282,7 @@ class Operacion(Expresion):
 
         #UNARIA
         elif(self.tipo == TIPO_OPERACION.MENOS_UNARIO):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=-'+valor1.temporal.utilizar()+";"
@@ -284,8 +303,8 @@ class Operacion(Expresion):
         
         #MAYOR
         elif(self.tipo == TIPO_OPERACION.MAYOR_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -311,8 +330,8 @@ class Operacion(Expresion):
         
         #MAYOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MAYOR_IGUA_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -337,8 +356,8 @@ class Operacion(Expresion):
             return result
         #MENOR
         elif(self.tipo == TIPO_OPERACION.MENOR_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -364,8 +383,8 @@ class Operacion(Expresion):
         
         #MENOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MENOR_IGUA_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -391,8 +410,8 @@ class Operacion(Expresion):
 
         #IGUAL
         elif(self.tipo == TIPO_OPERACION.IGUAL_IGUAL):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -418,8 +437,8 @@ class Operacion(Expresion):
         
         #DIFERENTE
         elif(self.tipo == TIPO_OPERACION.DIFERENTE_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -445,8 +464,8 @@ class Operacion(Expresion):
 
         #AND
         elif(self.tipo == TIPO_OPERACION.AND):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -472,8 +491,8 @@ class Operacion(Expresion):
 
         #OR
         elif(self.tipo == TIPO_OPERACION.OR):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -499,8 +518,8 @@ class Operacion(Expresion):
 
         #XOR
         elif(self.tipo == TIPO_OPERACION.XOR):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -526,7 +545,7 @@ class Operacion(Expresion):
 
         #NOT
         elif(self.tipo == TIPO_OPERACION.NOT):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=!'+valor1.temporal.utilizar()+";"
@@ -546,8 +565,8 @@ class Operacion(Expresion):
                 
         #PAND
         elif(self.tipo == TIPO_OPERACION.PAND):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -573,8 +592,8 @@ class Operacion(Expresion):
 
         #BOR
         elif(self.tipo == TIPO_OPERACION.BOR):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -600,8 +619,8 @@ class Operacion(Expresion):
 
         #XORR
         elif(self.tipo == TIPO_OPERACION.XORR):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -627,8 +646,8 @@ class Operacion(Expresion):
 
         #SHIFI
         elif(self.tipo == TIPO_OPERACION.SHIFTI):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -654,8 +673,8 @@ class Operacion(Expresion):
 
         #SHIFD
         elif(self.tipo == TIPO_OPERACION.SHIFTD):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
-            valor2 = self.operadorDer.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
@@ -681,7 +700,7 @@ class Operacion(Expresion):
 
         #NOTR
         elif(self.tipo == TIPO_OPERACION.NOTR):
-            valor1 = self.operadorIzq.traducir(ent,arbol)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=~'+valor1.temporal.utilizar()+";"

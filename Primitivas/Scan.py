@@ -11,8 +11,8 @@ class Scan(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        cadena3D = self.cad.traducir(ent,arbol)
-        id3D = self.id.traducir(ent,arbol)
+        cadena3D = self.cad.traducir(ent,arbol,ventana)
+        id3D = self.id.traducir(ent,arbol,ventana)
 
         if(cadena3D == None or id3D == None):
             return None

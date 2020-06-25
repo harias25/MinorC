@@ -13,7 +13,7 @@ class AccesoStruct(Instruccion):
         self.linea = linea
         self.columna = columna
 
-    def traducir(self,ent,arbol):
+    def traducir(self,ent,arbol,ventana):
         simbolo = ent.obtener(str(self.id))
         if(simbolo == None):
             error = Error("SEMANTICO","Error semantico, No es existe la variable "+str(self.id),self.linea,self.columna)

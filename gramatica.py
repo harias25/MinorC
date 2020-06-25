@@ -21,6 +21,7 @@ from Condicionales.DoWhile import DoWhile
 from Condicionales.Case import Case
 from Transferencia.Break import Break
 from Transferencia.Continue import Continue
+from Transferencia.Return import Return
 from Primitivas.Etiqueta import Etiqueta
 from Primitivas.Goto import Goto
 from ast.Struct import Struct
@@ -48,6 +49,7 @@ reservadas = {
     'continue' : 'CONTINUE',
     'goto'  : 'GOTO',
     'struct' : 'STRUCT',
+    'return' : 'RETURN',
 }
 
 tokens  = [
@@ -388,8 +390,8 @@ def p_instruccion(t) :
                         | ins_goto
                         | declaracion_struct PTCOMA
                         | llamada PTCOMA
-                        | error   
-                        | '''
+                        | ins_return
+                        | error '''
 
     t[0] = t[1]
     lista = func(1,None).copy()
@@ -402,6 +404,20 @@ def p_llamada(t):
     t[0] = LlamadaFuncion(t[1],t[3],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('llamada ->  ID PARIZQ expresiones PARDER ','llamada.instr = LlamadaFuncion(ID,expresiones);',lista)
+    func(0,gramatical)
+
+def p_llamada_s(t):
+    ' llamada : ID PARIZQ PARDER '
+    t[0] = LlamadaFuncion(t[1],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('llamada ->  ID PARIZQ expresiones PARDER ','llamada.instr = LlamadaFuncion(ID,expresiones);',lista)
+    func(0,gramatical)
+
+def p_return(t):
+    ' ins_return : RETURN expresion PTCOMA'
+    t[0] = Return(t[2],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('ins_return ->  RETURN expresion PTCOMA ','ins_return.instr = Return(expresion);',lista)
     func(0,gramatical)
 
 #************************************************** USOS DE STRUCTS ***************************************
@@ -989,7 +1005,8 @@ def p_expresion_primitiva(t):
                  | CADENA
                  | CADENAR_CHAR
                  | ID 
-                 | acceso_struct '''
+                 | acceso_struct 
+                 | llamada '''
 
     op = Operacion()
     if(t.slice[1].type == 'CADENA' or t.slice[1].type == 'CADENAR_CHAR'):
@@ -1014,7 +1031,13 @@ def p_expresion_primitiva(t):
         op.AccesoStruct(t[1],t.lexer.lineno,1)
         op.linea = t[1].linea
         op.columna = t[1].columna
-        gramatical = G.ValorAscendente('primitiva -> ID','primitiva.val = acceso_struct.val;',None)
+        gramatical = G.ValorAscendente('primitiva -> acceso_struct','primitiva.val = acceso_struct.val;',None)
+        func(2,gramatical)
+    elif(t.slice[1].type == 'llamada') :
+        op.Llamada(t[1],t.lexer.lineno,1)
+        op.linea = t[1].linea
+        op.columna = t[1].columna
+        gramatical = G.ValorAscendente('primitiva -> llamada','primitiva.val = llamada.val;',None)
         func(2,gramatical)
     t[0] = op
 

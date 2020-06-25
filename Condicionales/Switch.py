@@ -15,7 +15,7 @@ class Switch(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        condicion3D = self.condicion.traducir(ent,arbol)
+        condicion3D = self.condicion.traducir(ent,arbol,ventana)
         if(condicion3D == None): return None
         if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
         etiquetaSalida = temp.etiqueta()
@@ -26,7 +26,7 @@ class Switch(Instruccion) :
         #SE CARGAN LAS ETIQUETAS DE LOS CASE Y SE IMPRIMEN LAS CONDICIONES
         for ins in self.lista_case:
             etiquetaTrueElseIf = temp.etiqueta()
-            resultConditionElseIf = ins.condicion.traducir(ent,arbol)
+            resultConditionElseIf = ins.condicion.traducir(ent,arbol,ventana)
             if(resultConditionElseIf == None): return None
             if(resultConditionElseIf.codigo3D!=""): ventana.consola.appendPlainText(resultConditionElseIf.codigo3D) 
             ventana.consola.appendPlainText("if("+condicion3D.temporal.utilizar()+"=="+resultConditionElseIf.temporal.utilizar()+") goto "+etiquetaTrueElseIf+";")

@@ -16,7 +16,7 @@ class Imprimir(Instruccion) :
 
     def traducir(self,ent,arbol,ventana):
         valorfinal = "print(\""
-        cadena = self.cad.traducir(ent,arbol)
+        cadena = self.cad.traducir(ent,arbol,ventana)
         if(cadena == None): return None
         
         if(self.expresiones==None):
@@ -25,7 +25,7 @@ class Imprimir(Instruccion) :
             cadena = cadena.temporal.utilizar()
             temporalGenerado = None
             for expresion in self.expresiones:
-                exp_3D = expresion.traducir(ent,arbol)
+                exp_3D = expresion.traducir(ent,arbol,ventana)
                 if(exp_3D == None): return None
                 if(expresion.tipo == Op.PRIMITIVO):
                     if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
@@ -53,7 +53,7 @@ class Imprimir(Instruccion) :
 
                     op = Operacion()
                     op.Operacion(opIzquierdo,expresion,Op.SUMA,self.linea,self.columna)
-                    resultOp = op.traducir(ent,arbol)
+                    resultOp = op.traducir(ent,arbol,ventana)
 
                     if(resultOp.codigo3D!=""): ventana.consola.appendPlainText(resultOp.codigo3D) 
                     cadena = cadena[pos+2:]

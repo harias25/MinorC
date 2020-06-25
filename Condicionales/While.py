@@ -16,7 +16,7 @@ class While(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        condicion3D = self.condicion.traducir(ent,arbol)
+        condicion3D = self.condicion.traducir(ent,arbol,ventana)
         if(condicion3D == None): return None
         etiquetaWhile = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()

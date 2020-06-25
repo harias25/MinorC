@@ -18,7 +18,7 @@ class If(Instruccion) :
     def traducir(self,ent,arbol,ventana):
 
         tsIf = TS.Entorno(ent)
-        resultCondition = self.condicion.traducir(tsIf,arbol)
+        resultCondition = self.condicion.traducir(tsIf,arbol,ventana)
         if(resultCondition == None): return None
 
         etiquetaTrue = temp.etiqueta()
@@ -35,7 +35,7 @@ class If(Instruccion) :
         #SE CARGAN LAS ETIQUETAS DEL ELSE IF Y SE IMPRIMEN LAS CONDICIONES
         for ins in self.listaElseIF:
             etiquetaTrueElseIf = temp.etiqueta()
-            resultConditionElseIf = ins.condicion.traducir(tsIf,arbol)
+            resultConditionElseIf = ins.condicion.traducir(tsIf,arbol,ventana)
             if(resultConditionElseIf.codigo3D!=""): ventana.consola.appendPlainText(resultConditionElseIf.codigo3D) 
             ventana.consola.appendPlainText("if("+resultConditionElseIf.temporal.utilizar()+") goto "+etiquetaTrueElseIf+";")
             listaElseIf.append(etiquetaTrueElseIf)

@@ -14,12 +14,12 @@ class Asignacion(Instruccion):
     def traducir(self,ent,arbol,ventana):
 
 
-        traduccionExpresion = self.valor.traducir(ent,arbol)
+        traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
         if(traduccionExpresion == None): return None
 
         #acceso a struct
         if(isinstance(self.id,AccesoStruct)):
-            acceso = self.id.traducir(ent,arbol)
+            acceso = self.id.traducir(ent,arbol,ventana)
             if(acceso == None): return None
 
             if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
