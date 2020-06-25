@@ -34,9 +34,10 @@ class AccesoStruct(Instruccion):
         bandera = False
         for declaracion in struct.declaraciones:
             #if(simbolo.tipo == Tipo.DOOBLE or simbolo.tipo == Tipo.ENTERO or simbolo.tipo == Tipo.FLOAT or simbolo.tipo == Tipo.CHAR):  #primitivos basicos
-            if(declaracion.lista[0] == self.llave): 
-                bandera = True
-                break
+            for x in declaracion.lista:
+                if(x == self.llave): 
+                    bandera = True
+                    break
 
         if(not bandera):
             error = Error("SEMANTICO","Error semantico, El struct "+str(simbolo.tipo)+" no tiene definido el atributo "+self.llave,self.linea,self.columna)
