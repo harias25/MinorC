@@ -104,6 +104,9 @@ def listaReturn(tipo,valor):
     elif(tipo==1):
         if(len(listaReturn.lista)>0):
             return listaReturn.lista[0]
+    elif(tipo==3):
+        if(len(listaReturn.lista)>0):
+            return listaReturn.lista[-1]
     elif(tipo==2):
         if(len(listaReturn.lista)>0):
             listaReturn.lista.remove(valor)
@@ -119,6 +122,9 @@ def listaLLamada(tipo,valor):
     elif(tipo==1):
         if(len(listaLLamada.lista)>0):
             return listaLLamada.lista[0]
+    elif(tipo==3):
+        if(len(listaLLamada.lista)>0):
+            return listaLLamada.lista[-1]
     elif(tipo==2):
         if(len(listaLLamada.lista)>0):
             listaLLamada.lista.remove(valor)
@@ -126,8 +132,12 @@ def listaLLamada(tipo,valor):
         listaLLamada.lista = []
 
 def listaRecusion(tipo,valor):
+    
     if not hasattr(listaRecusion,"lista"):
         listaRecusion.lista = []
+
+    if(tipo==None):
+        return listaRecusion.lista
 
     if(tipo==0): #se agrega
         listaRecusion.lista.append(valor)

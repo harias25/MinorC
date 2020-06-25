@@ -34,10 +34,12 @@ class LlamadaFuncion(Instruccion):
        
         enLlamada = TS.Entorno(ent)
         contador = 0
-
+        #funcion.calcularNiveles(funcion.instrucciones)
+        #cantidad = temp.listaRecusion(None,None).count(self.id)
         
-
-
+        
+        
+        
         for parametro in funcion.parametros:
             parametro.valor = self.expresiones[contador]
             parametro.temporal = funcion.temporales[contador]
@@ -45,12 +47,35 @@ class LlamadaFuncion(Instruccion):
             contador = contador + 1
 
        
+        #llamadaAnterior = temp.listaLLamada(1,None)
+        #recursionAnterior = temp.listaRecusion(1,None)
+        
+        #llamadaPrevia = temp.listaLLamada(1,None)
+        #if(recursionAnterior==self.id):
+            
+        
+        llamadaAnterior = temp.listaLLamada(1,None) #
+        recursionAnterior = temp.listaRecusion(1,None) #
+           # if(cantidad<funcion.nivelesRecursiva):
+           #     etiquetaFuncion = temp.etiqueta()
+           #     etiquetaSalida = temp.etiqueta()
+           #     temp.listaLLamada(0,etiquetaFuncion)
+           #     temp.listaRecusion(0,self.id)
+           #     funcion.entorno = enLlamada
+           #     funcion.etiqueta = etiquetaFuncion
+           #     ventana.consola.appendPlainText("goto "+etiquetaFuncion+";")
+           #     funcion.traducir(ent,arbol,ventana)
+           #     ventana.consola.appendPlainText(etiquetaSalida+":")
+           #     temp.listaLLamada(2,etiquetaFuncion)
+           #     temp.listaRecusion(2,self.id)
+           # #else:
+           #     if(llamadaPrevia!=None):
+           #         if(llamadaAnterior!=llamadaPrevia):
+           #             ventana.consola.appendPlainText("goto "+llamadaPrevia+";")
 
-        
-        
-        llamadaAnterior = temp.listaLLamada(1,None)
-        recursionAnterior = temp.listaRecusion(1,None)
-        
+            #    #else:
+            #        #ventana.consola.appendPlainText("goto "+llamadaAnterior+";")
+        #else:
         if(not recursionAnterior==self.id):
             etiquetaFuncion = temp.etiqueta()
             etiquetaSalida = temp.etiqueta()
@@ -63,8 +88,7 @@ class LlamadaFuncion(Instruccion):
             ventana.consola.appendPlainText(etiquetaSalida+":")
             temp.listaLLamada(2,etiquetaFuncion)
             temp.listaRecusion(2,self.id)
-        else:
-            ventana.consola.appendPlainText("goto "+llamadaAnterior+";")
+        else: #
+            ventana.consola.appendPlainText("goto "+llamadaAnterior+";")      #   
+        
 
-        
-        
