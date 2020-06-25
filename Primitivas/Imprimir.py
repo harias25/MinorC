@@ -20,13 +20,17 @@ class Imprimir(Instruccion) :
         if(cadena == None): return None
         
         if(self.expresiones==None):
-            valorfinal += cadena.temporal.utilizar()+"\");"
+            if(cadena.tipo == Tipo.CHAR):
+                valorfinal = "print("+cadena.temporal.utilizar()+");"
+            else:
+                valorfinal += cadena.temporal.utilizar()+"\");"      
         else:
             cadena = cadena.temporal.utilizar()
-            temporalGenerado = None
+            cadena = cadena[1:-1]
             for expresion in self.expresiones:
                 exp_3D = expresion.traducir(ent,arbol,ventana)
                 if(exp_3D == None): return None
+                
                 if(expresion.tipo == Op.PRIMITIVO):
                     if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
                     pos = cadena.index("%")
@@ -41,39 +45,22 @@ class Imprimir(Instruccion) :
                 
                 else:
                     if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
+                    
                     pos = cadena.index("%")
                     if(pos==-1):
                         error = Error("SEMANTICO","Error semantico, La expresión es incorrecta para imprimir.",self.linea,self.columna)
                         ReporteErrores.func(error)
                         return None
 
+                  
+
+                    ventana.consola.appendPlainText("print(\""+cadena[0:pos]+"\");") 
+                    if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
                     
-                    opIzquierdo = Operacion()
-                    opIzquierdo.Primitivo(Primitivo("\""+cadena[0:pos]+"\"",self.linea,self.columna))
-
-                    op = Operacion()
-                    op.Operacion(opIzquierdo,expresion,Op.SUMA,self.linea,self.columna)
-                    resultOp = op.traducir(ent,arbol,ventana)
-
-                    if(resultOp.codigo3D!=""): ventana.consola.appendPlainText(resultOp.codigo3D) 
+                    ventana.consola.appendPlainText("print("+exp_3D.temporal.utilizar()+");") 
                     cadena = cadena[pos+2:]
 
-                    if(temporalGenerado==None):
-                        temporalGenerado = resultOp.temporal 
-                    else:
-                        varTemp = resultOp.temporal.obtener()
-                        ventana.consola.appendPlainText(varTemp+"="+temporalGenerado.utilizar()+"+"+varTemp+";")
-                        temporalGenerado = resultOp.temporal
-                    
-
-            if(temporalGenerado == None):
-                valorfinal += cadena+"\");"
-            else:
-               
-                temporal = Temp.nuevoTemporal()
-                op = temporal.obtener() + '='+temporalGenerado.utilizar()+"+\""+cadena+"\";"
-                ventana.consola.appendPlainText(op)
-                valorfinal = "print("+temporal.obtener() +");"
+            valorfinal += cadena+"\");"
 
         ventana.consola.appendPlainText(valorfinal) 
 

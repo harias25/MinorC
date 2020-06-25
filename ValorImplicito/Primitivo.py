@@ -22,7 +22,10 @@ class Primitivo(Expresion):
         elif isinstance(self.valor, float):
             resultado3D.tipo = Tipo.FLOAT
 
-        resultado3D.temporal = Temporal(str(self.valor))
+        if(resultado3D.tipo == Tipo.CHAR):
+            resultado3D.temporal = Temporal("\""+self.valor+"\"")
+        else:
+            resultado3D.temporal = Temporal(str(self.valor))
 
         return resultado3D
     
