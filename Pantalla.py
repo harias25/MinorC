@@ -277,6 +277,9 @@ class Ui_MainWindow(object):
         temp.etiqueta(True)
         temp.listaContinue(-1,None)
         temp.listaBreak(-1,None)
+        temp.listaReturn(-1,None)
+        temp.listaLLamada(-1,None)
+        temp.listaRecusion(-1,None)
 
         #PRIMERA PASADA PARA GUARDAR TODAS LAS FUNCIONES Y STRUCTS
         if(instrucciones != None):
@@ -326,12 +329,12 @@ class Ui_MainWindow(object):
             ReporteErrores.func(error)
 
         #SE TRADUCEN LAS DEMAS FUNCIONES
-        if(instrucciones != None):
-            for ins in instrucciones:
+        #if(instrucciones != None):
+        #    for ins in instrucciones:
                 #try:
-                    if(isinstance(ins,Funcion)): 
-                        if(ins.id!="main"):
-                            ins.traducir(ts_global,ast,self)
+        #            if(isinstance(ins,Funcion)): 
+        #                if(ins.id!="main"):
+        #                   ins.traducir(ts_global,ast,self)
                 #except:
                 #        pass
 

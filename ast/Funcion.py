@@ -14,17 +14,18 @@ class Funcion(Instruccion) :
         self.parametros = parametros
         self.temporales = []
         self.entorno = None
+        self.etiqueta = None
 
     def inicializar(self,ent,arbol,ventana):
         self.entorno = TS.Entorno(ent)
-        self.temporales = []
+        self.temporales = []    
         for parametro in self.parametros:
             temporal = parametro.traducir(self.entorno,arbol,ventana)
             if(temporal != None): self.temporales.append(temporal)
 
     def traducir(self,ent,arbol,ventana):
         
-        ventana.consola.appendPlainText(self.id+":")
+        ventana.consola.appendPlainText(self.etiqueta+":")
         for ins in self.instrucciones:
             #try:
                 ins.traducir(self.entorno,arbol,ventana)

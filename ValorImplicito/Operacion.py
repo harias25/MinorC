@@ -124,10 +124,10 @@ class Operacion(Expresion):
 
         elif(self.tipo == TIPO_OPERACION.LLAMADA):
             
-            etiquetaSalida = Temp.etiqueta()
-            Temp.listaReturn(0,etiquetaSalida)
+            #etiquetaSalida = Temp.etiqueta()
+            #Temp.listaReturn(0,etiquetaSalida)
             self.operadorIzq.traducir(ent,arbol,ventana)
-            ventana.consola.appendPlainText(etiquetaSalida+":")
+            #ventana.consola.appendPlainText(etiquetaSalida+":")
             result = Resultado3D()
             result.codigo3D = ""
             result.temporal = Temp.Temporal("$v0")
@@ -496,7 +496,7 @@ class Operacion(Expresion):
             if(valor1 == None or valor2 == None): return None
 
             temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" or "+valor2.temporal.utilizar()+";"
+            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" || "+valor2.temporal.utilizar()+";"
 
 
             resultado = valor1.codigo3D

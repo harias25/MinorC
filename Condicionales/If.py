@@ -40,25 +40,24 @@ class If(Instruccion) :
             ventana.consola.appendPlainText("if("+resultConditionElseIf.temporal.utilizar()+") goto "+etiquetaTrueElseIf+";")
             listaElseIf.append(etiquetaTrueElseIf)
 
-        
-       
-        
         if(len(self.instruccionesF)==0 and  len(self.listaElseIF) == 0):
             ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
+
+        if(len(self.instruccionesF)>0 and len(self.listaElseIF) == 0):
+            ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
 
         if(len(self.listaElseIF) > 0):
             ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
 
         ventana.consola.appendPlainText(etiquetaTrue+":")
         for ins in self.instruccionesV:
-            #try:
+            try:
                 ins.traducir(tsIf,arbol,ventana)
-            #except:
-            #    pass
+            except:
+                pass
         ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
 
-        if(len(self.instruccionesF)>0 and len(self.listaElseIF) == 0):
-            ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
+        
 
         contador = 0
         for ins in self.listaElseIF:

@@ -13,7 +13,7 @@ class Return(Instruccion) :
 
         if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
         ventana.consola.appendPlainText("$v0="+str(traduccionExpresion.temporal.utilizar())+";")
-        etiqueta = temp.listaReturn(1,None)
-        if(etiqueta!=None):
-            ventana.consola.appendPlainText("goto "+etiqueta+";") 
+        #etiqueta = temp.listaReturn(1,None)
+        #if(etiqueta!=None):
+        #    ventana.consola.appendPlainText("goto "+etiqueta+";") 
             #temp.listaReturn(2,etiqueta)

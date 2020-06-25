@@ -4,6 +4,8 @@ from ValorImplicito.AccesoStruct import AccesoStruct
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
 import ast.Entorno as TS
+import ast.Temporales as temp
+
 
 class LlamadaFuncion(Instruccion):
     def __init__(self,id,expresiones,linea,columna):
@@ -29,12 +31,40 @@ class LlamadaFuncion(Instruccion):
             ReporteErrores.func(error)
             return None
 
+       
         enLlamada = TS.Entorno(ent)
         contador = 0
+
+        
+
+
         for parametro in funcion.parametros:
             parametro.valor = self.expresiones[contador]
             parametro.temporal = funcion.temporales[contador]
             parametro.traducir(enLlamada,arbol,ventana)
             contador = contador + 1
 
-        ventana.consola.appendPlainText("goto "+funcion.id+";")
+       
+
+        
+        
+        llamadaAnterior = temp.listaLLamada(1,None)
+        recursionAnterior = temp.listaRecusion(1,None)
+        
+        if(not recursionAnterior==self.id):
+            etiquetaFuncion = temp.etiqueta()
+            etiquetaSalida = temp.etiqueta()
+            temp.listaLLamada(0,etiquetaFuncion)
+            temp.listaRecusion(0,self.id)
+            funcion.entorno = enLlamada
+            funcion.etiqueta = etiquetaFuncion
+            ventana.consola.appendPlainText("goto "+etiquetaFuncion+";")
+            funcion.traducir(ent,arbol,ventana)
+            ventana.consola.appendPlainText(etiquetaSalida+":")
+            temp.listaLLamada(2,etiquetaFuncion)
+            temp.listaRecusion(2,self.id)
+        else:
+            ventana.consola.appendPlainText("goto "+llamadaAnterior+";")
+
+        
+        

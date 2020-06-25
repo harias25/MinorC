@@ -325,7 +325,7 @@ def p_empty(t) :
 def p_funcion_s(t) :
     'funcion    : TIPO ID PARIZQ PARDER LLAVIZQ  instrucciones LLAVDER '
     lista = func(1,None).copy()
-    t[0] = Funcion(t[1],t[2],t[6],None,t.slice[2].lineno,find_column(t.slice[2]))
+    t[0] = Funcion(t[1],t[2],t[6],[],t.slice[2].lineno,find_column(t.slice[2]))
     gramatical = G.ValorAscendente('funcion -> TIPO ID () { instrucciones } ','funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;',lista)
     func(0,gramatical)
 

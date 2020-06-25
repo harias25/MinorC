@@ -19,7 +19,7 @@ class For(Instruccion) :
 
         tsFor = TS.Entorno(ent)
         instruccion3D = self.instruccion.traducir(tsFor,arbol,ventana)
-        condicion3D = self.condicion.traducir(tsFor,arbol)
+        condicion3D = self.condicion.traducir(tsFor,arbol,ventana)
         if(condicion3D == None): return None
         etiquetaFor = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
