@@ -142,6 +142,10 @@ class Ui_MainWindow(object):
         self.actionReemplazar.setObjectName("actionReemplazar")
         self.actionEjecutar_Ascendente = QtWidgets.QAction(MainWindow)
         self.actionEjecutar_Ascendente.setObjectName("actionEjecutar_Ascendente")
+
+        self.actionEjecutar_Paso_a_Paso_Ascendente = QtWidgets.QAction(MainWindow)
+        self.actionEjecutar_Paso_a_Paso_Ascendente.setObjectName("actionEjecutar_Paso_a_Paso_Ascendente")
+
         self.actionTabla_de_Simbolos = QtWidgets.QAction(MainWindow)
         self.actionTabla_de_Simbolos.setObjectName("actionTabla_de_Simbolos")
         self.actionErrores = QtWidgets.QAction(MainWindow)
@@ -175,6 +179,8 @@ class Ui_MainWindow(object):
         self.menuArchivo.addAction(self.actionCerrrar)
         self.menuArchivo.addAction(self.actionSalir)
         self.menuPrograma.addAction(self.actionEjecutar_Ascendente)
+        self.menuPrograma.addSeparator()
+        self.menuPrograma.addAction(self.actionEjecutar_Paso_a_Paso_Ascendente)
 
         self.menuReportes.addAction(self.actionTabla_de_Simbolos)
         self.menuReportes.addAction(self.actionErrores)
@@ -296,7 +302,7 @@ class Ui_MainWindow(object):
         self.actionErrores.triggered.connect(self.generarRErrores)
         self.actionGramatical.triggered.connect(self.generarRGramatical)
         self.actionAST.triggered.connect(self.generarAST)
-
+        self.actionEjecutar_Paso_a_Paso_Ascendente.triggered.connect(self.debug)
         self.actionTabla_de_Simbolos2.triggered.connect(self.generarTabla2)
         self.actionErrores2.triggered.connect(self.generarRErrores2)
         self.actionGramatical2.triggered.connect(self.generarRGramatical2)
@@ -353,6 +359,11 @@ class Ui_MainWindow(object):
     def setTexto(self,texto):
         self.consola.setText(self.consola.text() + texto)
 
+    def debug(self):
+        self.traduccion()
+        self.ejecutor = Ejecutor()
+        self.ejecutor.debugger(self)
+
     def generarAST(self):
         reporteAST = ReporteAST.ReporteAST()
         reporteAST.graficar(self.instrucciones)
@@ -382,7 +393,7 @@ class Ui_MainWindow(object):
     def generarRGramatical2(self):
         self.ejecutor.generarRGramatical()
 
-    def traducir(self):
+    def traduccion(self):
         if self.codigo.text() == "":
             return 
 
@@ -469,6 +480,9 @@ class Ui_MainWindow(object):
         self.ts_global = ts_global
         self.ast = ast
         self.listado_gramatical = g.func(1,None).copy()
+
+    def traducir(self):
+        self.traduccion()
         self.ejecutor = Ejecutor()
         self.ejecutor.ascendente(self)
 
@@ -543,6 +557,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setText(_translate("MainWindow", "Salir"))
 
         self.actionEjecutar_Ascendente.setText(_translate("MainWindow", "Traducir"))
+        self.actionEjecutar_Paso_a_Paso_Ascendente.setText(_translate("MainWindow", "Debugger 3D"))
         self.actionTabla_de_Simbolos.setText(_translate("MainWindow", "Tabla de Simbolos"))
         self.actionErrores.setText(_translate("MainWindow", "Errores"))
         self.actionAST.setText(_translate("MainWindow", "AST"))

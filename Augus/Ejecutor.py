@@ -177,7 +177,7 @@ class Ejecutor():
                 try:
                     ventana.editor.setCursorPosition(ins.linea-1,0)
                     ventana.editor.setFocus()
-                    time.sleep(2)
+                    time.sleep(1)
                     if(isinstance(ins,Asignacion.Asignacion) or isinstance(ins,Conversion.Conversion)):
                         ins.setAmbito("main")
                     if(ins.ejecutar(self.ts_global,self.ast,ventana,True) == True):
