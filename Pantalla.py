@@ -23,6 +23,7 @@ import Reporteria.ReporteAST as ReporteAST
 import ValorImplicito.Asignacion as Asignacion
 import Reporteria.ReporteGramatical as ReporteGramatical
 import ast.Temporales as temp
+from Augus.Ejecutor import Ejecutor
 
 class Ui_MainWindow(object):
 
@@ -30,24 +31,48 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1011, 738)
+        MainWindow.resize(1240, 720)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.frameCodigo = QtWidgets.QFrame(self.centralwidget)
-        self.frameCodigo.setGeometry(QtCore.QRect(0, 30, 1010, 471))
+        self.frameCodigo.setGeometry(QtCore.QRect(0, 30, 740, 450))
         self.frameCodigo.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameCodigo.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameCodigo.setObjectName("frameCodigo")
+
+
+        self.frame3D = QtWidgets.QFrame(self.centralwidget)
+        self.frame3D.setGeometry(QtCore.QRect(740, 30, 495, 425))
+        self.frame3D.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame3D.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame3D.setObjectName("frame3D")
         
         self.frameConsola = QtWidgets.QFrame(self.centralwidget)
-        self.frameConsola.setGeometry(QtCore.QRect(0, 500, 1011, 211))
+        self.frameConsola.setGeometry(QtCore.QRect(0, 480, 730, 200))
         self.frameConsola.setAutoFillBackground(True)
         self.frameConsola.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameConsola.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameConsola.setObjectName("frameConsola")
-        self.consola = QtWidgets.QPlainTextEdit(self.frameConsola)
 
-        self.consola.setGeometry(QtCore.QRect(10, 0, 991, 211))
+        self.scrollDebug = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollDebug.setGeometry(QtCore.QRect(750, 450, 475, 250))
+        self.scrollDebug.setWidgetResizable(False)
+        self.scrollDebug.setObjectName("scrollDebug")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 520, 300))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.tableWidget = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.tableWidget.setGeometry(QtCore.QRect(0, 0, 520, 300))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
+        self.scrollDebug.setWidget(self.scrollAreaWidgetContents)
+
+        self.consola = QtWidgets.QPlainTextEdit(self.frameConsola)
+        self.consola.setGeometry(QtCore.QRect(10, 0, 890, 200))
+
         font = QtGui.QFont()
         font.setFamily("Consolas")
         font.setPointSize(11)
@@ -83,6 +108,10 @@ class Ui_MainWindow(object):
         self.menuPrograma.setObjectName("menuPrograma")
         self.menuReportes = QtWidgets.QMenu(self.menubar)
         self.menuReportes.setObjectName("menuReportes")
+
+        self.menuReportes2 = QtWidgets.QMenu(self.menubar)
+        self.menuReportes2.setObjectName("menuReportes2")
+
         self.menuAyuda = QtWidgets.QMenu(self.menubar)
         self.menuAyuda.setObjectName("menuAyuda")
         MainWindow.setMenuBar(self.menubar)
@@ -122,6 +151,16 @@ class Ui_MainWindow(object):
         self.actionGramatical = QtWidgets.QAction(MainWindow)
         self.actionGramatical.setObjectName("actionGramatical")
 
+
+        self.actionTabla_de_Simbolos2 = QtWidgets.QAction(MainWindow)
+        self.actionTabla_de_Simbolos2.setObjectName("actionTabla_de_Simbolos")
+        self.actionErrores2 = QtWidgets.QAction(MainWindow)
+        self.actionErrores2.setObjectName("actionErrores")
+        self.actionAST2 = QtWidgets.QAction(MainWindow)
+        self.actionAST2.setObjectName("actionAST")
+        self.actionGramatical2 = QtWidgets.QAction(MainWindow)
+        self.actionGramatical2.setObjectName("actionGramatical")
+
         self.actionAyuda = QtWidgets.QAction(MainWindow)
         self.actionAyuda.setObjectName("actionAyuda")
         self.actionAcercaDe = QtWidgets.QAction(MainWindow)
@@ -136,21 +175,72 @@ class Ui_MainWindow(object):
         self.menuArchivo.addAction(self.actionCerrrar)
         self.menuArchivo.addAction(self.actionSalir)
         self.menuPrograma.addAction(self.actionEjecutar_Ascendente)
+
         self.menuReportes.addAction(self.actionTabla_de_Simbolos)
         self.menuReportes.addAction(self.actionErrores)
         self.menuReportes.addAction(self.actionAST)
         self.menuReportes.addAction(self.actionGramatical)
+
+        self.menuReportes2.addAction(self.actionTabla_de_Simbolos2)
+        self.menuReportes2.addAction(self.actionErrores2)
+        self.menuReportes2.addAction(self.actionAST2)
+        self.menuReportes2.addAction(self.actionGramatical2)
+
         self.menuAyuda.addAction(self.actionAyuda)
         self.menuAyuda.addAction(self.actionAcercaDe)
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menubar.addAction(self.menuPrograma.menuAction())
         self.menubar.addAction(self.menuReportes.menuAction())
+        self.menubar.addAction(self.menuReportes2.menuAction())
         self.menubar.addAction(self.menuAyuda.menuAction())
 
 
         self.__myFont = QFont()
         self.__myFont.setPointSize(12)
+
         #************************************************ REGLAS DEL LENGUAJE MINOR C *****************************************
+        self.codigo = QsciScintilla()
+        self.codigo.setText("")              
+        self.codigo.setLexer(None)           
+        self.codigo.setUtf8(True)             
+        self.codigo.setFont(self.__myFont)    
+
+        #AJUSTES DE TEXTO
+        self.codigo.setWrapMode(QsciScintilla.WrapWord)
+        self.codigo.setWrapVisualFlags(QsciScintilla.WrapFlagByText)
+        self.codigo.setWrapIndentMode(QsciScintilla.WrapIndentIndented)
+
+        #FIN DE LINEA
+        self.codigo.setEolMode(QsciScintilla.EolWindows)
+        self.codigo.setEolVisibility(False)
+
+        #SANGRIA
+        self.codigo.setIndentationsUseTabs(False)
+        self.codigo.setTabWidth(4)
+        self.codigo.setIndentationGuides(True)
+        self.codigo.setTabIndents(True)
+        self.codigo.setAutoIndent(True)
+
+        self.codigo.setCaretForegroundColor(QColor("#ff0000ff"))
+        self.codigo.setCaretLineVisible(True)
+        self.codigo.setCaretLineBackgroundColor(QColor("#1f0000ff"))
+        self.codigo.setCaretWidth(2)
+
+        # MARGENES
+        self.codigo.setMarginType(0, QsciScintilla.NumberMargin)
+        self.codigo.setMarginWidth(0, "0000")  #con este se puede quitar la linea
+        self.codigo.setMarginsForegroundColor(QColor("#ff888888"))
+
+        #SE COLOCAN LAS REGLAS DEL EDITOR
+        self.__lexer = QsciLexerCPP(self.codigo)
+        self.codigo.setLexer(self.__lexer)
+
+        self.__lyt = QVBoxLayout()
+        self.frameCodigo.setLayout(self.__lyt)
+        self.__lyt.addWidget(self.codigo)
+
+
+         #************************************************ REGLAS DEL LENGUAJE AUGUS *****************************************
         self.editor = QsciScintilla()
         self.editor.setText("")              
         self.editor.setLexer(None)           
@@ -184,12 +274,13 @@ class Ui_MainWindow(object):
         self.editor.setMarginsForegroundColor(QColor("#ff888888"))
 
         #SE COLOCAN LAS REGLAS DEL EDITOR
-        self.__lexer = QsciLexerCPP(self.editor)
-        self.editor.setLexer(self.__lexer)
+        self.__lexer2 = QsciLexerRuby(self.editor)
+        self.editor.setLexer(self.__lexer2)
 
-        self.__lyt = QVBoxLayout()
-        self.frameCodigo.setLayout(self.__lyt)
-        self.__lyt.addWidget(self.editor)
+        self.__lyt2 = QVBoxLayout()
+        self.frame3D.setLayout(self.__lyt2)
+        self.__lyt2.addWidget(self.editor)
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -200,11 +291,16 @@ class Ui_MainWindow(object):
         self.actionCerrrar.triggered.connect(self.clear)
         self.actionSalir.triggered.connect(self.exit)
         self.ruta_archivo  = None
-        self.actionEjecutar_Ascendente.triggered.connect(self.ascendente)
+        self.actionEjecutar_Ascendente.triggered.connect(self.traducir)
         self.actionTabla_de_Simbolos.triggered.connect(self.generarTabla)
         self.actionErrores.triggered.connect(self.generarRErrores)
         self.actionGramatical.triggered.connect(self.generarRGramatical)
         self.actionAST.triggered.connect(self.generarAST)
+
+        self.actionTabla_de_Simbolos2.triggered.connect(self.generarTabla2)
+        self.actionErrores2.triggered.connect(self.generarRErrores2)
+        self.actionGramatical2.triggered.connect(self.generarRGramatical2)
+        self.actionAST2.triggered.connect(self.generarAST2)
 
         self.actionAcercaDe.triggered.connect(self.acercade)
         self.actionAyuda.triggered.connect(self.ayuda)
@@ -214,7 +310,19 @@ class Ui_MainWindow(object):
         self.listado_gramatical = []
         self.instrucciones = []
 
+        self.tableWidget.setRowCount(100)
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setItem(0,0, QTableWidgetItem("No."))
+        self.tableWidget.setItem(0,1, QTableWidgetItem("Simbolo"))
+        self.tableWidget.setItem(0, 2 , QTableWidgetItem("Valor"))
+
+        self.tableWidget.setColumnWidth(0, 60)
+        self.tableWidget.setColumnWidth(1, 160)
+        self.tableWidget.setColumnWidth(2, 250)
+
         self.consola.setStyleSheet("background-color: black;border: 1px solid black;color:green;") 
+
+        self.ejecutor = Ejecutor()
         #self.consola.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
 
     def clean(self):
@@ -262,13 +370,29 @@ class Ui_MainWindow(object):
         reporteGramatical = ReporteGramatical.ReporteGramatical()
         reporteGramatical.generarReporte(listado[0])
 
-    def ascendente(self):
+    def generarAST2(self):
+        self.ejecutor.generarAST()
+
+    def generarTabla2(self):
+        self.ejecutor.generarTabla()
+
+    def generarRErrores2(self):
+       self.ejecutor.generarRErrores()
+
+    def generarRGramatical2(self):
+        self.ejecutor.generarRGramatical()
+
+    def traducir(self):
+        if self.codigo.text() == "":
+            return 
+
+        self.editor.setText("")
         sys.setrecursionlimit(2147483644)
         self.consola.clear()
         ReporteErrores.func(None,True)
-        g.textoEntrada = self.editor.text()
+        g.textoEntrada = self.codigo.text()
         g.func(0,None)
-        instrucciones = g.parse(self.editor.text())
+        instrucciones = g.parse(self.codigo.text())
         self.instrucciones = instrucciones
         ts_global = TS.Entorno(None)
         ast = AST.AST(instrucciones) 
@@ -306,7 +430,7 @@ class Ui_MainWindow(object):
         main = ast.obtenerEtiqueta("main")
 
         if(main != None):
-            self.consola.appendPlainText("main:")
+            self.editor.append("main:")
 
             #se corren las instrucciones globales
             for ins in instrucciones:
@@ -345,14 +469,19 @@ class Ui_MainWindow(object):
         self.ts_global = ts_global
         self.ast = ast
         self.listado_gramatical = g.func(1,None).copy()
+        self.ejecutor = Ejecutor()
+        self.ejecutor.ascendente(self)
 
-    
     def exit(self):
-        sys.exit()
+        #sys.exit()
+        self.ejecutor = Ejecutor()
+        self.ejecutor.ascendente(self)
 
     def clear(self):
         self.ruta_archivo = None
         self.editor.setText("")
+        self.codigo.setText("")
+        self.consola.clear()
 
     def open(self):
         root = tk.Tk()
@@ -362,7 +491,7 @@ class Ui_MainWindow(object):
         try:
             f = open(ruta,"r")
             input = f.read()
-            self.editor.setText(input)
+            self.codigo.setText(input)
             f.close()
             self.ruta_archivo = ruta
         except Exception as e:
@@ -379,7 +508,7 @@ class Ui_MainWindow(object):
         if not ruta: return
         try:
             f = open(ruta,"w")
-            f.write(self.editor.text())
+            f.write(self.codigo.text())
             f.close()
         except Exception as e:
             raise
@@ -390,7 +519,7 @@ class Ui_MainWindow(object):
         if not ruta: return
         try:
             f = open(ruta,"w")
-            f.write(self.editor.text())
+            f.write(self.codigo.text())
             f.close()
             self.ruta_archivo = ruta
         except Exception as e:
@@ -403,7 +532,8 @@ class Ui_MainWindow(object):
         #self.consola.setText(_translate("MainWindow", ""))
         self.menuArchivo.setTitle(_translate("MainWindow", "Archivo"))
         self.menuPrograma.setTitle(_translate("MainWindow", "Programa"))
-        self.menuReportes.setTitle(_translate("MainWindow", "Reportes"))
+        self.menuReportes.setTitle(_translate("MainWindow", "Reportes Traductor"))
+        self.menuReportes2.setTitle(_translate("MainWindow", "Reportes Ejecución"))
         self.menuAyuda.setTitle(_translate("MainWindow", "Ayuda"))
         self.actionNuevo.setText(_translate("MainWindow", "Nuevo"))
         self.actionArbir.setText(_translate("MainWindow", "Abrir"))
@@ -417,6 +547,11 @@ class Ui_MainWindow(object):
         self.actionErrores.setText(_translate("MainWindow", "Errores"))
         self.actionAST.setText(_translate("MainWindow", "AST"))
         self.actionGramatical.setText(_translate("MainWindow", "Gramatical"))
+
+        self.actionTabla_de_Simbolos2.setText(_translate("MainWindow", "Tabla de Simbolos"))
+        self.actionErrores2.setText(_translate("MainWindow", "Errores"))
+        self.actionAST2.setText(_translate("MainWindow", "AST"))
+        self.actionGramatical2.setText(_translate("MainWindow", "Gramatical"))
 
         self.actionAyuda.setText(_translate("MainWindow", "Ayuda"))
         self.actionAcercaDe.setText(_translate("MainWindow", "Acerca de"))

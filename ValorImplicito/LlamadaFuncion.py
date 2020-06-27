@@ -63,18 +63,18 @@ class LlamadaFuncion(Instruccion):
            #     temp.listaRecusion(0,self.id)
            #     funcion.entorno = enLlamada
            #     funcion.etiqueta = etiquetaFuncion
-           #     ventana.consola.appendPlainText("goto "+etiquetaFuncion+";")
+           #     ventana.editor.append("\n"+"goto "+etiquetaFuncion+";")
            #     funcion.traducir(ent,arbol,ventana)
-           #     ventana.consola.appendPlainText(etiquetaSalida+":")
+           #     ventana.editor.append("\n"+etiquetaSalida+":")
            #     temp.listaLLamada(2,etiquetaFuncion)
            #     temp.listaRecusion(2,self.id)
            # #else:
            #     if(llamadaPrevia!=None):
            #         if(llamadaAnterior!=llamadaPrevia):
-           #             ventana.consola.appendPlainText("goto "+llamadaPrevia+";")
+           #             ventana.editor.append("\n"+"goto "+llamadaPrevia+";")
 
             #    #else:
-            #        #ventana.consola.appendPlainText("goto "+llamadaAnterior+";")
+            #        #ventana.editor.append("\n"+"goto "+llamadaAnterior+";")
         #else:
         if(not recursionAnterior==self.id):
             etiquetaFuncion = temp.etiqueta()
@@ -83,12 +83,12 @@ class LlamadaFuncion(Instruccion):
             temp.listaRecusion(0,self.id)
             funcion.entorno = enLlamada
             funcion.etiqueta = etiquetaFuncion
-            ventana.consola.appendPlainText("goto "+etiquetaFuncion+";")
+            ventana.editor.append("\n"+"goto "+etiquetaFuncion+";")
             funcion.traducir(ent,arbol,ventana)
-            ventana.consola.appendPlainText(etiquetaSalida+":")
+            ventana.editor.append("\n"+etiquetaSalida+":")
             temp.listaLLamada(2,etiquetaFuncion)
             temp.listaRecusion(2,self.id)
         else: #
-            ventana.consola.appendPlainText("goto "+llamadaAnterior+";")      #   
+            ventana.editor.append("\n"+"goto "+llamadaAnterior+";")      #   
         
 

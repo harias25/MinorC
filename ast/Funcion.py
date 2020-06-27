@@ -83,7 +83,7 @@ class Funcion(Instruccion) :
         
     def traducir(self,ent,arbol,ventana):
         
-        ventana.consola.appendPlainText(self.etiqueta+":"+"#"+self.id)
+        ventana.editor.append("\n"+self.etiqueta+":"+"#"+self.id)
         for ins in self.instrucciones:
             #try:
                 ins.traducir(self.entorno,arbol,ventana)

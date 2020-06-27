@@ -7,4 +7,4 @@ class Break(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        ventana.consola.appendPlainText("goto "+temp.listaBreak(1,None)+";") 
+        ventana.editor.append("\n"+"goto "+temp.listaBreak(1,None)+";") 

@@ -32,7 +32,7 @@ class Imprimir(Instruccion) :
                 if(exp_3D == None): return None
                 
                 if(expresion.tipo == Op.PRIMITIVO):
-                    if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
+                    if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
                     pos = cadena.index("%")
                     if(pos==-1):
                         error = Error("SEMANTICO","Error semantico, La expresión es incorrecta para imprimir.",self.linea,self.columna)
@@ -44,7 +44,7 @@ class Imprimir(Instruccion) :
                     if(cadena == None): return None 
                 
                 else:
-                    if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
+                    if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
                     
                     pos = cadena.index("%")
                     if(pos==-1):
@@ -54,15 +54,15 @@ class Imprimir(Instruccion) :
 
                   
 
-                    ventana.consola.appendPlainText("print(\""+cadena[0:pos]+"\");") 
-                    if(exp_3D.codigo3D != ""):  ventana.consola.appendPlainText(exp_3D.codigo3D) 
+                    ventana.editor.append("\n"+"print(\""+cadena[0:pos]+"\");") 
+                    if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
                     
-                    ventana.consola.appendPlainText("print("+exp_3D.temporal.utilizar()+");") 
+                    ventana.editor.append("\n"+"print("+exp_3D.temporal.utilizar()+");") 
                     cadena = cadena[pos+2:]
 
             valorfinal += cadena+"\");"
 
-        ventana.consola.appendPlainText(valorfinal) 
+        ventana.editor.append("\n"+valorfinal) 
 
 
 

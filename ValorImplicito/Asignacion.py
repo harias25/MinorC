@@ -22,8 +22,8 @@ class Asignacion(Instruccion):
             acceso = self.id.traducir(ent,arbol,ventana)
             if(acceso == None): return None
 
-            if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
-            ventana.consola.appendPlainText(acceso.codigo3D + "="+traduccionExpresion.temporal.utilizar()+"; ") 
+            if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
+            ventana.editor.append("\n"+acceso.codigo3D + "="+traduccionExpresion.temporal.utilizar()+"; ") 
             return None
 
 
@@ -33,12 +33,12 @@ class Asignacion(Instruccion):
             ReporteErrores.func(error)
             return None
 
-        if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
+        if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
 
         
         traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
 
         try:
-            ventana.consola.appendPlainText(traduccion) 
+            ventana.editor.append("\n"+traduccion) 
         except:
             pass

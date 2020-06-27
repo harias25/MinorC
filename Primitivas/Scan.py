@@ -17,4 +17,4 @@ class Scan(Instruccion) :
         if(cadena3D == None or id3D == None):
             return None
 
-        ventana.consola.appendPlainText(id3D.temporal.obtener()+"=read();")
+        ventana.editor.append("\n"+id3D.temporal.obtener()+"=read();")

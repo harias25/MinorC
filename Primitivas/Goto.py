@@ -7,4 +7,4 @@ class Goto(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        ventana.consola.appendPlainText("goto "+self.id+";") 
+        ventana.editor.append("\n"+"goto "+self.id+";") 

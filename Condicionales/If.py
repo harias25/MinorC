@@ -25,9 +25,9 @@ class If(Instruccion) :
         etiquetaFalse = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
 
-        if(resultCondition.codigo3D!=""): ventana.consola.appendPlainText(resultCondition.codigo3D) 
+        if(resultCondition.codigo3D!=""): ventana.editor.append("\n"+resultCondition.codigo3D) 
         
-        ventana.consola.appendPlainText("if("+resultCondition.temporal.utilizar()+") goto "+etiquetaTrue+";")
+        ventana.editor.append("\n"+"if("+resultCondition.temporal.utilizar()+") goto "+etiquetaTrue+";")
         
 
         
@@ -36,46 +36,46 @@ class If(Instruccion) :
         for ins in self.listaElseIF:
             etiquetaTrueElseIf = temp.etiqueta()
             resultConditionElseIf = ins.condicion.traducir(tsIf,arbol,ventana)
-            if(resultConditionElseIf.codigo3D!=""): ventana.consola.appendPlainText(resultConditionElseIf.codigo3D) 
-            ventana.consola.appendPlainText("if("+resultConditionElseIf.temporal.utilizar()+") goto "+etiquetaTrueElseIf+";")
+            if(resultConditionElseIf.codigo3D!=""): ventana.editor.append("\n"+resultConditionElseIf.codigo3D) 
+            ventana.editor.append("\n"+"if("+resultConditionElseIf.temporal.utilizar()+") goto "+etiquetaTrueElseIf+";")
             listaElseIf.append(etiquetaTrueElseIf)
 
         if(len(self.instruccionesF)==0 and  len(self.listaElseIF) == 0):
-            ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
+            ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
 
         if(len(self.instruccionesF)>0 and len(self.listaElseIF) == 0):
-            ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
+            ventana.editor.append("\n"+"goto "+etiquetaFalse+";")
 
         if(len(self.listaElseIF) > 0):
-            ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
+            ventana.editor.append("\n"+"goto "+etiquetaFalse+";")
 
-        ventana.consola.appendPlainText(etiquetaTrue+":")
+        ventana.editor.append("\n"+etiquetaTrue+":")
         for ins in self.instruccionesV:
             try:
                 ins.traducir(tsIf,arbol,ventana)
             except:
                 pass
-        ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
+        ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
 
         
 
         contador = 0
         for ins in self.listaElseIF:
             tsElseIf = TS.Entorno(ent)
-            ventana.consola.appendPlainText(listaElseIf[contador]+":")
+            ventana.editor.append("\n"+listaElseIf[contador]+":")
             for inss in ins.instruccionesV:
                 #try:
                     inss.traducir(tsElseIf,arbol,ventana)
                 #except:
                 #    pass
-            ventana.consola.appendPlainText("goto "+etiquetaSalida+";")
+            ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
             contador = contador + 1
             
         if(len(self.instruccionesF)>0 and len(self.listaElseIF) > 0):
-            ventana.consola.appendPlainText("goto "+etiquetaFalse+";")
+            ventana.editor.append("\n"+"goto "+etiquetaFalse+";")
 
         if(len(self.instruccionesF)>0):
-            ventana.consola.appendPlainText(etiquetaFalse+":")
+            ventana.editor.append("\n"+etiquetaFalse+":")
             tsElse = TS.Entorno(ent)
             for ins in self.instruccionesF:
                 #try:
@@ -83,4 +83,4 @@ class If(Instruccion) :
                 #except:
                 #    pass
 
-        ventana.consola.appendPlainText(etiquetaSalida+":")
+        ventana.editor.append("\n"+etiquetaSalida+":")

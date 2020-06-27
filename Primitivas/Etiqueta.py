@@ -7,4 +7,4 @@ class Etiqueta(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        ventana.consola.appendPlainText(self.id+":") 
+        ventana.editor.append("\n"+self.id+":") 

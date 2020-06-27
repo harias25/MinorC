@@ -11,9 +11,9 @@ class Return(Instruccion) :
         traduccionExpresion = self.expresion.traducir(ent,arbol,ventana)
         if(traduccionExpresion == None): return None
 
-        if(traduccionExpresion.codigo3D != ""): ventana.consola.appendPlainText(traduccionExpresion.codigo3D)
-        ventana.consola.appendPlainText("$v0="+str(traduccionExpresion.temporal.utilizar())+";")
+        if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
+        ventana.editor.append("\n"+"$v0="+str(traduccionExpresion.temporal.utilizar())+";")
         #etiqueta = temp.listaReturn(1,None)
         #if(etiqueta!=None):
-        #    ventana.consola.appendPlainText("goto "+etiqueta+";") 
+        #    ventana.editor.append("\n"+"goto "+etiqueta+";") 
             #temp.listaReturn(2,etiqueta)

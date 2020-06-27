@@ -22,7 +22,7 @@ class DoWhile(Instruccion) :
         temp.listaContinue(0,etiquetaWhile)
         temp.listaBreak(0,etiquetaSalida)
 
-        ventana.consola.appendPlainText(etiquetaWhile+":") 
+        ventana.editor.append("\n"+etiquetaWhile+":") 
         tsWhile = TS.Entorno(ent)
         for ins in self.instrucciones:
         #try:
@@ -30,10 +30,10 @@ class DoWhile(Instruccion) :
         #except:
         #    pass
 
-        if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
-        ventana.consola.appendPlainText("if("+condicion3D.temporal.utilizar()+") goto "+etiquetaWhile+";")
+        if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
+        ventana.editor.append("\n"+"if("+condicion3D.temporal.utilizar()+") goto "+etiquetaWhile+";")
 
-        ventana.consola.appendPlainText(etiquetaSalida+":") 
+        ventana.editor.append("\n"+etiquetaSalida+":") 
 
         temp.listaContinue(2,etiquetaWhile)
         temp.listaBreak(2,etiquetaSalida)

@@ -127,7 +127,7 @@ class Operacion(Expresion):
             #etiquetaSalida = Temp.etiqueta()
             #Temp.listaReturn(0,etiquetaSalida)
             self.operadorIzq.traducir(ent,arbol,ventana)
-            #ventana.consola.appendPlainText(etiquetaSalida+":")
+            #ventana.editor.append("\n"+etiquetaSalida+":")
             result = Resultado3D()
             result.codigo3D = ""
             result.temporal = Temp.Temporal("$v0")

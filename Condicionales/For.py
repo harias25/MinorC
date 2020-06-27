@@ -27,9 +27,9 @@ class For(Instruccion) :
         temp.listaContinue(0,etiquetaFor)
         temp.listaBreak(0,etiquetaSalida)
 
-        ventana.consola.appendPlainText(etiquetaFor+":") 
-        if(condicion3D.codigo3D!=""): ventana.consola.appendPlainText(condicion3D.codigo3D) 
-        ventana.consola.appendPlainText("if(!"+condicion3D.temporal.utilizar()+") goto "+etiquetaSalida+";")
+        ventana.editor.append("\n"+etiquetaFor+":") 
+        if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
+        ventana.editor.append("\n"+"if(!"+condicion3D.temporal.utilizar()+") goto "+etiquetaSalida+";")
         for ins in self.instrucciones:
         #try:
             ins.traducir(tsFor,arbol,ventana)
@@ -37,8 +37,8 @@ class For(Instruccion) :
         #    pass
 
         self.operacion.traducir(tsFor,arbol,ventana)
-        ventana.consola.appendPlainText("goto "+etiquetaFor+";") 
-        ventana.consola.appendPlainText(etiquetaSalida+":") 
+        ventana.editor.append("\n"+"goto "+etiquetaFor+";") 
+        ventana.editor.append("\n"+etiquetaSalida+":") 
 
         temp.listaContinue(2,etiquetaFor)
         temp.listaBreak(2,etiquetaSalida)

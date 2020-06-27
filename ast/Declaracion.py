@@ -47,7 +47,7 @@ class Declaracion(Instruccion):
                         traduccion = temporal +"=array();"
 
                     ent.agregar(simbolo)
-                    ventana.consola.appendPlainText(traduccion) 
+                    ventana.editor.append("\n"+traduccion) 
                 else:
                     ent.agregar(simbolo)
                     asignacion = Asignacion(id,self.valor,self.linea,self.columna)

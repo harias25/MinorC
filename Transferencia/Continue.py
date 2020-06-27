@@ -7,4 +7,4 @@ class Continue(Instruccion) :
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
-        ventana.consola.appendPlainText("goto "+temp.listaContinue(1,None)+";") 
+        ventana.editor.append("\n"+"goto "+temp.listaContinue(1,None)+";") 
