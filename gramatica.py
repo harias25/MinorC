@@ -33,7 +33,7 @@ reservadas = {
     'int'	: 'INT',
     'float' : 'FLOAT',
     'char'	: 'CHAR',
-    'dooble': 'DOOBLE',
+    'double': 'DOOBLE',
     'printf' : 'IMPRIMIR',
 	'xor'	: 'XOR',
     'void'  : 'VOID',
@@ -383,7 +383,6 @@ def p_instruccion(t) :
                         | sentencia_if
                         | sentencia_switch
                         | ins_break
-                        | ins_scan
                         | ins_while
                         | ins_for
                         | ins_continue
@@ -611,26 +610,6 @@ def p_elseif(t):
     gramatical = G.ValorAscendente('elseif ->ELSE IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','elseif.instr = If(expresion,instrucciones);',lista)
     func(0,gramatical)
 
-#********************************************* SCAN *********************************************
-def p_scan(t) :
-    'ins_scan : ID IGUAL SCAN PARIZQ PARDER PTCOMA'
-    op = Operacion()
-    op.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
-
-    t[0] =Scan(None,op,t.slice[1].lineno,find_column(t.slice[1]))
-    lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('imprimir_instr ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
-    func(0,gramatical)
-
-def p_scan_declara(t) :
-    'ins_scan : TIPO ID IGUAL SCAN PARIZQ PARDER PTCOMA'
-    op = Operacion()
-    op.Indentficador(t[2],t.slice[2].lineno,find_column(t.slice[2]))
-
-    t[0] =Scan(t[1],op,t.slice[2].lineno,find_column(t.slice[2]))
-    lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('imprimir_instr ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
-    func(0,gramatical)
 
 #********************************************* IMPRIMIR *********************************************
 def p_instruccion_imprimir(t) :
@@ -666,6 +645,15 @@ def p_asignacion_lista(t):
     gramatical = G.ValorAscendente('asignacion -> acceso_lista IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_lista.val,expresion.val);',lista)
     func(0,gramatical)
 
+def p_scan(t) :
+    'asignacion : ID IGUAL SCAN PARIZQ PARDER '
+    op = Operacion()
+    op.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
+
+    t[0] =Scan(None,op,t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('imprimir_instr ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
+    func(0,gramatical)
 #********************************************** OPERACIONES DE ASIGNACION ******************************
 
 def p_incre_decre(t):
@@ -807,6 +795,16 @@ def p_declaracion_asigna(t):
     t[0] = Declaracion(t[1],t[2],t[4],t.slice[3].lineno,find_column(t.slice[3]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);',lista)
+    func(0,gramatical)
+
+def p_scan_declara(t) :
+    'declaracion : TIPO lista_id IGUAL SCAN PARIZQ PARDER '
+    op = Operacion()
+    op.Indentficador(t[2][0],t.slice[3].lineno,find_column(t.slice[3]))
+
+    t[0] =Scan(t[1],op,t.slice[3].lineno,find_column(t.slice[3]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('scan ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
     func(0,gramatical)
 
 def p_lista(t) :

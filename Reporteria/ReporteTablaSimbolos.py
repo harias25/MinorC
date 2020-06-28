@@ -16,7 +16,7 @@ class ReporteTablaSimbolos():
         
 
         for key in ent.tabla:
-            #try:
+            try:
                 s = ent.tabla[key]
                 contenido = contenido + "<TR>"
                 tipo = s.getTipo()
@@ -27,8 +27,8 @@ class ReporteTablaSimbolos():
                 contenido = contenido + "<TD style=\"font-size: 15px; color:white;\" color:white align=center>" + str(s.linea)+ "</TD>" + '\n'
                 contenido = contenido + "<TD style=\"font-size: 15px; color:white;\" color:white align=center>" + str(s.columna) + "</TD>" + '\n'
                 contenido = contenido + "</TR>" + '\n'
-            #except:
-            #    pass
+            except:
+                pass
             
 
         for etiqueta in arbol.etiquetas:

@@ -5,6 +5,7 @@ from ast.Temporales import Resultado3D
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
 from ast.Simbolo import TIPO_DATO as Tipo
+from ValorImplicito.AccesoLista import AccesoLista 
 
 class AccesoStruct(Instruccion):
     def __init__(self,id,llave,linea,columna):
@@ -35,9 +36,14 @@ class AccesoStruct(Instruccion):
         for declaracion in struct.declaraciones:
             #if(simbolo.tipo == Tipo.DOOBLE or simbolo.tipo == Tipo.ENTERO or simbolo.tipo == Tipo.FLOAT or simbolo.tipo == Tipo.CHAR):  #primitivos basicos
             for x in declaracion.lista:
+
+                if(isinstance(x,AccesoLista)):
+                    x = x.id
+
                 if(x == self.llave): 
                     bandera = True
                     break
+                
 
         if(not bandera):
             error = Error("SEMANTICO","Error semantico, El struct "+str(simbolo.tipo)+" no tiene definido el atributo "+self.llave,self.linea,self.columna)

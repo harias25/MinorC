@@ -21,10 +21,10 @@ class If(Instruccion) :
             ReporteErrores.func(error)
 
         if(bool(resultado)):
-           # try:
+            try:
                return self.instruccionV.ejecutar(ent,arbol,ventana,isDebug)
-           # except:
-           #     return False
+            except:
+                return False
 
         return False
         

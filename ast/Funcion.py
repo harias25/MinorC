@@ -85,10 +85,10 @@ class Funcion(Instruccion) :
         
         ventana.editor.append("\n"+self.etiqueta+":"+"#"+self.id)
         for ins in self.instrucciones:
-            #try:
+            try:
                 ins.traducir(self.entorno,arbol,ventana)
-            #except:
-            #    pass
+            except:
+                pass
 
         
 

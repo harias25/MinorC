@@ -30,10 +30,10 @@ class While(Instruccion) :
 
         tsWhile = TS.Entorno(ent)
         for ins in self.instrucciones:
-        #try:
-            ins.traducir(tsWhile,arbol,ventana)
-        #except:
-        #    pass
+            try:
+                ins.traducir(tsWhile,arbol,ventana)
+            except:
+                pass
         
         ventana.editor.append("\n"+"goto "+etiquetaWhile+";")
 

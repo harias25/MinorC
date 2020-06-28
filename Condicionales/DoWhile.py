@@ -25,10 +25,10 @@ class DoWhile(Instruccion) :
         ventana.editor.append("\n"+etiquetaWhile+":") 
         tsWhile = TS.Entorno(ent)
         for ins in self.instrucciones:
-        #try:
-            ins.traducir(tsWhile,arbol,ventana)
-        #except:
-        #    pass
+            try:
+                ins.traducir(tsWhile,arbol,ventana)
+            except:
+                pass
 
         if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
         ventana.editor.append("\n"+"if("+condicion3D.temporal.utilizar()+") goto "+etiquetaWhile+";")

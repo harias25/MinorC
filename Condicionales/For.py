@@ -31,10 +31,10 @@ class For(Instruccion) :
         if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
         ventana.editor.append("\n"+"if(!"+condicion3D.temporal.utilizar()+") goto "+etiquetaSalida+";")
         for ins in self.instrucciones:
-        #try:
-            ins.traducir(tsFor,arbol,ventana)
-        #except:
-        #    pass
+            try:
+                ins.traducir(tsFor,arbol,ventana)
+            except:
+                pass
 
         self.operacion.traducir(tsFor,arbol,ventana)
         ventana.editor.append("\n"+"goto "+etiquetaFor+";") 

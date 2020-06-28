@@ -64,10 +64,10 @@ class If(Instruccion) :
             tsElseIf = TS.Entorno(ent)
             ventana.editor.append("\n"+listaElseIf[contador]+":")
             for inss in ins.instruccionesV:
-                #try:
+                try:
                     inss.traducir(tsElseIf,arbol,ventana)
-                #except:
-                #    pass
+                except:
+                    pass
             ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
             contador = contador + 1
             
@@ -78,9 +78,9 @@ class If(Instruccion) :
             ventana.editor.append("\n"+etiquetaFalse+":")
             tsElse = TS.Entorno(ent)
             for ins in self.instruccionesF:
-                #try:
+                try:
                     ins.traducir(tsElse,arbol,ventana)
-                #except:
-                #    pass
+                except:
+                    pass
 
         ventana.editor.append("\n"+etiquetaSalida+":")

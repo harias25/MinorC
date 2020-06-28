@@ -44,10 +44,10 @@ class Switch(Instruccion) :
             tsElseIf = TS.Entorno(ent)
             ventana.editor.append("\n"+listaElseIf[contador]+":")
             for inss in ins.instrucciones:
-                #try:
+                try:
                     inss.traducir(tsElseIf,arbol,ventana)
-                #except:
-                #    pass
+                except:
+                    pass
             #ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
             contador = contador + 1
 
@@ -56,10 +56,10 @@ class Switch(Instruccion) :
             ventana.editor.append("\n"+etiquetaDefault+":")
             entDefault = TS.Entorno(ent)
             for ins in self.default.instrucciones:
-                #try:
+                try:
                     ins.traducir(entDefault,arbol,ventana)
-                #except:
-                #    pass
+                except:
+                    pass
 
         ventana.editor.append("\n"+etiquetaSalida+":")
         temp.listaBreak(2,etiquetaSalida)
