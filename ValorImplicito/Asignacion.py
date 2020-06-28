@@ -1,6 +1,7 @@
 from ast.Instruccion import Instruccion
 from ast.Simbolo import TIPO_DATO as Tipo
 from ValorImplicito.AccesoStruct import AccesoStruct 
+from ValorImplicito.AccesoLista import AccesoLista 
 from Reporteria.Error import Error 
 import Reporteria.ReporteErrores as ReporteErrores
 
@@ -12,33 +13,67 @@ class Asignacion(Instruccion):
         self.valor = valor
 
     def traducir(self,ent,arbol,ventana):
-
-
-        traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
-        if(traduccionExpresion == None): return None
-
         #acceso a struct
-        if(isinstance(self.id,AccesoStruct)):
+        if(isinstance(self.id,AccesoStruct) or isinstance(self.id,AccesoLista)):
+            traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
+            if(traduccionExpresion == None): return None
+
             acceso = self.id.traducir(ent,arbol,ventana)
             if(acceso == None): return None
 
             if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
-            ventana.editor.append("\n"+acceso.codigo3D + "="+traduccionExpresion.temporal.utilizar()+"; ") 
-            return None
+            if(isinstance(self.id,AccesoStruct)):
+                ventana.editor.append("\n"+acceso.codigo3D + "="+traduccionExpresion.temporal.utilizar()+"; ") 
+            else:
+                ventana.editor.append("\n"+acceso.temporal.utilizar() + "="+traduccionExpresion.temporal.utilizar()+"; ") 
 
+            return None
 
         simbolo = ent.obtener(str(self.id))
         if(simbolo == None):
             error = Error("SEMANTICO","Error semantico, no se encuentra declarado un identificador con el nombre "+self.id,self.linea,self.columna)
             ReporteErrores.func(error)
             return None
-
-        if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
-
         
-        traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
+        if(simbolo.llaves!=None): #array
+            if(isinstance(self.valor,list)):
+                self.operacionesArray(ent,arbol,ventana,self.valor,simbolo.temporal,"")
+            else:
+                error = Error("SEMANTICO","Error semantico, expresión incorrecta al asignar el Arrray "+self.id,self.linea,self.columna)
+                ReporteErrores.func(error)
+                return None
+        else:
+            if(isinstance(self.valor,list)):
+                error = Error("SEMANTICO","Error semantico, expresión incorrecta para asignar el identificador "+self.id,self.linea,self.columna)
+                ReporteErrores.func(error)
+                return None
 
-        try:
-            ventana.editor.append("\n"+traduccion) 
-        except:
-            pass
+            traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
+            if(traduccionExpresion == None): return None
+
+            if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
+
+            
+            traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
+
+            try:
+                ventana.editor.append("\n"+traduccion) 
+            except:
+                pass
+
+
+    def operacionesArray(self,ent,arbol,ventana,lista,temporal,niveles):
+        contador = 0
+        for valor in lista:
+            if(isinstance(valor,list)): #otro nivel
+                niveles="["+str(contador)+"]"
+                self.operacionesArray(ent,arbol,ventana,valor,temporal,niveles)
+            else:
+                traduccionExpresion = valor.traducir(ent,arbol,ventana)
+                if(traduccionExpresion == None): return None
+                if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
+
+                ventana.editor.append("\n"+temporal+niveles+"["+str(contador)+"]="+traduccionExpresion.temporal.obtener()+";")
+            
+            contador = contador + 1
+                

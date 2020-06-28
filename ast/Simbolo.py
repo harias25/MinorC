@@ -21,6 +21,7 @@ class Simbolo(Expresion) :
         self.linea = linea
         self.columna = columna
         self.tipo = tipo
+        self.llaves = None
 
     def traducir(self,ent,arbol):
         resultado3D = Resultado3D()
@@ -34,6 +35,7 @@ class Simbolo(Expresion) :
         return self.tipo.name
 
     def getTipoVar(self):
-        
+        if(self.llaves != None): return "ARRAY"
+
         return "IDENTIFICADOR"
 

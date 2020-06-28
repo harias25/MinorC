@@ -27,6 +27,7 @@ from Primitivas.Goto import Goto
 from ast.Struct import Struct
 from ValorImplicito.AccesoStruct import AccesoStruct
 from ValorImplicito.LlamadaFuncion import LlamadaFuncion
+from ValorImplicito.AccesoLista import AccesoLista
 
 reservadas = {
     'int'	: 'INT',
@@ -612,16 +613,23 @@ def p_elseif(t):
 
 #********************************************* SCAN *********************************************
 def p_scan(t) :
-    'ins_scan     : SCAN PARIZQ CADENA COMA PAND ID PARDER PTCOMA'
+    'ins_scan : ID IGUAL SCAN PARIZQ PARDER PTCOMA'
     op = Operacion()
-    op.Indentficador(t[6],t.slice[6].lineno,find_column(t.slice[6]))
+    op.Indentficador(t[1],t.slice[1].lineno,find_column(t.slice[1]))
 
-    opcad = Operacion()
-    opcad.Primitivo(Primitivo(str(t[3]),t.slice[3].lineno,find_column(t.slice[3])))
-
-    t[0] =Scan(opcad,op,t.slice[1].lineno,find_column(t.slice[1]))
+    t[0] =Scan(None,op,t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('imprimir_instr ->IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA','imprimir_instr.instr = Print(CADENA,expresiones);',lista)
+    gramatical = G.ValorAscendente('imprimir_instr ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
+    func(0,gramatical)
+
+def p_scan_declara(t) :
+    'ins_scan : TIPO ID IGUAL SCAN PARIZQ PARDER PTCOMA'
+    op = Operacion()
+    op.Indentficador(t[2],t.slice[2].lineno,find_column(t.slice[2]))
+
+    t[0] =Scan(t[1],op,t.slice[2].lineno,find_column(t.slice[2]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('imprimir_instr ->ID IGUAL SCAN PARIZQ PARDER PTCOMA','scan.instr = Scan(ID);',lista)
     func(0,gramatical)
 
 #********************************************* IMPRIMIR *********************************************
@@ -649,6 +657,13 @@ def p_asignacion(t):
     t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
+    func(0,gramatical)
+
+def p_asignacion_lista(t):
+    'asignacion : acceso_lista IGUAL expresion  '
+    t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> acceso_lista IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_lista.val,expresion.val);',lista)
     func(0,gramatical)
 
 #********************************************** OPERACIONES DE ASIGNACION ******************************
@@ -750,6 +765,34 @@ def p_operaciones_asignacion(t):
 
     t[0] = Asignacion(t[1],op,t.slice[1].lineno,find_column(t.slice[1]))
 
+#********************************************** ARRAYS ***************************************************
+def  p_accesos(t):
+    'accesos :  accesos acceso'
+    t[1].append(t[2])
+    t[0] = t[1]
+    gramatical = G.ValorAscendente('accesos -> accesos acceso','accesos.lista = accesos1.lista; </hr> accesos.lista.add(acceso.val);',[])
+    func(2,gramatical)
+
+def  p_accesos_u(t):
+    'accesos :  acceso'
+    t[0] = [t[1]]
+    gramatical = G.ValorAscendente('accesos -> acceso','accesos.lista = [acceso.val];',[])
+    func(2,gramatical)
+
+def  p_acceso(t):
+    'acceso : CORIZQ expresion CORDER'
+    t[0] = t[2]
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('acceso -> CORIZQ primitiva CORDER','acceso.val = primitiva.val;',lista)
+    func(0,gramatical)
+
+def  p_acceso_lista(t):
+    'acceso_lista : ID accesos'
+    t[0] = AccesoLista(t[1],t[2],None,t.lexer.lineno,1)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('acceso_lista ->  tipo_var accesos','acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);',lista)
+    func(0,gramatical)    
+
 #********************************************** DECLARACIONES *********************************************
 
 def p_declaracion(t):
@@ -767,18 +810,26 @@ def p_declaracion_asigna(t):
     func(0,gramatical)
 
 def p_lista(t) :
-    'lista_id    : lista_id COMA ID'
+    'lista_id    : lista_id COMA tipo_var'
     t[1].append(t[3])
     t[0] = t[1]
     #lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('lista_id -> lista_id ID','lista_id.lista = lista_id1.lista; </hr> lista_id.lista.add('+t[3]+');',[])
+    gramatical = G.ValorAscendente('lista_id -> lista_id tipo_var','lista_id.lista = lista_id1.lista; </hr> lista_id.lista.add(tipo_var);',[])
     func(2,gramatical)#func(0,gramatical)
 
 def p_lista_id(t) :
-    'lista_id    : ID '
+    'lista_id    : tipo_var '
     t[0] = [t[1]]
     #lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('lista_id -> ID','instrucciones.lista = ['+t[1]+']',[])
+    gramatical = G.ValorAscendente('lista_id -> tipo_var','instrucciones.lista = [tipo_var]',[])
+    func(2,gramatical)#func(0,gramatical)
+
+def p_tipo_var(t):
+    '''tipo_var : ID
+                | acceso_lista '''
+    t[0] = t[1]
+    #lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('lista_id -> ID | acceso_lista','tipo_ID = ID | acceso_lista',[])
     func(2,gramatical)#func(0,gramatical)
 
 def p_tipo_dato(t):
@@ -1006,7 +1057,9 @@ def p_expresion_primitiva(t):
                  | CADENAR_CHAR
                  | ID 
                  | acceso_struct 
-                 | llamada '''
+                 | llamada 
+                 | acceso_lista 
+                 | array'''
 
     op = Operacion()
     if(t.slice[1].type == 'CADENA' or t.slice[1].type == 'CADENAR_CHAR'):
@@ -1039,7 +1092,25 @@ def p_expresion_primitiva(t):
         op.columna = t[1].columna
         gramatical = G.ValorAscendente('primitiva -> llamada','primitiva.val = llamada.val;',None)
         func(2,gramatical)
+    elif(t.slice[1].type == 'acceso_lista') :
+        op.AccesoLista(t[1],t.lexer.lineno,1)
+        op.linea = t[1].linea
+        op.columna = t[1].columna
+        gramatical = G.ValorAscendente('primitiva -> acceso_lista','primitiva.val = acceso_lista.val;',None)
+        func(2,gramatical)
+    elif(t.slice[1].type == 'array') :
+        gramatical = G.ValorAscendente('primitiva -> array','primitiva.val = array.val;',None)
+        func(2,gramatical)
+        op = t[1]
+
     t[0] = op
+
+def p_array(t):
+    'array : LLAVIZQ expresiones LLAVDER '
+    t[0] = t[2]
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('array ->  LLAIZQ expresiones LLADER  ','array = expresiones;',lista)
+    func(0,gramatical)
 
 
 def p_error(t):

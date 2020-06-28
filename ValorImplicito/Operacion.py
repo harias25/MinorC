@@ -114,7 +114,9 @@ class Operacion(Expresion):
 
         #ACCESOS LISTAS
         elif(self.tipo == TIPO_OPERACION.ACCESO):
-            return self.operadorIzq.getValorImplicito(ent,arbol,ventana)
+            valor = self.operadorIzq.traducir(ent,arbol,ventana)
+            if(valor == None ): return None
+            return valor
 
         elif(self.tipo == TIPO_OPERACION.ACCESO_STRUCT):
             valor = self.operadorIzq.traducir(ent,arbol,ventana)
