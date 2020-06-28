@@ -42,13 +42,8 @@ class Declaracion(Instruccion):
                     ventana.editor.append("\n"+traduccion) 
 
                     if(self.valor !=None and contador==(len(self.lista)-1)):  #asignacion de array
-                        if(isinstance(self.valor,list)):
-                            asignacion = Asignacion(id,self.valor,self.linea,self.columna)
-                            asignacion.traducir(ent,arbol,ventana)
-                        else:
-                            error = Error("SEMANTICO","Error semantico, expresión incorrecta al asignar el Arrray "+id,self.linea,self.columna)
-                            ReporteErrores.func(error)
-                            return None
+                        asignacion = Asignacion(id,self.valor,self.linea,self.columna)
+                        asignacion.traducir(ent,arbol,ventana)
                                     
                 else: #identificadores y structs
                     if(self.valor == None or (self.valor !=None and contador<(len(self.lista)-1))):

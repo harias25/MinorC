@@ -39,9 +39,18 @@ class Asignacion(Instruccion):
             if(isinstance(self.valor,list)):
                 self.operacionesArray(ent,arbol,ventana,self.valor,simbolo.temporal,"")
             else:
-                error = Error("SEMANTICO","Error semantico, expresión incorrecta al asignar el Arrray "+self.id,self.linea,self.columna)
-                ReporteErrores.func(error)
-                return None
+                traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
+                if(traduccionExpresion == None): return None
+
+                if(simbolo.tipo == Tipo.CHAR and traduccionExpresion.tipo == Tipo.CHAR):
+                    if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
+                    traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
+                    ventana.editor.append("\n"+traduccion) 
+                else:
+                    error = Error("SEMANTICO","Error semantico, expresión incorrecta al asignar el Arrray "+self.id,self.linea,self.columna)
+                    ReporteErrores.func(error)
+                    return None
+
         else:
             if(isinstance(self.valor,list)):
                 error = Error("SEMANTICO","Error semantico, expresión incorrecta para asignar el identificador "+self.id,self.linea,self.columna)

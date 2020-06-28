@@ -17,144 +17,188 @@
 <TD style="font-size: 15px; color:white;" color:white align=left>&nbsp;</TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>iglobal -> funcion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>iglobal.instr = funcion.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instrucciones -> instrucciones instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instrucciones.lista = instrucciones1.lista; </hr> instrucciones.lista.add(instruccion);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>funcion -> TIPO ID () { instrucciones } </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> llamada</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = llamada.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> read</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = read.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>read -> tipo_var IGUAL read() PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>read.instr = Read(tipo_var.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>llamada ->  ID PARIZQ expresiones PARDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>llamada.instr = LlamadaFuncion(ID,expresiones);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA PARDER PTCOMA</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> llamada</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = llamada.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>llamada ->  ID PARIZQ expresiones PARDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>llamada.instr = LlamadaFuncion(ID,expresiones);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA PARDER PTCOMA</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> llamada</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = llamada.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>llamada ->  ID PARIZQ expresiones PARDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>llamada.instr = LlamadaFuncion(ID,expresiones);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA PARDER PTCOMA</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>iglobal -> funcion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>iglobal.instr = funcion.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>funcion -> TIPO ID () { instrucciones } </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> ins_for</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = ins_for.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>ins_for ->FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA expresion_numerica PARDER LLAVIZQ instrucciones LLAVDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>ins_for.instr = For(instruccion,expresion,expresion_numerica,instrucciones);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA COMA expresiones PARDER PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA,expresiones);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion ->  ID MAS MAS </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,ID.val + 1);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  expresion MENOR expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = expresion1.val < expresion2.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion_for -> declaracion | asignacion </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion_for.instr = instruccion;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>iglobal -> funcion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>iglobal.instr = funcion.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>funcion -> TIPO ID () { instrucciones } </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>funcion.instrucciones.lista = []; </hr> funcion.instrucciones.lista = instrucciones.lista; funcion.tipo = TIPO; funcion.id = ID;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> ins_for</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = ins_for.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>ins_for ->FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA expresion_numerica PARDER LLAVIZQ instrucciones LLAVDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>ins_for.instr = For(instruccion,expresion,expresion_numerica,instrucciones);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> ins_for</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = ins_for.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>ins_for ->FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA expresion_numerica PARDER LLAVIZQ instrucciones LLAVDER </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>ins_for.instr = For(instruccion,expresion,expresion_numerica,instrucciones);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> sentencia_if</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = sentencia_if.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>sentencia_if.instr = If(expresion,instruccionesV,[],[]);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> acceso_lista IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(acceso_lista.val,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
@@ -165,60 +209,44 @@
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> acceso_lista IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(acceso_lista.val,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  primitiva MAS primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = primitiva1.val + primitiva2.val;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MAS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val + expresion2.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
@@ -229,592 +257,284 @@
 <TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva IGUAL IGUAL primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val == primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,expresion.val);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  primitiva MULT primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = primitiva1.val * primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MAS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val + expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  expresion MENOR expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = expresion1.val < expresion2.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  primitiva MENOS primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = primitiva1.val - primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ tipo_var  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MAS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val + expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion ->  ID MAS MAS </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,ID.val + 1);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  expresion MENOR expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = expresion1.val < expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  primitiva MAS primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = primitiva1.val + primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = go_to.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva IGUAL IGUAL primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val == primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva IGUAL IGUAL primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val == primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva IGUAL IGUAL primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val == primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva IGUAL IGUAL primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val == primitiva2.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> read</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = read.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>read -> tipo_var IGUAL read() PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>read.instr = Read(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MENOS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val - expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> read</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = read.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>read -> tipo_var IGUAL read() PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>read.instr = Read(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> read</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = read.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>read -> tipo_var IGUAL read() PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>read.instr = Read(tipo_var.val);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MENOS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val - expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> if_instruccion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = if_instruccion.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion_for -> declaracion | asignacion </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion_for.instr = instruccion;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>if_instruccion -> IF PARIZQ expresion PARDER go_to</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>if_instruccion.instr = If(expresion.val,go_to.instr);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,expresion.val);</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>go_to ->GOTO ID PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>go_to.instr = GoTO(ID);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_logica</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_logica.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_logica ->  NOT primitiva %prec NOT</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_logica.val = !primitiva.val;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion ->  ID MAS MAS </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,ID.val + 1);</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_relacional</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_relacional.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  primitiva DIFERENTE primitiva</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = primitiva1.val != primitiva2.val;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_relacional ->  expresion MENOR expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_relacional.val = expresion1.val < expresion2.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiquetas -> etiqueta</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiquetas.lista = [etiqueta]</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> expresion_numerica</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = expresion_numerica.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>etiqueta -> ID DOSP instrucciones</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>etiqueta.instrucciones.lista = []; </hr> etiqueta.instrucciones.lista = instrucciones.lista;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> asignacion</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = asignacion.instr;</p></TD>
-</TR>
-<TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> tipo_var IGUAL expresion PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(tipo_var.val,expresion.val);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion_numerica ->  expresion MENOS expresion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion_numerica.val = expresion1.val - expresion2.val;</p></TD>
 </TR>
 <TR>
 <TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
 <TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> imprimir_instr</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = imprimir_instr.instr;</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
 </TR>
 <TR>
-<TD style="font-size: 15px; color:white;" color:white align=rigth><p>imprimir_instr ->IMPRIMIR PARIZQ CADENA  PARDER PTCOMA</p></TD>
-<TD style="font-size: 15px; color:white;" color:white align=left><p>imprimir_instr.instr = Print(CADENA);</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion_for -> declaracion | asignacion </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion_for.instr = instruccion;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>asignacion -> ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>asignacion.instr = Asignar(ID.val,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>instruccion -> declaracion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>instruccion.instr = declaracion.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>declaracion.instr = Declaracion(TIPO,lista_id);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>iglobal -> declaracion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>iglobal.instr = declaracion.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>globales -> iglobal</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>globales.lista = [iglobal]</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>iglobal -> declaracion</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>iglobal.instr = declaracion.instr;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>array ->  LLAIZQ expresiones LLADER  </p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>array = expresiones;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso_lista ->  tipo_var accesos</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>acceso -> CORIZQ primitiva CORDER</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>acceso.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>expresion -> primitiva</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>expresion.val = primitiva.val;</p></TD>
+</TR>
+<TR>
+<TD style="font-size: 15px; color:white;" color:white align=rigth><p>TIPO -> int</p></TD>
+<TD style="font-size: 15px; color:white;" color:white align=left><p>TIPO.val = int;</p></TD>
 </TR>
 
 </center>
