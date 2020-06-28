@@ -45,7 +45,7 @@ Rule 35    llamada -> ID PARIZQ PARDER
 Rule 36    ins_return -> RETURN expresion PTCOMA
 Rule 37    declaracion_struct -> ID lista_id
 Rule 38    asignacion -> acceso_struct IGUAL expresion
-Rule 39    acceso_struct -> ID PUNTO ID
+Rule 39    acceso_struct -> ID PUNTO tipo_var
 Rule 40    ins_etiqueta -> ID DOSP
 Rule 41    ins_goto -> GOTO ID PTCOMA
 Rule 42    ins_for -> FOR PARIZQ instruccion_for PTCOMA expresion PTCOMA asignacion PARDER LLAVIZQ instrucciones LLAVDER
@@ -178,7 +178,7 @@ ENTERO               : 128
 FLOAT                : 93
 FOR                  : 42
 GOTO                 : 41
-ID                   : 8 12 13 16 34 35 37 39 39 40 41 66 68 69 70 71 72 73 74 75 76 77 78 79 80 84 90 132
+ID                   : 8 12 13 16 34 35 37 39 40 41 66 68 69 70 71 72 73 74 75 76 77 78 79 80 84 90 132
 IF                   : 57 58 59 60 63
 IGUAL                : 38 66 67 68 86 87
 IGUALQUE             : 121
@@ -265,7 +265,7 @@ parametros           : 13 14
 primitiva            : 99
 sentencia_if         : 22
 sentencia_switch     : 23
-tipo_var             : 88 89
+tipo_var             : 39 88 89
 
 Parsing method: LALR
 
@@ -535,6 +535,29 @@ state 20
     IGUAL           reduce using rule 91 (tipo_var -> acceso_lista .)
     COMA            reduce using rule 91 (tipo_var -> acceso_lista .)
     PTCOMA          reduce using rule 91 (tipo_var -> acceso_lista .)
+    CORDER          reduce using rule 91 (tipo_var -> acceso_lista .)
+    MAS             reduce using rule 91 (tipo_var -> acceso_lista .)
+    MENOS           reduce using rule 91 (tipo_var -> acceso_lista .)
+    POR             reduce using rule 91 (tipo_var -> acceso_lista .)
+    DIVIDIDO        reduce using rule 91 (tipo_var -> acceso_lista .)
+    RESTO           reduce using rule 91 (tipo_var -> acceso_lista .)
+    MENQUE          reduce using rule 91 (tipo_var -> acceso_lista .)
+    MAYQUE          reduce using rule 91 (tipo_var -> acceso_lista .)
+    MEIQUE          reduce using rule 91 (tipo_var -> acceso_lista .)
+    MAIQUE          reduce using rule 91 (tipo_var -> acceso_lista .)
+    IGUALQUE        reduce using rule 91 (tipo_var -> acceso_lista .)
+    NIGUALQUE       reduce using rule 91 (tipo_var -> acceso_lista .)
+    AND             reduce using rule 91 (tipo_var -> acceso_lista .)
+    OR              reduce using rule 91 (tipo_var -> acceso_lista .)
+    XOR             reduce using rule 91 (tipo_var -> acceso_lista .)
+    PAND            reduce using rule 91 (tipo_var -> acceso_lista .)
+    BOR             reduce using rule 91 (tipo_var -> acceso_lista .)
+    XORR            reduce using rule 91 (tipo_var -> acceso_lista .)
+    SHIFTI          reduce using rule 91 (tipo_var -> acceso_lista .)
+    SHIFTD          reduce using rule 91 (tipo_var -> acceso_lista .)
+    PARDER          reduce using rule 91 (tipo_var -> acceso_lista .)
+    LLAVDER         reduce using rule 91 (tipo_var -> acceso_lista .)
+    DOSP            reduce using rule 91 (tipo_var -> acceso_lista .)
 
 
 state 21
@@ -678,7 +701,7 @@ state 25
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -749,7 +772,7 @@ state 26
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1151,7 +1174,7 @@ state 41
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1307,7 +1330,7 @@ state 45
 state 46
 
     (132) primitiva -> ID .
-    (39) acceso_struct -> ID . PUNTO ID
+    (39) acceso_struct -> ID . PUNTO tipo_var
     (34) llamada -> ID . PARIZQ expresiones PARDER
     (35) llamada -> ID . PARIZQ PARDER
     (84) acceso_lista -> ID . accesos
@@ -1512,7 +1535,7 @@ state 51
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1582,7 +1605,7 @@ state 52
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1652,7 +1675,7 @@ state 53
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1724,7 +1747,7 @@ state 54
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -1826,6 +1849,29 @@ state 58
     IGUAL           reduce using rule 90 (tipo_var -> ID .)
     COMA            reduce using rule 90 (tipo_var -> ID .)
     PTCOMA          reduce using rule 90 (tipo_var -> ID .)
+    CORDER          reduce using rule 90 (tipo_var -> ID .)
+    MAS             reduce using rule 90 (tipo_var -> ID .)
+    MENOS           reduce using rule 90 (tipo_var -> ID .)
+    POR             reduce using rule 90 (tipo_var -> ID .)
+    DIVIDIDO        reduce using rule 90 (tipo_var -> ID .)
+    RESTO           reduce using rule 90 (tipo_var -> ID .)
+    MENQUE          reduce using rule 90 (tipo_var -> ID .)
+    MAYQUE          reduce using rule 90 (tipo_var -> ID .)
+    MEIQUE          reduce using rule 90 (tipo_var -> ID .)
+    MAIQUE          reduce using rule 90 (tipo_var -> ID .)
+    IGUALQUE        reduce using rule 90 (tipo_var -> ID .)
+    NIGUALQUE       reduce using rule 90 (tipo_var -> ID .)
+    AND             reduce using rule 90 (tipo_var -> ID .)
+    OR              reduce using rule 90 (tipo_var -> ID .)
+    XOR             reduce using rule 90 (tipo_var -> ID .)
+    PAND            reduce using rule 90 (tipo_var -> ID .)
+    BOR             reduce using rule 90 (tipo_var -> ID .)
+    XORR            reduce using rule 90 (tipo_var -> ID .)
+    SHIFTI          reduce using rule 90 (tipo_var -> ID .)
+    SHIFTD          reduce using rule 90 (tipo_var -> ID .)
+    PARDER          reduce using rule 90 (tipo_var -> ID .)
+    LLAVDER         reduce using rule 90 (tipo_var -> ID .)
+    DOSP            reduce using rule 90 (tipo_var -> ID .)
     CORIZQ          shift and go to state 25
 
     accesos                        shift and go to state 23
@@ -1944,7 +1990,7 @@ state 63
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -2090,7 +2136,7 @@ state 67
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2160,7 +2206,7 @@ state 68
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2230,7 +2276,7 @@ state 69
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2300,7 +2346,7 @@ state 70
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2370,7 +2416,7 @@ state 71
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2440,7 +2486,7 @@ state 72
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2510,7 +2556,7 @@ state 73
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2580,7 +2626,7 @@ state 74
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2650,7 +2696,7 @@ state 75
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2720,7 +2766,7 @@ state 76
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2790,7 +2836,7 @@ state 77
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2860,7 +2906,7 @@ state 78
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -2930,7 +2976,7 @@ state 79
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3000,7 +3046,7 @@ state 80
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3070,7 +3116,7 @@ state 81
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3140,7 +3186,7 @@ state 82
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3210,7 +3256,7 @@ state 83
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3280,7 +3326,7 @@ state 84
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3350,7 +3396,7 @@ state 85
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3426,10 +3472,15 @@ state 86
 
 state 87
 
-    (39) acceso_struct -> ID PUNTO . ID
+    (39) acceso_struct -> ID PUNTO . tipo_var
+    (90) tipo_var -> . ID
+    (91) tipo_var -> . acceso_lista
+    (84) acceso_lista -> . ID accesos
 
-    ID              shift and go to state 150
+    ID              shift and go to state 58
 
+    tipo_var                       shift and go to state 150
+    acceso_lista                   shift and go to state 20
 
 state 88
 
@@ -3475,7 +3526,7 @@ state 88
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -3825,7 +3876,7 @@ state 98
     (37) declaracion_struct -> ID . lista_id
     (34) llamada -> ID . PARIZQ expresiones PARDER
     (35) llamada -> ID . PARIZQ PARDER
-    (39) acceso_struct -> ID . PUNTO ID
+    (39) acceso_struct -> ID . PUNTO tipo_var
     (84) acceso_lista -> ID . accesos
     (88) lista_id -> . lista_id COMA tipo_var
     (89) lista_id -> . tipo_var
@@ -3856,8 +3907,8 @@ state 98
     CORIZQ          shift and go to state 25
 
     lista_id                       shift and go to state 172
-    accesos                        shift and go to state 23
     tipo_var                       shift and go to state 19
+    accesos                        shift and go to state 23
     acceso                         shift and go to state 24
     acceso_lista                   shift and go to state 20
 
@@ -3918,7 +3969,7 @@ state 99
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -4427,7 +4478,7 @@ state 127
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -4514,7 +4565,7 @@ state 128
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -5950,34 +6001,34 @@ state 149
 
 state 150
 
-    (39) acceso_struct -> ID PUNTO ID .
+    (39) acceso_struct -> ID PUNTO tipo_var .
 
-    CORDER          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MAS             reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MENOS           reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    POR             reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    DIVIDIDO        reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    RESTO           reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MENQUE          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MAYQUE          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MEIQUE          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    MAIQUE          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    IGUALQUE        reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    NIGUALQUE       reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    AND             reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    OR              reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    XOR             reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    PAND            reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    BOR             reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    XORR            reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    SHIFTI          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    SHIFTD          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    PTCOMA          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    PARDER          reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    LLAVDER         reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    COMA            reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    DOSP            reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
-    IGUAL           reduce using rule 39 (acceso_struct -> ID PUNTO ID .)
+    CORDER          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MAS             reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MENOS           reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    POR             reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    DIVIDIDO        reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    RESTO           reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MENQUE          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MAYQUE          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MEIQUE          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    MAIQUE          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    IGUALQUE        reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    NIGUALQUE       reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    AND             reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    OR              reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    XOR             reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    PAND            reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    BOR             reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    XORR            reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    SHIFTI          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    SHIFTD          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    PTCOMA          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    PARDER          reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    LLAVDER         reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    COMA            reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    DOSP            reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
+    IGUAL           reduce using rule 39 (acceso_struct -> ID PUNTO tipo_var .)
 
 
 state 151
@@ -6092,7 +6143,7 @@ state 154
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6195,7 +6246,7 @@ state 158
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6280,7 +6331,7 @@ state 161
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6350,7 +6401,7 @@ state 162
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6420,7 +6471,7 @@ state 163
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6490,7 +6541,7 @@ state 164
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6560,7 +6611,7 @@ state 165
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6630,7 +6681,7 @@ state 166
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6700,7 +6751,7 @@ state 167
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6770,7 +6821,7 @@ state 168
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6840,7 +6891,7 @@ state 169
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -6910,7 +6961,7 @@ state 170
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7166,7 +7217,7 @@ state 180
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7236,7 +7287,7 @@ state 181
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7309,7 +7360,7 @@ state 182
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7380,7 +7431,7 @@ state 183
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7476,7 +7527,7 @@ state 185
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -7563,7 +7614,7 @@ state 186
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -7633,7 +7684,7 @@ state 187
     (85) declaracion -> . TIPO lista_id
     (86) declaracion -> . TIPO lista_id IGUAL expresion
     (87) declaracion -> . TIPO lista_id IGUAL SCAN PARIZQ PARDER
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -7790,7 +7841,7 @@ state 191
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -8740,7 +8791,7 @@ state 214
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -8823,7 +8874,7 @@ state 218
     (78) asignacion -> ID . ASHIFTD expresion
     (79) asignacion -> ID . ASHIFTI expresion
     (80) asignacion -> ID . AXORR expresion
-    (39) acceso_struct -> ID . PUNTO ID
+    (39) acceso_struct -> ID . PUNTO tipo_var
     (84) acceso_lista -> ID . accesos
     (81) accesos -> . accesos acceso
     (82) accesos -> . acceso
@@ -8963,7 +9014,7 @@ state 223
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -9073,7 +9124,7 @@ state 229
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -9206,7 +9257,7 @@ state 233
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -9324,7 +9375,7 @@ state 235
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -9489,7 +9540,7 @@ state 239
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -9603,7 +9654,7 @@ state 242
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -9689,7 +9740,7 @@ state 243
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -9776,7 +9827,7 @@ state 244
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -9824,7 +9875,7 @@ state 245
     (78) asignacion -> . ID ASHIFTD expresion
     (79) asignacion -> . ID ASHIFTI expresion
     (80) asignacion -> . ID AXORR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
 
     ID              shift and go to state 218
@@ -10220,7 +10271,7 @@ state 260
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10326,7 +10377,7 @@ state 261
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10454,7 +10505,7 @@ state 265
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10593,7 +10644,7 @@ state 268
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10696,7 +10747,7 @@ state 269
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10828,7 +10879,7 @@ state 271
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -10915,7 +10966,7 @@ state 272
     (114) expresion_bit_bit -> . expresion SHIFTI expresion
     (115) expresion_bit_bit -> . expresion SHIFTD expresion
     (116) expresion_bit_bit -> . NOTR expresion
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (84) acceso_lista -> . ID accesos
@@ -11001,7 +11052,7 @@ state 273
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -11105,7 +11156,7 @@ state 274
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -11208,7 +11259,7 @@ state 275
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -11382,7 +11433,7 @@ state 278
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -11545,7 +11596,7 @@ state 282
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
@@ -11648,7 +11699,7 @@ state 283
     (34) llamada -> . ID PARIZQ expresiones PARDER
     (35) llamada -> . ID PARIZQ PARDER
     (36) ins_return -> . RETURN expresion PTCOMA
-    (39) acceso_struct -> . ID PUNTO ID
+    (39) acceso_struct -> . ID PUNTO tipo_var
     (84) acceso_lista -> . ID accesos
     (92) TIPO -> . INT
     (93) TIPO -> . FLOAT
