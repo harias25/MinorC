@@ -435,6 +435,13 @@ def p_asignacion_struct(t):
     gramatical = G.ValorAscendente('asignacion -> acceso_struct IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_struct,expresion.val);',lista)
     func(0,gramatical)
 
+def p_asignacion_struct_conversion(t):
+    'asignacion : acceso_struct IGUAL PARIZQ TIPO_DATO PARDER expresion  '
+    t[0] = Asignacion(t[1],t[6],t.slice[2].lineno,1,"("+t[4]+")")
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> acceso_struct IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_struct,expresion.val);',lista)
+    func(0,gramatical)
+
 def p_acceso_struct(t):
     'acceso_struct : tipo_var PUNTO tipo_var'
     t[0] = AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(t.slice[2]))
@@ -638,12 +645,26 @@ def p_asignacion(t):
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
     func(0,gramatical)
 
+def p_asignacion_conversion(t):
+    'asignacion : ID IGUAL PARIZQ TIPO_DATO PARDER expresion  '
+    t[0] = Asignacion(t[1],t[6],t.slice[2].lineno,1,"("+t[4]+")")
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
+    func(0,gramatical)
+
 def p_asignacion_lista(t):
     'asignacion : acceso_lista IGUAL expresion  '
     t[0] = Asignacion(t[1],t[3],t.slice[2].lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('asignacion -> acceso_lista IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_lista.val,expresion.val);',lista)
     func(0,gramatical)
+
+def p_asignacion_lista_conversion(t):
+    'asignacion : acceso_lista IGUAL  PARIZQ TIPO_DATO PARDER  expresion  '
+    t[0] = Asignacion(t[1],t[6],t.slice[2].lineno,1,"("+t[4]+")")
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> acceso_lista IGUAL expresion PTCOMA','asignacion.instr = Asignar(acceso_lista.val,expresion.val);',lista)
+    func(0,gramatical)    
 
 def p_scan(t) :
     'asignacion : ID IGUAL SCAN PARIZQ PARDER '
@@ -829,6 +850,18 @@ def p_tipo_var(t):
     #lista = func(1,None).copy()
     gramatical = G.ValorAscendente('lista_id -> ID | acceso_lista','tipo_ID = ID | acceso_lista',[])
     func(2,gramatical)#func(0,gramatical)
+
+def p_tipo_dato2(t):
+    '''TIPO_DATO : INT 
+                | FLOAT 
+                | CHAR 
+                | DOOBLE
+                | VOID '''
+
+    t[0] = t[1]     
+    gramatical = G.ValorAscendente('TIPO -> '+str(t[1]),'TIPO.val = '+str(t[1])+';',None)
+    func(2,gramatical)
+
 
 def p_tipo_dato(t):
     '''TIPO : INT 

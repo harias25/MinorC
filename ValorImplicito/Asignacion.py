@@ -6,11 +6,12 @@ from Reporteria.Error import Error
 import Reporteria.ReporteErrores as ReporteErrores
 
 class Asignacion(Instruccion):
-    def __init__(self,id,valor,linea,columna):
+    def __init__(self,id,valor,linea,columna,tipo=""):
         self.linea = linea
         self.columna = columna
         self.id = id
         self.valor = valor
+        self.tipo = tipo
 
     def traducir(self,ent,arbol,ventana):
         #acceso a struct
@@ -23,9 +24,9 @@ class Asignacion(Instruccion):
 
             if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
             if(isinstance(self.id,AccesoStruct)):
-                ventana.editor.append("\n"+acceso.codigo3D + "="+traduccionExpresion.temporal.utilizar()+"; ") 
+                ventana.editor.append("\n"+acceso.codigo3D + "="+self.tipo+traduccionExpresion.temporal.utilizar()+"; ") 
             else:
-                ventana.editor.append("\n"+acceso.temporal.utilizar() + "="+traduccionExpresion.temporal.utilizar()+"; ") 
+                ventana.editor.append("\n"+acceso.temporal.utilizar() + "="+self.tipo+traduccionExpresion.temporal.utilizar()+"; ") 
 
             return None
 
@@ -44,7 +45,7 @@ class Asignacion(Instruccion):
 
                 if(simbolo.tipo == Tipo.CHAR and traduccionExpresion.tipo == Tipo.CHAR):
                     if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
-                    traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
+                    traduccion = simbolo.temporal + "="+self.tipo+traduccionExpresion.temporal.utilizar()+"; "  
                     ventana.editor.append("\n"+traduccion) 
                 else:
                     error = Error("SEMANTICO","Error semantico, expresión incorrecta al asignar el Arrray "+self.id,self.linea,self.columna)
@@ -63,7 +64,7 @@ class Asignacion(Instruccion):
             if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
 
             
-            traduccion = simbolo.temporal + "="+traduccionExpresion.temporal.utilizar()+"; "  
+            traduccion = simbolo.temporal + "="+self.tipo+traduccionExpresion.temporal.utilizar()+"; "  
 
             try:
                 ventana.editor.append("\n"+traduccion) 
@@ -82,7 +83,7 @@ class Asignacion(Instruccion):
                 if(traduccionExpresion == None): return None
                 if(traduccionExpresion.codigo3D != ""): ventana.editor.append("\n"+traduccionExpresion.codigo3D)
 
-                ventana.editor.append("\n"+temporal+niveles+"["+str(contador)+"]="+traduccionExpresion.temporal.obtener()+";")
+                ventana.editor.append("\n"+temporal+niveles+"["+str(contador)+"]="+self.tipo+traduccionExpresion.temporal.obtener()+";")
             
             contador = contador + 1
                 
