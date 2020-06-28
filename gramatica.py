@@ -436,8 +436,8 @@ def p_asignacion_struct(t):
     func(0,gramatical)
 
 def p_acceso_struct(t):
-    'acceso_struct : ID PUNTO tipo_var'
-    t[0] = AccesoStruct(t[1],t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    'acceso_struct : tipo_var PUNTO tipo_var'
+    t[0] = AccesoStruct(t[1],t[3],t.slice[2].lineno,find_column(t.slice[2]))
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('acceso_struct ->  ID PUNTO tipo_var','acceso_struct.inst = AccesoStruct(ID,tipo_var);',lista)
     func(0,gramatical)

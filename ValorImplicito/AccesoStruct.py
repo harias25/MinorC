@@ -15,6 +15,11 @@ class AccesoStruct(Instruccion):
         self.columna = columna
 
     def traducir(self,ent,arbol,ventana):
+        accesoLista = None
+        if(isinstance(self.id,AccesoLista)):
+            accesoLista = self.id
+            self.id = self.id.id
+
         simbolo = ent.obtener(str(self.id))
         if(simbolo == None):
             error = Error("SEMANTICO","Error semantico, No es existe la variable "+str(self.id),self.linea,self.columna)
@@ -54,6 +59,13 @@ class AccesoStruct(Instruccion):
         temporal = temp.nuevoTemporal()
 
 
+        temporalSimbolo = simbolo.temporal
+
+        if(accesoLista!=None):
+            traduccionAccesoLista = accesoLista.traducir(ent,arbol,ventana)
+            temporalSimbolo = traduccionAccesoLista.temporal.utilizar()
+
+
         if isinstance(self.llave,AccesoLista):
             resultado3D = Resultado3D()
             
@@ -66,13 +78,13 @@ class AccesoStruct(Instruccion):
                 strAccesos +="["+expresion.temporal.utilizar()+"]"
 
 
-            resultado3D.codigo3D = simbolo.temporal+"[\""+self.llave.id+"\"]"+strAccesos
+            resultado3D.codigo3D = temporalSimbolo+"[\""+self.llave.id+"\"]"+strAccesos
             resultado3D.tipo = simbolo.tipo
             resultado3D.temporal = temporal
             return resultado3D
         else:
             resultado3D = Resultado3D()
-            resultado3D.codigo3D = simbolo.temporal+"[\""+self.llave+"\"]"
+            resultado3D.codigo3D = temporalSimbolo+"[\""+self.llave+"\"]"
             resultado3D.tipo = simbolo.tipo
             resultado3D.temporal = temporal
             return resultado3D
