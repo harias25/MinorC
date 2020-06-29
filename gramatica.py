@@ -152,7 +152,7 @@ t_ASHIFTD = r'>>='
 t_APAND = r'&='
 t_AXORR = r'\^='
 t_ABOR = r'\|='
-t_UNARIO = r'\?:'
+t_UNARIO = r'\?'
 
 
 def t_DECIMAL(t):
@@ -582,7 +582,19 @@ def p_break(t):
     gramatical = G.ValorAscendente('ins_break ->BREAK PTCOMA','ins_break.instr = Break();',lista)
     func(0,gramatical)
     t[0] = Break(t.slice[1].lineno,find_column(t.slice[1]))
-    
+
+#********************************************* OPERADOR TERNARIO ***************************************
+def p_ternario(t):
+    'asignacion  : ID IGUAL expresion UNARIO expresion DOSP expresion '
+
+    asignacion1 = Asignacion(t[1],t[5],t.slice[1].lineno,find_column(t.slice[1]))
+    asignacion2 = Asignacion(t[1],t[7],t.slice[1].lineno,find_column(t.slice[1]))
+
+    t[0] = If(t[3],[asignacion1],[asignacion2],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion ->ID IGUAL expresion TERNARIO expresion DOSPTS expresion PTCOMA','sentencia_if.instr = If(expresion,instruccionesV,[],[]);',lista)
+    func(0,gramatical)
+
 #********************************************* SENTENCIA IF *********************************************
 def p_sentencia_if(t):
     'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER'
@@ -673,6 +685,13 @@ def p_asignacion(t):
 def p_asignacion_conversion(t):
     'asignacion : ID IGUAL PARIZQ TIPO_DATO PARDER expresion  '
     t[0] = Asignacion(t[1],t[6],t.slice[2].lineno,1,"("+t[4]+")")
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
+    func(0,gramatical)
+
+def p_asignacion_referencia(t):
+    'asignacion : ID IGUAL PAND expresion  '
+    t[0] = Asignacion(t[1],t[4],t.slice[2].lineno,1,"&")
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('asignacion -> ID IGUAL expresion PTCOMA','asignacion.instr = Asignar(ID.val,expresion.val);',lista)
     func(0,gramatical)

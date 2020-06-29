@@ -18,7 +18,7 @@ class Asignacion(Instruccion):
         if(isinstance(self.id,AccesoStruct) or isinstance(self.id,AccesoLista)):
             traduccionExpresion = self.valor.traducir(ent,arbol,ventana)
             if(traduccionExpresion == None): return None
-
+1
             acceso = self.id.traducir(ent,arbol,ventana)
             if(acceso == None): return None
 
