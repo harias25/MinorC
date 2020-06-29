@@ -296,10 +296,10 @@ def p_iglobal(t):
 
 #***************************************************  STRUCTS *****************************************
 def p_struct(t):
-    ' definicion_struct : STRUCT ID PARIZQ declaraciones PARDER PTCOMA '
+    ' definicion_struct : STRUCT ID LLAVIZQ declaraciones LLAVDER PTCOMA '
     t[0] = Struct(t[2],t[4],t.slice[1].lineno,find_column(t.slice[1]))
     lista = func(1,None).copy()
-    gramatical = G.ValorAscendente('definicion_struct -> STRUCT ID PARIZQ declaraciones PARDER PTCOMA ','struct.instruccion = Struct(ID,declaraciones);',lista)
+    gramatical = G.ValorAscendente('definicion_struct -> STRUCT ID LLAVIZQ declaraciones LLAVDER PTCOMA ','struct.instruccion = Struct(ID,declaraciones);',lista)
     func(0,gramatical)
 
 def p_declaraciones(t):
@@ -422,8 +422,8 @@ def p_return(t):
 
 #************************************************** USOS DE STRUCTS ***************************************
 def p_declaracion_struct(t):
-    'declaracion_struct : ID lista_id '
-    t[0] = Declaracion(t[1],t[2],None,t.lexer.lineno,1)
+    'declaracion_struct : STRUCT ID lista_id '
+    t[0] = Declaracion(t[2],t[3],None,t.slice[1].lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('declaracion_struct -> TIPO lista_id ','declaracion_struct.instr = Declaracion(ID,lista_id);',lista)
     func(0,gramatical)
@@ -798,6 +798,13 @@ def  p_acceso(t):
 def  p_acceso_lista(t):
     'acceso_lista : ID accesos'
     t[0] = AccesoLista(t[1],t[2],None,t.lexer.lineno,1)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('acceso_lista ->  tipo_var accesos','acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);',lista)
+    func(0,gramatical)    
+
+def  p_acceso_lista2(t):
+    'acceso_lista : STRUCT ID accesos'
+    t[0] = AccesoLista(t[2],t[3],None,t.lexer.lineno,1)
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('acceso_lista ->  tipo_var accesos','acceso_lista.val = AccesoLista(tipovar.val,accesos.lista,Null);',lista)
     func(0,gramatical)    
