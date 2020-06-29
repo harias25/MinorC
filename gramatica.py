@@ -359,6 +359,27 @@ def p_parametro(t):
     gramatical = G.ValorAscendente('parametro -> TIPO ID ','parametro.instr = Declaracion(TIPO,ID);',lista)
     func(0,gramatical)
 
+def p_parametro_struct(t):
+    'parametro : STRUCT ID ID'
+    t[0] = Parametro(t[2],t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametro -> TIPO ID ','parametro.instr = Declaracion(TIPO,ID);',lista)
+    func(0,gramatical)
+
+def p_parametro_ref(t):
+    'parametro : TIPO PAND ID'
+    t[0] = Parametro(t[1],t[3],t.slice[2].lineno,find_column(t.slice[2]),True)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametro -> TIPO PAND ID ','parametro.instr = Declaracion(TIPO,ID,Referencia);',lista)
+    func(0,gramatical)
+
+def p_parametro_struct_ref(t):
+    'parametro : STRUCT ID PAND ID'
+    t[0] = Parametro(t[2],t[4],t.slice[1].lineno,find_column(t.slice[1]),True)
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('parametro -> TIPO ID ','parametro.instr = Declaracion(TIPO,ID);',lista)
+    func(0,gramatical)
+
 #********************************************** INSTRUCCIONES  ***********************************
 
 def p_instrucciones_lista(t) :
@@ -398,7 +419,7 @@ def p_instruccion(t) :
     gramatical = G.ValorAscendente('instruccion -> '+str(t.slice[1]),'instruccion.instr = '+str(t.slice[1])+'.instr;',lista)
     func(0,gramatical)
 
-#***************************************************** LLAMADAS DE FUNCIONES  ***************/*************
+#***************************************************** LLAMADAS DE FUNCIONES  ****************************
 def p_llamada(t):
     ' llamada : ID PARIZQ expresiones PARDER '
     t[0] = LlamadaFuncion(t[1],t[3],t.slice[1].lineno,find_column(t.slice[1]))

@@ -475,7 +475,7 @@ class Ui_MainWindow(object):
 
         listado = ReporteErrores.func(None)
         if(len(listado)>0):
-            QMessageBox.critical(self.centralwidget, "Errores en Ejecución", "Se obtuvieron errores en la ejecución del Código Ingresado, verifique reporte de Errores")
+            QMessageBox.critical(self.centralwidget, "Errores en Traducción", "Se obtuvieron errores en la traducción del Código Ingresado, verifique reporte de Errores de Traducción")
 
         self.ts_global = ts_global
         self.ast = ast

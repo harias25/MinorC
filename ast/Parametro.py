@@ -9,11 +9,12 @@ from ValorImplicito.Asignacion import Asignacion
 
 class Parametro(Instruccion):
 
-    def __init__(self,tipo,id,linea, columna):
+    def __init__(self,tipo,id,linea, columna,ref=False):
         self.id = id
         self.linea = linea
         self.columna = columna
         self.tipo = tipo
+        self.referencia = ref
         self.valor = None
         self.temporal = None
 
@@ -31,5 +32,7 @@ class Parametro(Instruccion):
             else:
                 simbolo = Simbolo(self.id,self.temporal,self.tipo,self.linea,self.columna)
                 ent.agregar(simbolo)
-                asignacion = Asignacion(self.id,self.valor,self.linea,self.columna)
+                ref = ""
+                if(self.referencia): ref="&"
+                asignacion = Asignacion(self.id,self.valor,self.linea,self.columna,ref)
                 asignacion.traducir(ent,arbol,ventana)
