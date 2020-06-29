@@ -334,6 +334,7 @@ class Ui_MainWindow(object):
     def clean(self):
         self.ruta_archivo = None
         self.editor.setText("")
+        self.codigo.setText("")
         self.consola.clear()
 
     def acercade(self):
