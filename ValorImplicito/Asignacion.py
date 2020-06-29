@@ -13,7 +13,7 @@ class Asignacion(Instruccion):
         self.valor = valor
         self.tipo = tipo
 
-    def traducir(self,ent,arbol,ventana):1
+    def traducir(self,ent,arbol,ventana):
         #acceso a struct
         if(isinstance(self.id,AccesoStruct) or isinstance(self.id,AccesoLista)):
             traduccionExpresion = self.valor.traducir(ent,arbol,ventana)

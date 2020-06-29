@@ -535,23 +535,40 @@ def p_lista_case_s(t) :
     func(2,gramatical)#func(0,gramatical)
 
 def p_caso(t):
-    'caso    : CASE expresion DOSP instrucciones  '
+    'caso    : CASE expresion DOSP LLAVIZQ instrucciones LLAVDER  '
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('case ->CASE expresion DOSP instrucciones','case.instr = Case(expresion,instrucciones);',lista)
     func(0,gramatical)
-    t[0] = Case(t[2],t[4],t.slice[1].lineno,find_column(t.slice[1]))
+    t[0] = Case(t[2],t[5],t.slice[1].lineno,find_column(t.slice[1]))
+
+def p_caso_U(t):
+    'caso    : CASE expresion DOSP instruccion  '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('case ->CASE expresion DOSP instrucciones','case.instr = Case(expresion,instrucciones);',lista)
+    func(0,gramatical)
+    t[0] = Case(t[2],[t[4]],t.slice[1].lineno,find_column(t.slice[1]))
+
 def p_caso_S(t):
     'caso    : CASE expresion DOSP  '
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('case ->CASE expresion DOSP','case.instr = Case(expresion,[]);',lista)
     func(0,gramatical)
     t[0] = Case(t[2],[],t.slice[1].lineno,find_column(t.slice[1]))
-def p_default(t):
-    'default_ins    : DEFAULT DOSP instrucciones  '
+
+def p_default_u(t):
+    'default_ins    : DEFAULT DOSP instruccion  '
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('default_ins ->DEFAULT DOSP instrucciones','default_ins.instr = Case(None,instrucciones);',lista)
     func(0,gramatical)
-    t[0] = Case(None,t[3],t.slice[1].lineno,find_column(t.slice[1]))
+    t[0] = Case(None,[t[3]],t.slice[1].lineno,find_column(t.slice[1]))
+
+def p_default(t):
+    'default_ins    : DEFAULT DOSP LLAVIZQ instrucciones LLAVDER '
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('default_ins ->DEFAULT DOSP instrucciones','default_ins.instr = Case(None,instrucciones);',lista)
+    func(0,gramatical)
+    t[0] = Case(None,[t[4]],t.slice[1].lineno,find_column(t.slice[1]))
+
 def p_default_S(t):
     'default_ins    : DEFAULT DOSP  '
     lista = func(1,None).copy()
@@ -573,6 +590,14 @@ def p_sentencia_if(t):
     lista = func(1,None).copy()
     gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','sentencia_if.instr = If(expresion,instruccionesV,[],[]);',lista)
     func(0,gramatical)
+
+def p_sentencia_if_s(t):
+    'sentencia_if  : IF PARIZQ expresion PARDER  instruccion '
+    t[0] = If(t[3],[t[5]],[],[],t.slice[1].lineno,find_column(t.slice[1]))
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('sentencia_if ->IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER','sentencia_if.instr = If(expresion,instruccionesV,[],[]);',lista)
+    func(0,gramatical)
+
 
 def p_sentencia_if_else(t):
     'sentencia_if  : IF PARIZQ expresion PARDER LLAVIZQ  instrucciones LLAVDER ELSE  LLAVIZQ  instrucciones LLAVDER '
