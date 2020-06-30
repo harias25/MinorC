@@ -860,6 +860,14 @@ def  p_acceso(t):
     gramatical = G.ValorAscendente('acceso -> CORIZQ primitiva CORDER','acceso.val = primitiva.val;',lista)
     func(0,gramatical)
 
+def  p_acceso2(t):
+    'acceso : CORIZQ  CORDER'
+    t[0] = None
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('acceso -> CORIZQ primitiva CORDER','acceso.val = primitiva.val;',lista)
+    func(0,gramatical)
+
+
 def  p_acceso_lista(t):
     'acceso_lista : ID accesos'
     t[0] = AccesoLista(t[1],t[2],None,t.lexer.lineno,1)
