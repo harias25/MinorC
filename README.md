@@ -6,6 +6,8 @@
 - Carnet 201020247
 - Junio 2020
 
+## Información del Lenguaje Minor C
+- MinorC es un subconjunto del lenguaje C, creado con el fin de poner en práctica los conceptos del proceso de compilación, para cubrir las competencias del curso.
 
 ## Herramientas utilizadas
 - PLY: Generador de analizadores léxicos y sintácticos.
