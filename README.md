@@ -27,7 +27,7 @@
 - pip install qscintilla --no-cache-dir
 
 ## Generación de Archivos de Analizadores
-- python .\ascendente.py
+- python .\gramatica.py
 
 ## Ejecutar el Programa Funcional
 - python .\Pantalla.py
