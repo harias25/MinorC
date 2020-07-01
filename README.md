@@ -22,6 +22,10 @@
 - conda install qt      -- este es el diseñador de pantallas
 - conda install pyqt
 
+## Comandos para Herramienta de Estilo en el Editor de Texto
+- pip install pyqt5 --no-cache-dir
+- pip install qscintilla --no-cache-dir
+
 ## Generación de Archivos de Analizadores
 - python .\ascendente.py
 
