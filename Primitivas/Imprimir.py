@@ -44,7 +44,7 @@ class Imprimir(Instruccion) :
                     if(cadena == None): return None 
                 
                 else:
-                    if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
+                    #if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
                     
                     pos = cadena.index("%")
                     if(pos==-1):
@@ -52,12 +52,16 @@ class Imprimir(Instruccion) :
                         ReporteErrores.func(error)
                         return None
 
-                  
+                    temporal =  exp_3D.temporal.utilizar()
+                    if ' ' in temporal:
+                        temp2 = Temp.nuevoTemporal(1)
+                        ventana.editor.append("\n"+temp2.utilizar()+" = "+temporal+";") 
+                        temporal = temp2.utilizar()
 
                     ventana.editor.append("\n"+"print(\""+cadena[0:pos]+"\");") 
                     if(exp_3D.codigo3D != ""):  ventana.editor.append("\n"+exp_3D.codigo3D) 
                     
-                    ventana.editor.append("\n"+"print("+exp_3D.temporal.utilizar()+");") 
+                    ventana.editor.append("\n"+"print("+temporal+");") 
                     cadena = cadena[pos+2:]
 
             valorfinal += cadena+"\");"

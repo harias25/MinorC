@@ -107,7 +107,44 @@ class Operacion(Expresion):
         self.linea = linea
         self.columna = columna
     
-    def traducir(self,ent,arbol,ventana):
+
+    def validarLados(self,recursivo):
+        if ((self.operadorIzq.tipo == TIPO_OPERACION.ID or self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO) and (self.operadorDer.tipo == TIPO_OPERACION.ID or self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO)) and recursivo == 0:
+            return True
+
+        return False
+    
+
+    def generarOperacionBinaria(self,signo,ent,arbol,ventana,recursivo):
+        valor1 = self.operadorIzq.traducir(ent,arbol,ventana,recursivo+1)
+        valor2 = self.operadorDer.traducir(ent,arbol,ventana,recursivo+1)
+        if(valor1 == None or valor2 == None): return None
+
+        resultado = valor1.codigo3D
+        if(resultado !="" and valor2.codigo3D):
+            resultado = resultado + "\n" + valor2.codigo3D 
+        else:
+            resultado +=  valor2.codigo3D 
+
+        if(resultado!=""):
+            resultado = resultado + "\n" 
+
+        result = Resultado3D()
+        result.tipo = Tipo.FLOAT
+        if(self.validarLados(recursivo)):
+            temporal = Temp.Temporal(valor1.temporal.utilizar()+" "+signo+" "+valor2.temporal.utilizar())
+            result.codigo3D = resultado
+            result.temporal = temporal
+            return result
+
+        temporal = Temp.nuevoTemporal()
+        op = temporal.obtener() + '='+valor1.temporal.utilizar()+" "+signo+" "+valor2.temporal.utilizar()+";"
+        resultado +=  op  
+        result.codigo3D = resultado
+        result.temporal = temporal
+        return result
+
+    def traducir(self,ent,arbol,ventana,recursivo=0):
         #PRIMITIVOS
         if(self.tipo == TIPO_OPERACION.PRIMITIVO):
             return self.valor.traducir(ent,arbol)
@@ -148,143 +185,27 @@ class Operacion(Expresion):
 
         #SUMA
         elif(self.tipo == TIPO_OPERACION.SUMA):
-
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"+"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
-
+            return self.generarOperacionBinaria("+",ent,arbol,ventana,recursivo)
+            
         #RESTA
         elif(self.tipo == TIPO_OPERACION.RESTA):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"-"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("-",ent,arbol,ventana,recursivo)
 
         #MULTIPLICACIÓN
         elif(self.tipo == TIPO_OPERACION.MULTIPLICACION):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"*"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("*",ent,arbol,ventana,recursivo)
         
         #DIVISION
         elif(self.tipo == TIPO_OPERACION.DIVISION):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"/"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("/",ent,arbol,ventana,recursivo)
 
         #MODULO
         elif(self.tipo == TIPO_OPERACION.MODULO):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"%"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("%",ent,arbol,ventana,recursivo)
 
         #UNARIA
         elif(self.tipo == TIPO_OPERACION.MENOS_UNARIO):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana,recursivo+1)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=-'+valor1.temporal.utilizar()+";"
@@ -305,249 +226,41 @@ class Operacion(Expresion):
         
         #MAYOR
         elif(self.tipo == TIPO_OPERACION.MAYOR_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+">"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria(">",ent,arbol,ventana,recursivo)
         
         #MAYOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MAYOR_IGUA_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+">="+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria(">=",ent,arbol,ventana,recursivo)
         #MENOR
         elif(self.tipo == TIPO_OPERACION.MENOR_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"<"+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("<",ent,arbol,ventana,recursivo)
         
         #MENOR IGUAL
         elif(self.tipo == TIPO_OPERACION.MENOR_IGUA_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"<="+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("<=",ent,arbol,ventana,recursivo)
 
         #IGUAL
         elif(self.tipo == TIPO_OPERACION.IGUAL_IGUAL):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"=="+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("==",ent,arbol,ventana,recursivo)
         
         #DIFERENTE
         elif(self.tipo == TIPO_OPERACION.DIFERENTE_QUE):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+"!="+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("!=",ent,arbol,ventana,recursivo)
 
         #AND
         elif(self.tipo == TIPO_OPERACION.AND):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" && "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("&&",ent,arbol,ventana,recursivo)
 
         #OR
         elif(self.tipo == TIPO_OPERACION.OR):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" || "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
-
+            return self.generarOperacionBinaria("||",ent,arbol,ventana,recursivo)
         #XOR
         elif(self.tipo == TIPO_OPERACION.XOR):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" xor "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("xor",ent,arbol,ventana,recursivo)
 
         #NOT
         elif(self.tipo == TIPO_OPERACION.NOT):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana,recursivo+1)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=!'+valor1.temporal.utilizar()+";"
@@ -567,142 +280,28 @@ class Operacion(Expresion):
                 
         #PAND
         elif(self.tipo == TIPO_OPERACION.PAND):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" & "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("&",ent,arbol,ventana,recursivo)
 
         #BOR
         elif(self.tipo == TIPO_OPERACION.BOR):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" | "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("|",ent,arbol,ventana,recursivo)
 
         #XORR
         elif(self.tipo == TIPO_OPERACION.XORR):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" ^ "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("^",ent,arbol,ventana,recursivo)
+            
 
         #SHIFI
         elif(self.tipo == TIPO_OPERACION.SHIFTI):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" << "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
+            return self.generarOperacionBinaria("<<",ent,arbol,ventana,recursivo)
 
         #SHIFD
         elif(self.tipo == TIPO_OPERACION.SHIFTD):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
-            valor2 = self.operadorDer.traducir(ent,arbol,ventana)
-            if(valor1 == None or valor2 == None): return None
-
-            temporal = Temp.nuevoTemporal()
-            op = temporal.obtener() + '='+valor1.temporal.utilizar()+" >> "+valor2.temporal.utilizar()+";"
-
-
-            resultado = valor1.codigo3D
-            if(resultado !="" and valor2.codigo3D):
-                resultado = resultado + "\n" + valor2.codigo3D 
-            else:
-                resultado +=  valor2.codigo3D 
-
-            if(resultado!=""):
-                resultado = resultado + "\n" + op
-            else:
-               resultado +=  op  
-               
-            result = Resultado3D()
-            result.codigo3D = resultado
-            result.temporal = temporal
-            result.tipo = Tipo.FLOAT
-            return result
-
+            return self.generarOperacionBinaria(">>",ent,arbol,ventana,recursivo)
+            
         #NOTR
         elif(self.tipo == TIPO_OPERACION.NOTR):
-            valor1 = self.operadorIzq.traducir(ent,arbol,ventana)
+            valor1 = self.operadorIzq.traducir(ent,arbol,ventana,recursivo+1)
             if(valor1 == None): return None
             temporal = Temp.nuevoTemporal()
             op = temporal.obtener() + '=~'+valor1.temporal.utilizar()+";"

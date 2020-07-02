@@ -23,13 +23,17 @@ class For(Instruccion) :
         if(condicion3D == None): return None
         etiquetaFor = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
+        etiquetaVerdadero = temp.etiqueta()
 
         temp.listaContinue(0,etiquetaFor)
         temp.listaBreak(0,etiquetaSalida)
 
         ventana.editor.append("\n"+etiquetaFor+":") 
         if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
-        ventana.editor.append("\n"+"if(!"+condicion3D.temporal.utilizar()+") goto "+etiquetaSalida+";")
+        ventana.editor.append("\n"+"if("+condicion3D.temporal.utilizar()+") goto "+etiquetaVerdadero+";")
+        ventana.editor.append("\n"+"goto "+etiquetaSalida+";") 
+
+        ventana.editor.append("\n"+etiquetaVerdadero+":") 
         for ins in self.instrucciones:
             try:
                 ins.traducir(tsFor,arbol,ventana)

@@ -20,14 +20,17 @@ class While(Instruccion) :
         if(condicion3D == None): return None
         etiquetaWhile = temp.etiqueta()
         etiquetaSalida = temp.etiqueta()
+        etiquetaTrue = temp.etiqueta()
 
         temp.listaContinue(0,etiquetaWhile)
         temp.listaBreak(0,etiquetaSalida)
 
         ventana.editor.append("\n"+etiquetaWhile+":") 
         if(condicion3D.codigo3D!=""): ventana.editor.append("\n"+condicion3D.codigo3D) 
-        ventana.editor.append("\n"+"if(!"+condicion3D.temporal.utilizar()+") goto "+etiquetaSalida+";")
+        ventana.editor.append("\n"+"if("+condicion3D.temporal.utilizar()+") goto "+etiquetaTrue+";")
+        ventana.editor.append("\ngoto "+etiquetaSalida+";")
 
+        ventana.editor.append("\n"+etiquetaTrue+":")
         tsWhile = TS.Entorno(ent)
         for ins in self.instrucciones:
             try:

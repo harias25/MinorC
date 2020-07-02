@@ -5,6 +5,7 @@ from Reporteria.Error import Error
 import Reporteria.ReporteErrores as ReporteErrores
 from ast.Temporales import Resultado3D
 from ast.Temporales import Temporal
+import ast.Temporales as Temp
 
 class AccesoLista(Expresion,Instruccion):
     def __init__(self,id,llaves,valor,linea,columna):
@@ -24,8 +25,15 @@ class AccesoLista(Expresion,Instruccion):
             expresion = llave.traducir(ent,arbol,ventana)
             if(expresion == None): return None
 
+
             if(expresion.codigo3D != ""): ventana.editor.append("\n"+expresion.codigo3D)
-            strAccesos +="["+expresion.temporal.utilizar()+"]"
+            temporal =  expresion.temporal.utilizar()
+            if ' ' in temporal:
+                temp2 = Temp.nuevoTemporal(1)
+                ventana.editor.append("\n"+temp2.utilizar()+" = "+temporal+";") 
+                temporal = temp2.utilizar()
+
+            strAccesos +="["+temporal+"]"
 
         resultado3D = Resultado3D()
         resultado3D.codigo3D = ""
