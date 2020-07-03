@@ -898,6 +898,13 @@ def p_declaracion_asigna(t):
     gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);',lista)
     func(0,gramatical)
 
+def p_declaracion_conversion(t):
+    'declaracion : TIPO lista_id IGUAL PARIZQ TIPO_DATO PARDER expresion  '
+    t[0] = Declaracion(t[1],t[2],t[7],t.slice[3].lineno,find_column(t.slice[3]),"("+t[5]+")")
+    lista = func(1,None).copy()
+    gramatical = G.ValorAscendente('declaracion -> TIPO LISTA_ID IGUAL expresion PTCOMA','declaracion.instr = Declaracion(TIPO,lista_id,expresion.val);',lista)
+    func(0,gramatical)
+
 def p_scan_declara(t) :
     'declaracion : TIPO lista_id IGUAL SCAN PARIZQ PARDER '
     op = Operacion()

@@ -13,6 +13,13 @@ class Entorno:
 
         return self.tabla[id]
 
+    def existeLocal(self, id) :
+        id = id
+        if not id in self.tabla :
+            return False
+
+        return True
+
     def existe(self,id):
         id = id
         sym = self.obtenerLocal(id)

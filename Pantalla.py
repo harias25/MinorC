@@ -506,10 +506,10 @@ class Ui_MainWindow(object):
                             pass
                 except:
                         pass
-                        
+            entMain = TS.Entorno(ts_global)             
             for ins in main.instrucciones:
                 try:
-                    ins.traducir(ts_global,ast,self)
+                    ins.traducir(entMain,ast,self)
                 except:
                     pass
         else:

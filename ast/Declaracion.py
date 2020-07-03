@@ -10,12 +10,13 @@ from ValorImplicito.AccesoLista import AccesoLista
 
 class Declaracion(Instruccion):
 
-    def __init__(self,tipo,lista_id,valor,linea, columna):
+    def __init__(self,tipo,lista_id,valor,linea, columna,adicional=""):
         self.lista = lista_id
         self.valor = valor
         self.linea = linea
         self.columna = columna
         self.tipo = tipo
+        self.adicional = adicional
     
     def traducir(self,ent,arbol,ventana):
         contador = 0
@@ -26,7 +27,7 @@ class Declaracion(Instruccion):
                 id = id.id
 
             #validar si existe el simbolo dentro de la tabla
-            if(ent.existe(id)):
+            if(ent.existeLocal(id)):
                 error = Error("SEMANTICO","Error semantico, ya se encuentra declarado un identificador con el nombre "+id,self.linea,self.columna)
                 ReporteErrores.func(error)
                 return None
@@ -47,7 +48,10 @@ class Declaracion(Instruccion):
                                     
                 else: #identificadores y structs
                     if(self.valor == None or (self.valor !=None and contador<(len(self.lista)-1))):
-                        if(self.tipo == Tipo.ENTERO):
+                        
+                        if(self.adicional!=""):
+                            traduccion = temporal +"="+self.adicional+";"
+                        elif(self.tipo == Tipo.ENTERO):
                             traduccion = temporal +"=0;"
                         elif(self.tipo == Tipo.FLOAT):
                             traduccion = temporal +"=0.0;"
@@ -66,6 +70,6 @@ class Declaracion(Instruccion):
                         ventana.editor.append("\n"+traduccion) 
                     else:
                         ent.agregar(simbolo)
-                        asignacion = Asignacion(id,self.valor,self.linea,self.columna)
+                        asignacion = Asignacion(id,self.valor,self.linea,self.columna,self.adicional)
                         asignacion.traducir(ent,arbol,ventana)
             contador = contador + 1
