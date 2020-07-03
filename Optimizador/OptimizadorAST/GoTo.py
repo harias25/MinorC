@@ -19,6 +19,15 @@ class GoTo(Instruccion) :
     def generarAugus(self):
         codigoAugus = "goto "+self.id+";\n"
 
+        if(self.id in self.ast.etiquetasBetadas):
+            optimizacion = Optimizacion() #si hay optimizaci�n
+            optimizacion.linea = str(self.linea)
+            optimizacion.antes = codigoAugus
+            optimizacion.despues = ""
+            optimizacion.regla = "Regla 20"
+            optimizacion.tipo = "Bloques - Eliminación de Código Muerto"
+            ReporteOptimizacion.func(optimizacion)
+            return ""
 
         etiqueta = self.ast.obtenerEtiqueta(self.id)
         try:

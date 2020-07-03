@@ -14,35 +14,89 @@ class Etiqueta(Instruccion):
         self.codigoOptimizado = ""
         self.imprimirEtiqueta = True
 
-    def optmimizarCodigo(self,ast):
-                self.codigoOptimizado = ""
-                if(self.imprimirEtiqueta):
-                    self.codigoOptimizado += self.id+":\n"
+    def aplicarRegla24(self,ast,instrucciones,codigoAnterior):
+        asignacionPrevia = None
+        contador = 0
+        codigoGenerado = ""
+        
+        bandera = False
+        
+        for ins in instrucciones:
+            if(isinstance(ins,Asignacion)):
+                ins.instruccionPrevia = asignacionPrevia
+                asignacionPrevia = ins
+                optimizado =  optimizado = ins.optmimizarCodigo().codigo
+                if(optimizado!=""):
+                    codigoGenerado += "    "+optimizado
+            else:
+                
+                if(codigoGenerado!=""):
+                    bandera = True
+                codigoGenerado +="\n"+self.id+":\n"
+                for i in instrucciones[contador:]:
+                    if(isinstance(i,Asignacion)):
+                        ins.instruccionPrevia = asignacionPrevia
+                        asignacionPrevia = ins
+                    elif(isinstance(i,GoTo)):
+                        optimizado = "goto "+i.id+";\n"
 
+                    optimizado = i.optmimizarCodigo().codigo
+                    if(optimizado!=""):
+                        codigoGenerado += "    "+optimizado
+                    
+                break
+
+            contador = contador + 1
+        
+        if(bandera):
+            optimizacion = Optimizacion() #si hay optimización
+            optimizacion.linea = str(self.linea)
+            codigoOptimizar="<div>"+codigoAnterior+"</div>"
+            optimizacion.antes = codigoOptimizar
+            optimizacion.regla = "Regla 24"
+            optimizacion.tipo = "Bloques - Redundancia Parcial Código Invariante"
+            optimizacion.despues = "<div>"+codigoGenerado+"</div>"
+            ReporteOptimizacion.func(optimizacion)
+
+        return codigoGenerado
+
+    def traducirCodigo(self,ast,instrucciones,aplicaBloque):
                 contador = 0
+                codigoOptimizado = ""
                 instruccionAnterior = None
                 asignacionPrevia = None
                 codigoAnterior = ""
-                for ins in self.instrucciones:
-                    try:
+                banderaIf = False
+
+                for ins in instrucciones:
+                    # try:
                         if(isinstance(ins,Asignacion)):
                             ins.instruccionPrevia = asignacionPrevia
                             asignacionPrevia = ins
                         elif(isinstance(ins,GoTo)):
                             ins.ast = ast
+                            if(ins.id == self.id and not banderaIf): #validacion regla 24
+                                self.codigoOptimizado = ""
+                                codigoOptimizado = self.aplicarRegla24(ast,instrucciones,codigoOptimizado)
+                                contador = contador +1
+                                codigoAnterior = ""
+                                instruccionAnterior = ins
+                                break
+
                         elif(isinstance(ins,If)):
-                            ins.instrucciones = self.instrucciones[contador+1:]
+                            ins.instrucciones = instrucciones[contador+1:]
+                            banderaIf = True
 
                         optimizado = ""
                         if(isinstance(ins,If)): 
                             optimizado = ins.optmimizarCodigo(ast).codigo
                             if(len(ReporteOptimizacion.func(None))>0):
                                 if(ReporteOptimizacion.func(None)[-1].regla=="Regla 19"):
-                                    if(len(self.instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
+                                    if(len(instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
                                     optimizacion = Optimizacion() #si hay optimización
                                     optimizacion.linea = str(ins.linea)
                                     codigoOptimizar="<div>"
-                                    for i in self.instrucciones[contador+1:]:
+                                    for i in instrucciones[contador+1:]:
                                         if(isinstance(i,GoTo)):
                                             i.ast = ast
                                         elif(isinstance(ins,If)):
@@ -75,13 +129,13 @@ class Etiqueta(Instruccion):
                                     codigoAnterior = ''
                             elif(ast.existeEtiqueta(ins.id)):
                                 if(optimizado!=""):
-                                    self.codigoOptimizado += "    "+optimizado
+                                    codigoOptimizado += "    "+optimizado
                                     codigoAnterior = optimizado
-                                if(len(self.instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
+                                if(len(instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
                                 optimizacion = Optimizacion() #si hay optimización
                                 optimizacion.linea = str(ins.linea)
                                 codigoOptimizar="<div>"
-                                for i in self.instrucciones[contador+1:]:
+                                for i in instrucciones[contador+1:]:
                                     if(isinstance(i,GoTo)):
                                         i.ast = ast
                                     elif(isinstance(ins,If)):
@@ -97,17 +151,27 @@ class Etiqueta(Instruccion):
                                 break
                             else:
                                 if(optimizado!=""):
-                                    self.codigoOptimizado += "    "+optimizado
+                                    codigoOptimizado += "    "+optimizado
                                     codigoAnterior = optimizado
                         else:
                             if(optimizado!=""):
-                                self.codigoOptimizado += "    "+optimizado
+                                codigoOptimizado += "    "+optimizado
                                 codigoAnterior = optimizado
 
                         instruccionAnterior = ins
                         contador = contador + 1
-                    except:
-                        pass
-                return self.codigoOptimizado
+                    # except:
+                    #    pass
+                return codigoOptimizado
+
+
+    def optmimizarCodigo(self,ast,aplicaBloque=False):
+        self.codigoOptimizado = ""
+        if(self.imprimirEtiqueta):
+            self.codigoOptimizado += self.id+":\n"
+        strResultado = self.traducirCodigo(ast,self.instrucciones,aplicaBloque)
+        self.codigoOptimizado +=strResultado
+        return self.codigoOptimizado
+
     def generarAugus(self):
         pass

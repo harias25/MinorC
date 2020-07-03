@@ -16,6 +16,278 @@
 <TH  style="font-size: 18px; width:20%; color:white" align=center>Despues</TH>
 <TH  style="font-size: 18px; width:10%; color:white" align=center>Linea</TH>
 </TR>
+<TD style="font-size: 15px; color:white;" align=center>0</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>6</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 2</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>print("Esta instruccion se debe de borrar\n");
+</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>siguientes:</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>8</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>2</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 3</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t1==10 ) goto L1;
+</p><p>goto L3</p><p>L1:</p><p>[instrucciones]</p><p>L3:</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t1!=10 ) goto L3;
+</p><p>[instrucciones]</p><p>L3:</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>12</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>3</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Codigo Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 4</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( 2==2 ) goto L4;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>goto L4;</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>20</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>4</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Codigo Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 5</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( 1==2 ) goto L7;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>27</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>5</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Parcialmente Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 19</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div>L7:
+    print("instrucciones regla 5\n");
+    goto L9;
+</div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>29</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>6</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 20</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L9;
+</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>27</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>7</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Optimizaciones de flujo de control</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 7</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( $t1>=$t2 ) goto L10;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( $t1>=$t2 ) goto etiqueta7;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>35</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>8</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Optimizaciones de flujo de control</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 6</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>goto etiqueta7;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>goto algebraicas;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>38</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>9</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 2</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L12;
+</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>etiqueta7:</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>38</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>10</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 8</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t1+0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>45</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>11</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 8</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = 0+$t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>46</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>12</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 9</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t2-0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>48</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>13</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 10</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t2*1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>50</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>14</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 10</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = 1*$t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>51</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>15</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 11</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t2/1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>53</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>16</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 12</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2+0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>55</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>17</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 12</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = 0+$t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>56</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>18</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 13</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1-0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>58</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>19</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 14</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2*1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>60</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>20</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 14</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = 1*$t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>61</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>21</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 15</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1/1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>63</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>22</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 16</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2*2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2 + $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>65</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>23</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 17</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1*0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = 0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>67</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>24</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 17</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = 0*$t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = 0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>68</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>25</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Simplificación algebraica y por fuerza</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 18</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = 0/$t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = 0;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>71</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>26</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 20</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>goto L1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>73</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>27</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 2</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L3;
+</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>L3:</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>13</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>28</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Optimizaciones de flujo de control</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 7</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( $t1>=$t2 ) goto etiqueta7;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( $t1>=$t2 ) goto algebraicas;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>26</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>29</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>42</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>30</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t1 = $t2;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>44</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>31</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>$t2 = $t1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>47</TD>
+</TR>
 
 </center>
 </table></body>

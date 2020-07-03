@@ -16,7 +16,7 @@ class Optimizador():
         self.codigoAnterior = ""
         self.instrucciones = []
 
-    def optimizar(self, texto):
+    def optimizar(self, texto,aplicaBloques=False):
         self.codigoAnterior = texto
         self.codigoOptimizado = ""
         g.textoEntrada = texto
