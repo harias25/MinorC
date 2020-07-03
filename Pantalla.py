@@ -542,6 +542,7 @@ class Ui_MainWindow(object):
         self.traduccion()
         
     def ejecutar(self):
+        self.optimizador = Optimizador()
         self.traducir()
         self.ejecutarAugus()
 
