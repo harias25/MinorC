@@ -44,6 +44,6 @@ class While(Instruccion) :
 
         temp.listaContinue(2,etiquetaWhile)
         temp.listaBreak(2,etiquetaSalida)
-        
+        arbol.entornoGlobal.tabla = {**tsWhile.tabla,**arbol.entornoGlobal.tabla}
         
 

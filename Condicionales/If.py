@@ -70,6 +70,7 @@ class If(Instruccion) :
                     pass
             ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
             contador = contador + 1
+            arbol.entornoGlobal.tabla = {**tsElseIf.tabla,**arbol.entornoGlobal.tabla}
             
         if(len(self.instruccionesF)>0 and len(self.listaElseIF) > 0):
             ventana.editor.append("\n"+"goto "+etiquetaFalse+";")
@@ -82,5 +83,7 @@ class If(Instruccion) :
                     ins.traducir(tsElse,arbol,ventana)
                 except:
                     pass
+            arbol.entornoGlobal.tabla = {**tsElse.tabla,**arbol.entornoGlobal.tabla}
 
         ventana.editor.append("\n"+etiquetaSalida+":")
+        arbol.entornoGlobal.tabla = {**tsIf.tabla,**arbol.entornoGlobal.tabla}

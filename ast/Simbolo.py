@@ -31,11 +31,16 @@ class Simbolo(Expresion) :
         return resultado3D
     
     def getTipo(self):
-        
-        return self.tipo.name
+        if(self.tipo==None): return "DOUBLE"
+
+        try:
+            return self.tipo.name
+        except:
+            return str(self.tipo).upper()
 
     def getTipoVar(self):
-        if(self.llaves != None): return "ARRAY"
+        if(self.llaves != None): 
+            return "ARRAY"
 
         return "IDENTIFICADOR"
 

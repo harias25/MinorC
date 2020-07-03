@@ -1,9 +1,11 @@
+from ast.Entorno import Entorno
 
 class AST:
     def __init__(self,instrucciones):
         self.instrucciones = instrucciones
         self.etiquetas = []
         self.structs = []
+        self.entornoGlobal = Entorno(None)
 
     def existeEtiqueta(self,id):
         for etiqueta in self.etiquetas:

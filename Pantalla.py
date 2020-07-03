@@ -423,7 +423,7 @@ class Ui_MainWindow(object):
 
     def generarTabla(self):
         reporteTablas = ReporteTablaSimbolos.ReporteTablaSimbolos()
-        reporteTablas.generarReporte(self.ts_global,self.ast)
+        reporteTablas.generarReporte(self.ast)
 
     def generarRErrores(self):
         reporteErrores = ReporteErrores.ReporteErrores()
@@ -512,6 +512,9 @@ class Ui_MainWindow(object):
                     ins.traducir(entMain,ast,self)
                 except:
                     pass
+                
+            ast.entornoGlobal.tabla = {**entMain.tabla,**ast.entornoGlobal.tabla}
+            ast.entornoGlobal.tabla = {**ts_global.tabla,**ast.entornoGlobal.tabla}
         else:
             error = Error.Error("SEMANTICO","Error semantico, No puede iniciarse el programa ya que no existe el metodo main()",0,0)
             ReporteErrores.func(error)

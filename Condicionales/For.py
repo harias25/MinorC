@@ -46,6 +46,6 @@ class For(Instruccion) :
 
         temp.listaContinue(2,etiquetaFor)
         temp.listaBreak(2,etiquetaSalida)
-
+        arbol.entornoGlobal.tabla = {**tsFor.tabla,**arbol.entornoGlobal.tabla}
        
         

@@ -50,7 +50,7 @@ class Switch(Instruccion) :
                     pass
             #ventana.editor.append("\n"+"goto "+etiquetaSalida+";")
             contador = contador + 1
-
+            arbol.entornoGlobal.tabla = {**tsElseIf.tabla,**arbol.entornoGlobal.tabla}
 
         if(self.default!=None):
             ventana.editor.append("\n"+etiquetaDefault+":")
@@ -60,6 +60,7 @@ class Switch(Instruccion) :
                     ins.traducir(entDefault,arbol,ventana)
                 except:
                     pass
+            arbol.entornoGlobal.tabla = {**entDefault.tabla,**arbol.entornoGlobal.tabla}
 
         ventana.editor.append("\n"+etiquetaSalida+":")
         temp.listaBreak(2,etiquetaSalida)

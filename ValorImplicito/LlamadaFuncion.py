@@ -91,4 +91,5 @@ class LlamadaFuncion(Instruccion):
         else: #
             ventana.editor.append("\n"+"goto "+llamadaAnterior+";")      #   
         
+        arbol.entornoGlobal.tabla = {**enLlamada.tabla,**arbol.entornoGlobal.tabla}
 

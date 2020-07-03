@@ -1,7 +1,7 @@
 import webbrowser
 class ReporteTablaSimbolos():
 
-    def generarReporte(self,ent,arbol):
+    def generarReporte(self,arbol):
         contenido = "<html>" + '\n' + "<head>" + '\n' + "<title>Reporte de Simbolos</title>" + '\n' + "</head>" + '\n'
         contenido = contenido + "<body bgcolor=\"black\">" + '\n' + "<center><Font size=22 color=darkred>" + "Reporte Tabla de Simbolos" + "</Font></center>" + '\n'
         contenido = contenido + "<hr >" + '\n' + "<font color=white>" + '\n' + "<center>" + '\n'
@@ -15,9 +15,9 @@ class ReporteTablaSimbolos():
         contenido = contenido + "<TH  style=\"font-size: 18px; width:10%; color:white\" align=center>Columna</TH>" + '\n'
         
 
-        for key in ent.tabla:
+        for key in arbol.entornoGlobal.tabla:
             try:
-                s = ent.tabla[key]
+                s = arbol.entornoGlobal.tabla[key]
                 contenido = contenido + "<TR>"
                 tipo = s.getTipo()
                 contenido = contenido + "<TD style=\"font-size: 15px; color:white;\" color:white align=center>" + tipo + "</TD>" + '\n'
