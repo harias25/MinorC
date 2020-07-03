@@ -518,17 +518,7 @@ class Ui_MainWindow(object):
         else:
             error = Error.Error("SEMANTICO","Error semantico, No puede iniciarse el programa ya que no existe el metodo main()",0,0)
             ReporteErrores.func(error)
-
-        #SE TRADUCEN LAS DEMAS FUNCIONES
-        #if(instrucciones != None):
-        #    for ins in instrucciones:
-                #try:
-        #            if(isinstance(ins,Funcion)): 
-        #                if(ins.id!="main"):
-        #                   ins.traducir(ts_global,ast,self)
-                #except:
-                #        pass
-
+            
         listado = ReporteErrores.func(None)
         if(len(listado)>0):
             QMessageBox.critical(self.centralwidget, "Errores en Traducción", "Se obtuvieron errores en la traducción del Código Ingresado, verifique reporte de Errores de Traducción")

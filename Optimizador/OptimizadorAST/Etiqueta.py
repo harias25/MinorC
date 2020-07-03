@@ -24,7 +24,7 @@ class Etiqueta(Instruccion):
                 asignacionPrevia = None
                 codigoAnterior = ""
                 for ins in self.instrucciones:
-                    # try:
+                    try:
                         if(isinstance(ins,Asignacion)):
                             ins.instruccionPrevia = asignacionPrevia
                             asignacionPrevia = ins
@@ -106,8 +106,8 @@ class Etiqueta(Instruccion):
 
                         instruccionAnterior = ins
                         contador = contador + 1
-                    # except:
-                    #    pass
+                    except:
+                        pass
                 return self.codigoOptimizado
     def generarAugus(self):
         pass

@@ -35,13 +35,13 @@ class Optimizador():
 
         if(instrucciones != None):
             for func in instrucciones:
-                #try:
+                try:
                     if(func.id in ast.etiquetasBetadas):
                         continue
 
                     self.codigoOptimizado +=func.optmimizarCodigo(ast)
-                #except:
-                #    pass
+                except:
+                    pass
 
         return self.codigoOptimizado
 
