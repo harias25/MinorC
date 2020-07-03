@@ -24,6 +24,7 @@ import ValorImplicito.Asignacion as Asignacion
 import Reporteria.ReporteGramatical as ReporteGramatical
 import ast.Temporales as temp
 from Augus.Ejecutor import Ejecutor
+from Optimizador.Optimizador import Optimizador
 
 class Ui_MainWindow(object):
 
@@ -367,6 +368,7 @@ class Ui_MainWindow(object):
         self.consola.setStyleSheet("background-color: black;border: 1px solid black;color:green;") 
 
         self.ejecutor = Ejecutor()
+        self.optimizador = Optimizador()
         #self.consola.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
 
     def clean(self):
@@ -376,10 +378,16 @@ class Ui_MainWindow(object):
         self.consola.clear()
 
     def generarReporteOptmizacion(self):
-        pass
+        self.optimizador.reporte()
 
     def optimizar(self):
         self.traducir()
+        self.optimizador = Optimizador()
+        self.optimizador.inicializar()
+        codigo = self.optimizador.optimizar(self.editor.text())
+        codigo2 =self.optimizador.optimizar(codigo)
+        self.editor.clear()
+        self.editor.append(codigo2)
 
     def acercade(self):
         msg = QMessageBox()

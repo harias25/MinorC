@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Reporte de Optimización</title>
+</head>
+<body bgcolor="black">
+<center><Font size=22 color=darkred>Reporte de Optimización Augus</Font></center>
+<hr >
+<font color=white>
+<center>
+<table border=1 align=center style="width:100%;" >
+<TR bgcolor=darkred>
+<TH  style="font-size: 18px; width:10%; color:white" align=center>No.</TH>
+<TH  style="font-size: 18px; width:25%; color:white" align=center>Tipo de Regla</TH>
+<TH  style="font-size: 18px; width:15%; color:white" align=center>Regla</TH>
+<TH  style="font-size: 18px; width:20%; color:white" align=center>Antes</TH>
+<TH  style="font-size: 18px; width:20%; color:white" align=center>Despues</TH>
+<TH  style="font-size: 18px; width:10%; color:white" align=center>Linea</TH>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>0</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Codigo Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 5</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( 1==2 ) goto L1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>4</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>1</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Parcialmente Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 19</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div>L1:
+    print("instrucciones que se deben de borrar\n");
+    print("instrucciones que se deben de borrar\n");
+    goto L3;
+</div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>6</TD>
+</TR>
+<TD style="font-size: 15px; color:white;" align=center>2</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 20</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L2;
+</p></div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>4</TD>
+</TR>
+
+</center>
+</table></body>
+</html>
