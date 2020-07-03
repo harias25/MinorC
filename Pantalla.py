@@ -140,8 +140,22 @@ class Ui_MainWindow(object):
         self.actionBuscar.setObjectName("actionBuscar")
         self.actionReemplazar = QtWidgets.QAction(MainWindow)
         self.actionReemplazar.setObjectName("actionReemplazar")
+
+
+        self.actionTraducir = QtWidgets.QAction(MainWindow)
+        self.actionTraducir.setObjectName("actionTraducir")
+
+        self.actionTraducirOptimizado = QtWidgets.QAction(MainWindow)
+        self.actionTraducirOptimizado.setObjectName("actionTraducirOptimizado")
+
         self.actionEjecutar_Ascendente = QtWidgets.QAction(MainWindow)
         self.actionEjecutar_Ascendente.setObjectName("actionEjecutar_Ascendente")
+
+        self.actionEjecutarOptimizado = QtWidgets.QAction(MainWindow)
+        self.actionEjecutarOptimizado.setObjectName("actionEjecutarOptimizado")
+
+        self.actionEjecutarAugus = QtWidgets.QAction(MainWindow)
+        self.actionEjecutarAugus.setObjectName("actionEjecutarOptimizado")
 
         self.actionEjecutar_Paso_a_Paso_Ascendente = QtWidgets.QAction(MainWindow)
         self.actionEjecutar_Paso_a_Paso_Ascendente.setObjectName("actionEjecutar_Paso_a_Paso_Ascendente")
@@ -154,7 +168,8 @@ class Ui_MainWindow(object):
         self.actionAST.setObjectName("actionAST")
         self.actionGramatical = QtWidgets.QAction(MainWindow)
         self.actionGramatical.setObjectName("actionGramatical")
-
+        self.actionOptmizacion = QtWidgets.QAction(MainWindow)
+        self.actionOptmizacion.setObjectName("actionOptmizacion")
 
         self.actionTabla_de_Simbolos2 = QtWidgets.QAction(MainWindow)
         self.actionTabla_de_Simbolos2.setObjectName("actionTabla_de_Simbolos")
@@ -178,14 +193,25 @@ class Ui_MainWindow(object):
         self.menuArchivo.addSeparator()
         self.menuArchivo.addAction(self.actionCerrrar)
         self.menuArchivo.addAction(self.actionSalir)
+
         self.menuPrograma.addAction(self.actionEjecutar_Ascendente)
+        self.menuPrograma.addAction(self.actionEjecutarOptimizado)
+        self.menuPrograma.addSeparator()
+
+        self.menuPrograma.addAction(self.actionTraducir)
+        self.menuPrograma.addAction(self.actionTraducirOptimizado)
+
         self.menuPrograma.addSeparator()
         self.menuPrograma.addAction(self.actionEjecutar_Paso_a_Paso_Ascendente)
+        self.menuPrograma.addSeparator()
+        self.menuPrograma.addAction(self.actionEjecutarAugus)
 
         self.menuReportes.addAction(self.actionTabla_de_Simbolos)
         self.menuReportes.addAction(self.actionErrores)
         self.menuReportes.addAction(self.actionAST)
         self.menuReportes.addAction(self.actionGramatical)
+        self.menuReportes.addAction(self.actionOptmizacion)
+
 
         self.menuReportes2.addAction(self.actionTabla_de_Simbolos2)
         self.menuReportes2.addAction(self.actionErrores2)
@@ -297,16 +323,28 @@ class Ui_MainWindow(object):
         self.actionCerrrar.triggered.connect(self.clear)
         self.actionSalir.triggered.connect(self.exit)
         self.ruta_archivo  = None
-        self.actionEjecutar_Ascendente.triggered.connect(self.traducir)
+
+        self.actionEjecutar_Ascendente.triggered.connect(self.ejecutar)
+        self.actionEjecutarOptimizado.triggered.connect(self.ejecutarOptmizado)
+
+        self.actionTraducir.triggered.connect(self.traducir)
+        self.actionTraducirOptimizado.triggered.connect(self.optimizar)
+
+        self.actionEjecutarAugus.triggered.connect(self.ejecutarAugus)
+
+        self.actionEjecutar_Paso_a_Paso_Ascendente.triggered.connect(self.debug)
+
         self.actionTabla_de_Simbolos.triggered.connect(self.generarTabla)
         self.actionErrores.triggered.connect(self.generarRErrores)
         self.actionGramatical.triggered.connect(self.generarRGramatical)
         self.actionAST.triggered.connect(self.generarAST)
-        self.actionEjecutar_Paso_a_Paso_Ascendente.triggered.connect(self.debug)
+        
         self.actionTabla_de_Simbolos2.triggered.connect(self.generarTabla2)
         self.actionErrores2.triggered.connect(self.generarRErrores2)
         self.actionGramatical2.triggered.connect(self.generarRGramatical2)
         self.actionAST2.triggered.connect(self.generarAST2)
+
+        self.actionOptmizacion.triggered.connect(self.generarReporteOptmizacion)
 
         self.actionAcercaDe.triggered.connect(self.acercade)
         self.actionAyuda.triggered.connect(self.ayuda)
@@ -336,6 +374,12 @@ class Ui_MainWindow(object):
         self.editor.setText("")
         self.codigo.setText("")
         self.consola.clear()
+
+    def generarReporteOptmizacion(self):
+        pass
+
+    def optimizar(self):
+        self.traducir()
 
     def acercade(self):
         msg = QMessageBox()
@@ -482,15 +526,24 @@ class Ui_MainWindow(object):
         self.ast = ast
         self.listado_gramatical = g.func(1,None).copy()
 
-    def traducir(self):
-        self.traduccion()
+    def ejecutarAugus(self):
         self.ejecutor = Ejecutor()
         self.ejecutor.ascendente(self)
 
+    def traducir(self):
+        self.traduccion()
+        
+    def ejecutar(self):
+        self.traducir()
+        self.ejecutarAugus()
+
+    def ejecutarOptmizado(self):
+        self.traducir()
+        self.optimizar()
+        self.ejecutarAugus()
+
     def exit(self):
-        #sys.exit()
-        self.ejecutor = Ejecutor()
-        self.ejecutor.ascendente(self)
+        sys.exit()
 
     def clear(self):
         self.ruta_archivo = None
@@ -557,12 +610,20 @@ class Ui_MainWindow(object):
         self.actionCerrrar.setText(_translate("MainWindow", "Cerrrar"))
         self.actionSalir.setText(_translate("MainWindow", "Salir"))
 
-        self.actionEjecutar_Ascendente.setText(_translate("MainWindow", "Traducir"))
+        self.actionEjecutar_Ascendente.setText(_translate("MainWindow", "Traducir y Ejecutar"))
+        self.actionEjecutarOptimizado.setText(_translate("MainWindow", "Traducir, Optimizar y Ejecutar"))
+
+        self.actionTraducir.setText(_translate("MainWindow", "Traducir"))
+        self.actionTraducirOptimizado.setText(_translate("MainWindow", "Traducir y Optimizar"))
+
+        self.actionEjecutarAugus.setText(_translate("MainWindow", "Ejecutar Augus"))
+
         self.actionEjecutar_Paso_a_Paso_Ascendente.setText(_translate("MainWindow", "Debugger 3D"))
         self.actionTabla_de_Simbolos.setText(_translate("MainWindow", "Tabla de Simbolos"))
         self.actionErrores.setText(_translate("MainWindow", "Errores"))
         self.actionAST.setText(_translate("MainWindow", "AST"))
         self.actionGramatical.setText(_translate("MainWindow", "Gramatical"))
+        self.actionOptmizacion.setText(_translate("MainWindow", "Optmización"))
 
         self.actionTabla_de_Simbolos2.setText(_translate("MainWindow", "Tabla de Simbolos"))
         self.actionErrores2.setText(_translate("MainWindow", "Errores"))
@@ -591,5 +652,3 @@ if __name__ == "__main__":
     MainWindow.show()
     sys.exit(app.exec_())
 
-
- 
